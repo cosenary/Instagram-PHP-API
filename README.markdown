@@ -8,7 +8,7 @@
 
 ### Initialize the class ###
 
-<code>
+<pre><code>
   <?php
     require_once 'instagram.class.php';
     
@@ -16,7 +16,7 @@
     // Display login URL
     echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
   ?>
-</code>
+</code></pre>
 
 ### Authenticate user (OAuth2) ###
 
