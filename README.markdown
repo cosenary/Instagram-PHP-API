@@ -1,12 +1,12 @@
-# Instagram PHP API
+# Instagram PHP API #
 
-## What it does
+## What it does ##
 
-## Get started
+## Get started ##
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.
 
-### Initialize the class
+### Initialize the class ###
 
   <?php
     require_once 'instagram.class.php';
@@ -16,7 +16,7 @@
     echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
   ?>
 
-### Authenticate user (OAuth2)
+### Authenticate user (OAuth2) ###
 
   <?php
     // Grab user token
@@ -26,7 +26,7 @@
     echo 'Your username is: '.$userToken->user->username;
   ?>
 
-### Get user likes
+### Get user likes ###
 
   <?php
     // Get the last two likes
@@ -37,7 +37,7 @@
     echo '<pre>';
   ?>
 
-## Available methods
+## Available methods ##
 
 <table>
   <tr>
