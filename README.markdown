@@ -8,35 +8,33 @@
 
 ### Initialize the class ###
 
-<pre><code>
   <?php
-    require_once 'instagram.class.php';
+  require_once 'instagram.class.php';
     
-    $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
-    // Display login URL
-    echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
+  $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
+  // Display login URL
+  echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
   ?>
-</code></pre>
 
 ### Authenticate user (OAuth2) ###
 
   <?php
-    // Grab user token
-    $code = $_GET['code'];
-    $userToken = $ig->getOAuthToken($code);
+  // Grab user token
+  $code = $_GET['code'];
+  $userToken = $ig->getOAuthToken($code);
     
-    echo 'Your username is: '.$userToken->user->username;
+  echo 'Your username is: '.$userToken->user->username;
   ?>
 
 ### Get user likes ###
 
   <?php
-    // Get the last two likes
-    $likes = getUserLikes($userToken->access_token, 2);
-    // Take a look at the API response
-    echo '<pre>';
-    print_r($likes);
-    echo '<pre>';
+  // Get the last two likes
+  $likes = getUserLikes($userToken->access_token, 2);
+  // Take a look at the API response
+  echo '<pre>';
+  print_r($likes);
+  echo '<pre>';
   ?>
 
 ## Available methods ##
