@@ -7,7 +7,7 @@
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.
 
 ### Initialize the class
-<pre><code>
+
   <?php
     require_once 'instagram.class.php';
     
@@ -15,10 +15,9 @@
     // Display login URL
     echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
   ?>
-</code></pre>
 
-### Authenticate user with OAuth2
-<pre><code>
+### Authenticate user (OAuth2)
+
   <?php
     // Grab user token
     $code = $_GET['code'];
@@ -26,10 +25,9 @@
     
     echo 'Your username is: '.$userToken->user->username;
   ?>
-</code></pre>
 
 ### Get user likes
-<pre><code>
+
   <?php
     // Get the last two likes
     $likes = getUserLikes($userToken->access_token, 2);
@@ -38,11 +36,9 @@
     print_r($likes);
     echo '<pre>';
   ?>
-</code></pre>
 
 ## Available methods
 
-<pre>
 <table>
   <tr>
     <th>Registered Redirect URI</th>
@@ -84,4 +80,4 @@
     <td>http://yourcallback.com/callback/?type=mobile</td>
     <td>yes</td>
   </tr>
-</table></pre>
+</table>
