@@ -17,9 +17,8 @@
     <?php
       require_once 'instagram.class.php';
       
-      $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
-      
       // Display login URL
+      $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
       echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
     ?>
 
