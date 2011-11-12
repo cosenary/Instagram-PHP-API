@@ -6,7 +6,7 @@
 
 - PHP 5.2.x or higher
 - cURL
-- TMDb API-key
+- Registered Instagram App
 
 ## Get started ##
 
