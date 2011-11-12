@@ -21,7 +21,7 @@
       
       // Display login URL
       echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
-  ?>
+    ?>
 
 ### Authenticate user (OAuth2) ###
 
@@ -31,7 +31,7 @@
       $userToken = $ig->getOAuthToken($code);
       
       echo 'Your username is: '.$userToken->user->username;
-  ?>
+    ?>
 
 ### Get user likes ###
 
@@ -43,7 +43,7 @@
       echo '<pre>';
       print_r($likes);
       echo '<pre>';
-  ?>
+    ?>
 
 ## Available methods ##
 
