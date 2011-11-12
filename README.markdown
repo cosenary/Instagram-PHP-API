@@ -2,15 +2,15 @@
 
 ## What it does ##
 
-## Get started ##
-
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.
-
 ## Requirements ##
 
 - PHP 5.2.x or higher
 - cURL
 - TMDb API-key
+
+## Get started ##
+
+[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.
 
 ### Initialize the class ###
 
