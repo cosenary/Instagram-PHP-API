@@ -10,41 +10,63 @@
 
 ## Get started ##
 
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.
+[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.
+Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
 
 ### Initialize the class ###
 
     <?php
-      require_once 'instagram.class.php';
+        require_once 'instagram.class.php';
       
-      // Display login URL
-      $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
-      echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
+        // Display login URL
+        $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
+        echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
     ?>
 
 ### Authenticate user (OAuth2) ###
 
     <?php
-      // Grab user token
-      $code = $_GET['code'];
-      $userToken = $ig->getOAuthToken($code);
+        // Grab user token
+        $code = $_GET['code'];
+        $userToken = $ig->getOAuthToken($code);
       
-      echo 'Your username is: '.$userToken->user->username;
+        echo 'Your username is: '.$userToken->user->username;
     ?>
 
 ### Get user likes ###
 
     <?php
-      // Get the last two likes
-      $likes = getUserLikes($userToken->access_token, 2);
+        // Get the last two likes
+        $likes = getUserLikes($userToken->access_token, 2);
       
-      // Take a look at the API response
-      echo '<pre>';
-      print_r($likes);
-      echo '<pre>';
+        // Take a look at the API response
+        echo '<pre>';
+        print_r($likes);
+        echo '<pre>';
     ?>
 
 ## Available methods ##
+
+### Get login URL ###
+
+`getLoginUrl(<array>)`
+
+**Available scope parameters:**
+
+- `basic` *[default]*, `likes`, `comments`, `relationships`
+
+### Get token ###
+
+`getOAuthToken($code, <true/false>)`
+
+`true` : Returns only the OAuth token
+`false` *[default]* : Returns OAuth token and Instagram userdata
+
+### Get user likes ###
+
+`getUserLikes($token, $limit)`
+
+## Some samples for redirect URLs ##  {#redirect-uri}
 
 <table>
   <tr>
@@ -88,3 +110,10 @@
     <td>yes</td>
   </tr>
 </table>
+
+## History ##
+
+**Instagram 0.5 - 12/11/2011**
+
+- `release` First released version 
+
