@@ -1,6 +1,9 @@
 # Instagram PHP API #
 
-## What it does ##
+## About ##
+
+This is my first PHP class, so please bear with me.
+Any feedback and bugs is appreciated.
 
 ## Requirements ##
 
