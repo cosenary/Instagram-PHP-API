@@ -110,9 +110,52 @@ class Instagram {
   }
 
   /**
+   * Search for a user
+   *
+   * @param string $name                  Instagram username
+   * @param string $token                 Valid Instagram token
+   * @return mixed
+   */
+  public function searchUser($name, $token) {
+    return $this->_makeCall('users/search?access_token='.$token.'&q='.$name);
+  }
+
+  /**
+   * Get user info by it's id
+   *
+   * @param string $id                    Instagram user id
+   * @param string $token                 Valid Instagram token
+   * @return mixed
+   */
+  public function getUser($id, $token) {
+    return $this->_makeCall('users/'.$id.'?access_token='.$token.'&count='.$limit);
+  }
+
+  /**
+   * Get user activity feed
+   *
+   * @param string $token                 Valid Instagram token
+   * @return mixed
+   */
+  public function getUserFeed($token) {
+    return $this->_makeCall('users/self/feed?access_token='.$token);
+  }
+
+  /**
+   * Get user recent media
+   *
+   * @param string $id                    Instagram user id
+   * @param string $token                 Valid Instagram token
+   * @return mixed
+   */
+  public function getUserMedia($id, $token) {
+    return $this->_makeCall('users/'.$id.'/media/recent?access_token='.$token);
+  }
+
+  /**
    * Get the liked photos of a user
    *
-   * @param string $token                 Valid Instagram token (can be recived)
+   * @param string $token                 Valid Instagram token
    * @param string [optional] $limit      Limit of returned results
    * @return mixed
    */
