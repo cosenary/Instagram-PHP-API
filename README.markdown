@@ -4,6 +4,7 @@
 
 This is my first PHP class, so please bear with me.
 Any feedback and bugs is appreciated.
+> Doc version: 0.8
 
 ## Requirements ##
 
@@ -33,18 +34,22 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 ### Authenticate user (OAuth2) ###
 
     <?php
-        // Grab user token
+        // Grab OAuth callback code
         $code = $_GET['code'];
-        $userToken = $instagram->getOAuthToken($code);
+        $userData = $instagram->getOAuthToken($code);
         
-        echo 'Your username is: '.$userToken->user->username;
+        echo 'Your username is: '.$userData->user->username;
     ?>
 
 ### Get user likes ###
 
     <?php
+        // Store user access token
+        $token = $userData->access_token;
+        $instagram->setAccessToken($token);
+        
         // Get the last two likes
-        $likes = $instagram->getUserLikes($userToken->access_token, 2);
+        $likes = $instagram->getUserLikes($token, 2);
         
         // Take a look at the API response
         echo '<pre>';
@@ -52,7 +57,25 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
         echo '<pre>';
     ?>
 
+**All methods return the API data `json_decode()` - so you can directly access the data.**
+
 ## Available methods ##
+
+### Setup Instagram ###
+
+`new Instagram(<array>/<string>)`
+
+`array` if you want to authenticate a user and access it's data
+
+    new Instagram(array(
+      'apiKey'      => 'YOUR_APP_KEY',
+      'apiSecret'   => 'YOUR_APP_SECRET',
+      'apiCallback' => 'YOUR_APP_CALLBACK'
+    ));
+
+`string` if you *only* want to access public data
+
+    new Instagram('YOUR_APP_KEY')
 
 ### Get login URL ###
 
@@ -133,8 +156,8 @@ Let me know, if you think that one of the missing endpoints has a especially pri
 **Instagram 0.8 - 16/11/2011**
 
 - `release` First inital released version
-- `feature` You can set the config data with an array (see example)
+- `feature` Initialize the class with a config array or string (see example)
 
 **Instagram 0.5 - 12/11/2011**
 
-- `release` First inital released version 
+- `release` First inital released version

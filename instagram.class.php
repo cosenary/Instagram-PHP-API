@@ -12,7 +12,11 @@
  * @todo Extend error handling, Add new methods, Contruct with an array
  * 
  * @example Get started:
- * $ig = new Instagram('API Key', 'API Secret', 'Callback URL');
+ * $ig = new Instagram(array(
+ *  apiKey      => '',
+ *  apiSecret   => '',
+ *  apiCallback => ''
+ * ));
  * echo "<a href='{$ig->getLoginUrl()}'>Login</a>";
  * 
  * @example Get user token:
@@ -66,6 +70,11 @@ class Instagram {
   private $_callbackurl;
 
   /**
+   * The user access token 
+   */
+  private $_accesstoken;
+
+  /**
    * Available scopes
    * 
    * @var array
@@ -76,16 +85,20 @@ class Instagram {
   /**
    * Default constructor
    * 
-   * @param array $config                 Instagram configuration data
+   * @param array/string $config          Instagram configuration data
    * @return void
    */
   public function __construct($config) {
     if (true === is_array($config)) {
+      // if you want to access user data
       $this->setApiKey($config[apiKey]);
       $this->setApiSecret($config[apiSecret]);
       $this->setApiCallback($config[apiCallback]);
+    } else if (true === is_string($config)) {
+      // if you only want to access public data
+      $this->setApiKey($config);
     } else {
-      throw new Exception("Error: __construct() - Configuration array is missing.");
+      throw new Exception("Error: __construct() - Configuration data is missing.");
     }
   }
 
@@ -107,54 +120,49 @@ class Instagram {
    * Search for a user
    *
    * @param string $name                  Instagram username
-   * @param string $token                 Valid Instagram token
    * @return mixed
    */
-  public function searchUser($name, $token) {
-    return $this->_makeCall('users/search?access_token='.$token.'&q='.$name);
+  public function searchUser($name) {
+    return $this->_makeCall('users/search?q='.$name);
   }
 
   /**
    * Get user info by it's id
    *
    * @param string $id                    Instagram user id
-   * @param string $token                 Valid Instagram token
    * @return mixed
    */
-  public function getUser($id, $token) {
-    return $this->_makeCall('users/'.$id.'?access_token='.$token.'&count='.$limit);
+  public function getUser($id) {
+    return $this->_makeCall('users/'.$id);
   }
 
   /**
    * Get user activity feed
    *
-   * @param string $token                 Valid Instagram token
    * @return mixed
    */
-  public function getUserFeed($token) {
-    return $this->_makeCall('users/self/feed?access_token='.$token);
+  public function getUserFeed() {
+    return $this->_makeCall('users/self/feed');
   }
 
   /**
    * Get user recent media
    *
    * @param string $id                    Instagram user id
-   * @param string $token                 Valid Instagram token
    * @return mixed
    */
-  public function getUserMedia($id, $token) {
-    return $this->_makeCall('users/'.$id.'/media/recent?access_token='.$token);
+  public function getUserMedia($id) {
+    return $this->_makeCall('users/'.$id.'/media/recent');
   }
 
   /**
    * Get the liked photos of a user
    *
-   * @param string $token                 Valid Instagram token
    * @param string [optional] $limit      Limit of returned results
    * @return mixed
    */
-  public function getUserLikes($token, $limit = 8) {
-    return $this->_makeCall('users/self/media/liked?access_token='.$token.'&count='.$limit);
+  public function getUserLikes($limit = 8) {
+    return $this->_makeCall('users/self/media/liked');
   }
 
   /**
@@ -181,13 +189,25 @@ class Instagram {
    * The call operator
    *
    * @param string $function              API data string
+   * @param boolean $auth                 Whether the function requires an access token
    * @return mixed
    */
-  private function _makeCall($function) {
+  private function _makeCall($function, $auth = false) {
     // check authentication method
-    // 1. 'client_id='.$this->getApiKey() if the call doesn't requires authentication
-    // 2. 'access_token=' if the call needs a authenticated user
-    $apiCall = self::API_URL.$function;
+    if (false === $auth) {
+      // if the call doesn't requires authentication
+      $authMethod = '&client_id='.$this->getApiKey();
+    } else {
+      // if the call needs a authenticated user
+      if (true === isset(getAccessToken()) {
+        $authMethod = '&access_token='.$this->getAccessToken();
+      } else {
+        throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated user's access token.");
+      }
+    }
+    // (false === $auth) ? $authMethod = 'client_id='.$this->getApiKey(); : $authMethod = 'access_token='.$this->getAccessToken();
+    
+    $apiCall = self::API_URL.$function.$authMethod;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
@@ -221,6 +241,25 @@ class Instagram {
     curl_close($ch);
     
     return json_decode($jsonData);
+  }
+
+  /**
+   * Access Token Setter
+   * 
+   * @param string $token
+   * @return void
+   */
+  public function setAccessToken($token) {
+    $this->_accesstoken = $token;
+  }
+
+  /**
+   * Access Token Getter
+   * 
+   * @return string
+   */
+  public function getAccessToken() {
+    return $this->_accesstoken;
   }
 
   /**
