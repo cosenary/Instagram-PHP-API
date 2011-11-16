@@ -76,22 +76,16 @@ class Instagram {
   /**
    * Default constructor
    * 
-   * @param string/array $apiKey          Instagram API Key / Configuration
-   * @param string $apiSecret             Instagram OAuth Secret
-   * @param string $apiCallback           Website Callback URL
+   * @param array $config                 Instagram configuration data
    * @return void
    */
-  public function __construct($apiKey, $apiSecret = null, $apiCallback = null) {
-    if (is_string($apiKey) && isset($apiSecret) && isset($apiCallback)) {
-      $this->setApiKey($apiKey);
-      $this->setApiSecret($apiSecret);
-      $this->setApiCallback($apiCallback);
-    } else if (is_array($apiKey)) {
-      $this->setApiKey($apiKey[apiKey]);
-      $this->setApiSecret($apiKey[apiSecret]);
-      $this->setApiCallback($apiKey[apiCallback]);
+  public function __construct($config) {
+    if (true === is_array($config)) {
+      $this->setApiKey($config[apiKey]);
+      $this->setApiSecret($config[apiSecret]);
+      $this->setApiCallback($config[apiCallback]);
     } else {
-      throw new Exception("Error: __construct() - The parameter / array isn't valid.");
+      throw new Exception("Error: __construct() - Configuration array is missing.");
     }
   }
 
@@ -190,6 +184,9 @@ class Instagram {
    * @return mixed
    */
   private function _makeCall($function) {
+    // check authentication method
+    // 1. 'client_id='.$this->getApiKey() if the call doesn't requires authentication
+    // 2. 'access_token=' if the call needs a authenticated user
     $apiCall = self::API_URL.$function;
     
     $ch = curl_init();

@@ -20,10 +20,14 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
     <?php
         require_once 'instagram.class.php';
-      
-        // Display login URL
-        $ig = new Instagram('Client ID', 'Client Secret', 'Callback URL');
-        echo "<a href='{$ig->getLoginUrl()}'>Login with Instagram</a>";
+        
+        $instagram = new Instagram(array(
+          'apiKey'      => 'YOUR_APP_KEY',
+          'apiSecret'   => 'YOUR_APP_SECRET',
+          'apiCallback' => 'YOUR_APP_CALLBACK'
+        ));
+        
+        echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
     ?>
 
 ### Authenticate user (OAuth2) ###
@@ -31,8 +35,8 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
     <?php
         // Grab user token
         $code = $_GET['code'];
-        $userToken = $ig->getOAuthToken($code);
-      
+        $userToken = $instagram->getOAuthToken($code);
+        
         echo 'Your username is: '.$userToken->user->username;
     ?>
 
@@ -40,8 +44,8 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
     <?php
         // Get the last two likes
-        $likes = getUserLikes($userToken->access_token, 2);
-      
+        $likes = $instagram->getUserLikes($userToken->access_token, 2);
+        
         // Take a look at the API response
         echo '<pre>';
         print_r($likes);
@@ -56,20 +60,29 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 **Available scope parameters:**
 
-- `basic` *[default]*, `likes`, `comments`, `relationships`
+> `basic` *[default]*, `likes`, `comments`, `relationships`
 
 ### Get token ###
 
 `getOAuthToken($code, <true/false>)`
 
 `true` : Returns only the OAuth token
-`false` *[default]* : Returns OAuth token and Instagram userdata
+`false` *[default]* : Returns OAuth token and Instagram user data
 
 ### Get user likes ###
 
 `getUserLikes($token, $limit)`
 
-## Some samples for redirect URLs ##  {#redirect-uri}
+### Further endpoints ###
+
+It's planed always to extend the class with new methods.
+Let me know, if you think that one of the missing endpoints has a especially priority.
+
+**Missing Endpoints:**
+
+> `Media`, `Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
+
+## Samples for redirect URLs ##         {#redirect-uri}
 
 <table>
   <tr>
@@ -113,10 +126,15 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
     <td>yes</td>
   </tr>
 </table>
+**<sub>[original developer source](http://instagram.com/developer/auth)</sub>**
 
 ## History ##
 
+**Instagram 0.8 - 16/11/2011**
+
+- `release` First inital released version
+- `feature` You can set the config data with an array (see example)
+
 **Instagram 0.5 - 12/11/2011**
 
-- `release` First released version 
-
+- `release` First inital released version 
