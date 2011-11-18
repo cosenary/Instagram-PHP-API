@@ -31,6 +31,11 @@ if (true === isset($authCode)) {
   print_r($likes);
   echo '<pre>';
 
+  // Display all user likes
+  foreach ($likes->data as $entry) {
+    echo "<img src=\"{$entry->images->thumbnail->url}\">";
+  }
+
 } else {
 
   // Check whether an error occurred
