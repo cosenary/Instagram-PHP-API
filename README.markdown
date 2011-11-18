@@ -2,9 +2,9 @@
 
 ## About ##
 
+A PHP wrapper for the Instagram API.
 This is my first PHP class, so please bear with me.
-Any feedback and bugs is appreciated.
-> Doc version: 0.8
+Any feedback or bug reports are appreciated.
 
 ## Requirements ##
 
@@ -16,6 +16,7 @@ Any feedback and bugs is appreciated.
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.
 Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
+> **A good place to get started is the example App.**
 
 ### Initialize the class ###
 
@@ -65,7 +66,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `new Instagram(<array>/<string>)`
 
-`array` if you want to authenticate a user and access it's data
+`array` if you want to authenticate a user and access it's data:
 
     new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
@@ -73,7 +74,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
       'apiCallback' => 'YOUR_APP_CALLBACK'
     ));
 
-`string` if you *only* want to access public data
+`string` if you *only* want to access public data:
 
     new Instagram('YOUR_APP_KEY')
 
@@ -83,27 +84,53 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 **Available scope parameters:**
 
-> `basic` *[default]*, `likes`, `comments`, `relationships`
+`basic` *[default]*, `likes`, `comments`, `relationships`
 
-### Get token ###
+### Get OAuth token ###
 
-`getOAuthToken($code, <true/false>)`
+`getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token
-`false` *[default]* : Returns OAuth token and Instagram user data
+`true` : Returns only the OAuth token, that you can directly pass into `setAccessToken()`
+`false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
-### Get user likes ###
+### Set / Get access token ###
 
-`getUserLikes($token, $limit)`
+Stores the access token, for further method calls:
+`setAccessToken($token)`
+
+Returns the access token, if you want to store it for later usage:
+`getAccessToken()`
+
+### User methods ###
+
+**Public methods**
+
+- `searchUser($name)`
+- `getUser($id)`
+
+**Authenticated user methods**
+
+- `getUserLikes()`
+- `getUserFeed()`
+- `getUserMedia($id)`
+
+### Media methods ###
+
+**Public methods**
+
+- `getMedia($id)`
+- `getPopularMedia()`
 
 ### Further endpoints ###
 
-It's planed always to extend the class with new methods.
+It's planned always to extend the class with new methods.
 Let me know, if you think that one of the missing endpoints has a especially priority.
 
 **Missing Endpoints:**
 
-> `Media`, `Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
+`Media`, `Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
+
+For all parameters in the configuration array exists a public setter and getter method.
 
 ## Samples for redirect URLs ##         {#redirect-uri}
 
@@ -149,15 +176,29 @@ Let me know, if you think that one of the missing endpoints has a especially pri
     <td>yes</td>
   </tr>
 </table>
-**<sub>[original developer source](http://instagram.com/developer/auth)</sub>**
+**<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/auth).</sub>**
+
+## Example App ##
+
+The small App, which is located in the `example/` folder, helps you to get started with the class.
+Its whole code is documented and will take you through all steps of the OAuth2 process.
+The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
 ## History ##
 
 **Instagram 0.8 - 16/11/2011**
 
 - `release` First inital released version
+- `feature` Added sample App with documented code
 - `feature` Initialize the class with a config array or string (see example)
+- `update` New detailed documentation
 
 **Instagram 0.5 - 12/11/2011**
 
-- `release` First inital released version
+- `release` Beta version
+- `update` Small documentation
+
+## Credits ##
+
+Copyright (c) 2011 - Programmed by Christian Metz
+Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
