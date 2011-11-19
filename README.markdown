@@ -16,7 +16,8 @@ Any feedback or bug reports are appreciated.
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.
 Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
-> **A good place to get started is the example App.**
+
+**A good place to get started is the example App.**
 
 ### Initialize the class ###
 
@@ -49,8 +50,8 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
         $token = $userData->access_token;
         $instagram->setAccessToken($token);
         
-        // Get the last two likes
-        $likes = $instagram->getUserLikes($token, 2);
+        // Get all user likes
+        $likes = $instagram->getUserLikes();
         
         // Take a look at the API response
         echo '<pre>';
@@ -66,7 +67,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `new Instagram(<array>/<string>)`
 
-`array` if you want to authenticate a user and access it's data:
+`array` if you want to authenticate a user and access its data:
 
     new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
@@ -82,7 +83,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `getLoginUrl(<array>)`
 
-**Available scope parameters:**
+**Optional scope parameters:**
 
 `basic` *[default]*, `likes`, `comments`, `relationships`
 
@@ -95,24 +96,27 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 ### Set / Get access token ###
 
-Stores the access token, for further method calls:
+Stores access token, for further method calls:
 `setAccessToken($token)`
 
-Returns the access token, if you want to store it for later usage:
+Returns access token, if you want to store it for later usage:
 `getAccessToken()`
 
 ### User methods ###
 
 **Public methods**
 
-- `searchUser($name)`
 - `getUser($id)`
+- `searchUser($name, <$limit>)`
 
 **Authenticated user methods**
 
-- `getUserLikes()`
-- `getUserFeed()`
-- `getUserMedia($id)`
+- `getUser()`
+- `getUserLikes(<$limit>)`
+- `getUserFeed(<$limit>)`
+- `getUserMedia($id, <$limit>)`
+
+> [Sample responses of the User Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources)
 
 ### Media methods ###
 
@@ -120,6 +124,12 @@ Returns the access token, if you want to store it for later usage:
 
 - `getMedia($id)`
 - `getPopularMedia()`
+- `searchMedia($lat, $lng)`
+    - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
+
+> [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
+
+All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
 
 ### Further endpoints ###
 
@@ -128,12 +138,13 @@ Let me know, if you think that one of the missing endpoints has a especially pri
 
 **Missing Endpoints:**
 
-`Media`, `Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
+`Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
 
 ## Samples for redirect URLs ##         {#redirect-uri}
 
+<center>
 <table>
   <tr>
     <th>Registered Redirect URI</th>
@@ -176,6 +187,7 @@ For all parameters in the configuration array exists a public setter and getter 
     <td>yes</td>
   </tr>
 </table>
+</center>
 **<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/auth).</sub>**
 
 ## Example App ##
@@ -186,12 +198,16 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 
 ## History ##
 
+**Instagram 1.0 - 20/11/2011**
+
+- `release` First public release
+- `feature` Added sample App with documented code
+- `update` New detailed documentation
+
 **Instagram 0.8 - 16/11/2011**
 
 - `release` First inital released version
-- `feature` Added sample App with documented code
 - `feature` Initialize the class with a config array or string (see example)
-- `update` New detailed documentation
 
 **Instagram 0.5 - 12/11/2011**
 
