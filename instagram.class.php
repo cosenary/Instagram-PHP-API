@@ -3,32 +3,15 @@
 /**
  * Instagram API class
  * API Documentation: http://instagram.com/developer/
+ * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/blob/master/README.markdown
  * 
  * @author Christian Metz
  * @since 30.10.2011
- * @copyright Christian Metz | MetzWeb Networks
- * @version 1.0
+ * @copyright Christian Metz - MetzWeb Networks
+ * @version 0.8
+ * @license BSD http://www.opensource.org/licenses/bsd-license.php
  * 
- * @todo Extend error handling, Add new methods, Contruct with an array
- * 
- * @example Get started:
- * $ig = new Instagram(array(
- *  apiKey      => '',
- *  apiSecret   => '',
- *  apiCallback => ''
- * ));
- * echo "<a href='{$ig->getLoginUrl()}'>Login</a>";
- * 
- * @example Get user token:
- * $code = $_GET['code'];
- * $userToken = $ig->getOAuthToken($code);
- * echo 'Your username is: '.$userToken->user->username;
- * 
- * @example Get user likes:
- * $likes = getUserLikes($userToken->access_token, 2);
- * echo "<pre>";
- * print_r($likes);
- * echo "<pre>";
+ * @todo Extend error handling, Allow additional params in _makeCall
  */ 
 
 class Instagram {
@@ -120,55 +103,90 @@ class Instagram {
    * Search for a user
    *
    * @param string $name                  Instagram username
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function searchUser($name) {
-    return $this->_makeCall('users/search?q='.$name);
+  public function searchUser($name, $limit = 0) {
+    return $this->_makeCall('users/search', false, array('q' => $name, 'count' => $limit));
   }
 
   /**
-   * Get user info by it's id
+   * Get user info
    *
-   * @param string $id                    Instagram user id
+   * @param integer [optional] $id        Instagram user id
    * @return mixed
    */
-  public function getUser($id) {
-    return $this->_makeCall('users/'.$id);
+  public function getUser($id = 0) {
+    $auth = false;
+    if ($id === 0 && isset($this->_accesstoken)) { $id = 'self'; $auth = true; }
+    return $this->_makeCall('users/'.$id, $auth);
   }
 
   /**
    * Get user activity feed
    *
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getUserFeed() {
-    return $this->_makeCall('users/self/feed');
+  public function getUserFeed($limit = 0) {
+    return $this->_makeCall('users/self/feed', true, array('count' => $limit));
   }
 
   /**
    * Get user recent media
    *
-   * @param string $id                    Instagram user id
+   * @param integer $id                   Instagram user id
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getUserMedia($id) {
-    return $this->_makeCall('users/'.$id.'/media/recent');
+  public function getUserMedia($id, $limit = 0) {
+    return $this->_makeCall('users/'.$id.'/media/recent', true, array('count' => $limit));
   }
 
   /**
    * Get the liked photos of a user
    *
-   * @param string [optional] $limit      Limit of returned results
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getUserLikes($limit = 8) {
-    return $this->_makeCall('users/self/media/liked');
+  public function getUserLikes($limit = 0) {
+    return $this->_makeCall('users/self/media/liked', true, array('count' => $limit));
+  }
+
+  /**
+   * Search media by its location
+   *
+   * @param string $lat                   Latitude of the center search coordinate
+   * @param string $lng                   Longitude of the center search coordinate
+   * @return mixed
+   */
+  public function searchMedia($lat, $lng) {
+    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng));
+  }
+
+  /**
+   * Get media by its id
+   *
+   * @param string $id                    Instagram media id
+   * @return mixed
+   */
+  public function getMedia($id) {
+    return $this->_makeCall('media/'.$id);
+  }
+
+  /**
+   * Get the most popular media
+   *
+   * @return mixed
+   */
+  public function getPopularMedia() {
+    return $this->_makeCall('media/popular');
   }
 
   /**
    * Get the OAuth data of a user by the returned callback code
    *
-   * @param string $code                  OAuth code variable (after a successful login)
+   * @param string $code                  OAuth2 code variable (after a successful login)
    * @param boolean [optional] $token     If it's true, only the access token will be returned
    * @return mixed
    */
@@ -189,30 +207,35 @@ class Instagram {
    * The call operator
    *
    * @param string $function              API data string
+   * @param array [optional] $params      Additional request parameters
    * @param boolean $auth                 Whether the function requires an access token
    * @return mixed
    */
-  private function _makeCall($function, $auth = false) {
-    // check authentication method
+  private function _makeCall($function, $auth = false, $params = null) {
     if (false === $auth) {
       // if the call doesn't requires authentication
-      $authMethod = '&client_id='.$this->getApiKey();
+      $authMethod = '?client_id='.$this->getApiKey();
     } else {
       // if the call needs a authenticated user
-      if (true === isset(getAccessToken()) {
-        $authMethod = '&access_token='.$this->getAccessToken();
+      if (true === isset($this->_accesstoken)) {
+        $authMethod = '?access_token='.$this->getAccessToken();
       } else {
-        throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated user's access token.");
+        throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
-    // (false === $auth) ? $authMethod = 'client_id='.$this->getApiKey(); : $authMethod = 'access_token='.$this->getAccessToken();
     
-    $apiCall = self::API_URL.$function.$authMethod;
+    if (isset($params) && is_array($params)) {
+      $params = '&'.http_build_query($params);
+    } else {
+      $params = null;
+    }
+    
+    $apiCall = self::API_URL.$function.$authMethod.$params;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     
     $jsonData = curl_exec($ch);
