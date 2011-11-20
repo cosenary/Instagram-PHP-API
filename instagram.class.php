@@ -8,10 +8,8 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks
- * @version 0.8
+ * @version 1.0
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
- * 
- * @todo Extend error handling, Allow additional params in _makeCall
  */ 
 
 class Instagram {
@@ -53,7 +51,9 @@ class Instagram {
   private $_callbackurl;
 
   /**
-   * The user access token 
+   * The user access token
+   * 
+   * @var string
    */
   private $_accesstoken;
 
@@ -167,7 +167,7 @@ class Instagram {
   /**
    * Get media by its id
    *
-   * @param string $id                    Instagram media id
+   * @param integer $id                   Instagram media id
    * @return mixed
    */
   public function getMedia($id) {
@@ -206,7 +206,7 @@ class Instagram {
   /**
    * The call operator
    *
-   * @param string $function              API data string
+   * @param string $function              API resource path
    * @param array [optional] $params      Additional request parameters
    * @param boolean $auth                 Whether the function requires an access token
    * @return mixed
