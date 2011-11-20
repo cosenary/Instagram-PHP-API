@@ -2,8 +2,8 @@
 
 ## About ##
 
-A PHP wrapper for the Instagram API.
-This is my first PHP class, so please bear with me.
+A PHP wrapper for the Instagram API.  
+This is my first PHP class, so please bear with me.  
 Feedback or bug reports are appreciated.
 
 ## Requirements ##
@@ -14,10 +14,10 @@ Feedback or bug reports are appreciated.
 
 ## Get started ##
 
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.
+[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
 Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
 
-**A good place to get started is the example App.**
+> **A good place to get started is the example App.**
 
 ### Initialize the class ###
 
@@ -91,15 +91,15 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token, that you can directly pass into `setAccessToken()`
+`true` : Returns only the OAuth token, that you can directly pass into `setAccessToken()`  
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token ###
 
-Stores access token, for further method calls:
+Stores access token, for further method calls:  
 `setAccessToken($token)`
 
-Returns access token, if you want to store it for later usage:
+Returns access token, if you want to store it for later usage:  
 `getAccessToken()`
 
 ### User methods ###
@@ -127,9 +127,9 @@ Returns access token, if you want to store it for later usage:
 - `searchMedia($lat, $lng)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
 
-> [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
-
 All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
+
+> [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
 
 ### Further endpoints ###
 
@@ -142,7 +142,7 @@ Let me know, if you think that one of the missing endpoints has a especially pri
 
 For all parameters in the configuration array exists a public setter and getter method.
 
-## Samples for redirect URLs ##         {#redirect-uri}
+## Samples for redirect URLs ##
 
 <center>
 <table>
@@ -192,8 +192,8 @@ For all parameters in the configuration array exists a public setter and getter 
 
 ## Example App ##
 
-The small App, which is located in the `example/` folder, helps you to get started with the class.
-Its whole code is documented and will take you through all steps of the OAuth2 process.
+The small App, which is located in the `example/` folder, helps you to get started with the class.  
+Its whole code is documented and will take you through all steps of the OAuth2 process.  
 The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
 ## History ##
@@ -216,5 +216,5 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 
 ## Credits ##
 
-Copyright (c) 2011 - Programmed by Christian Metz
+Copyright (c) 2011 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
