@@ -4,7 +4,7 @@
 
 A PHP wrapper for the Instagram API.
 This is my first PHP class, so please bear with me.
-Any feedback or bug reports are appreciated.
+Feedback or bug reports are appreciated.
 
 ## Requirements ##
 
