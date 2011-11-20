@@ -10,9 +10,9 @@
     <!-- CSS -->
     <style type="text/css">
       * {
-  	    margin: 0px;
-  	    padding: 0px;
-  	  }
+        margin: 0px;
+        padding: 0px;
+      }
 
       a.button {
         background: url(instagram-login-button.png) no-repeat transparent;

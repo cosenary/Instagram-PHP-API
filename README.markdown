@@ -17,7 +17,7 @@ Feedback or bug reports are appreciated.
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
 Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
 
-> **A good place to get started is the example App.**
+> A good place to get started is the example App.
 
 ### Initialize the class ###
 
@@ -133,8 +133,8 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 ### Further endpoints ###
 
-It's planned always to extend the class with new methods.
-Let me know, if you think that one of the missing endpoints has a especially priority.
+It's planned to extend the class with new methods.
+Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
