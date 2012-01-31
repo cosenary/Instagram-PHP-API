@@ -21,43 +21,48 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 ### Initialize the class ###
 
-    <?php
-        require_once 'instagram.class.php';
-        
-        $instagram = new Instagram(array(
-          'apiKey'      => 'YOUR_APP_KEY',
-          'apiSecret'   => 'YOUR_APP_SECRET',
-          'apiCallback' => 'YOUR_APP_CALLBACK'
-        ));
-        
-        echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
-    ?>
+```php
+<?php
+    require_once 'instagram.class.php';
+    
+    $instagram = new Instagram(array(
+      'apiKey'      => 'YOUR_APP_KEY',
+      'apiSecret'   => 'YOUR_APP_SECRET',
+      'apiCallback' => 'YOUR_APP_CALLBACK'
+    ));
+    
+    echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
+?>
+```
 
 ### Authenticate user (OAuth2) ###
 
-    <?php
-        // Grab OAuth callback code
-        $code = $_GET['code'];
-        $userData = $instagram->getOAuthToken($code);
-        
-        echo 'Your username is: '.$userData->user->username;
-    ?>
+```php
+<?php
+    // Grab OAuth callback code
+    $code = $_GET['code'];
+    $data = $instagram->getOAuthToken($code);
+    
+    echo 'Your username is: '.$data->user->username;
+?>
+```
 
 ### Get user likes ###
 
-    <?php
-        // Store user access token
-        $token = $userData->access_token;
-        $instagram->setAccessToken($token);
-        
-        // Get all user likes
-        $likes = $instagram->getUserLikes();
-        
-        // Take a look at the API response
-        echo '<pre>';
-        print_r($likes);
-        echo '<pre>';
-    ?>
+```php
+<?php
+    // Store user access token
+    $instagram->setAccessToken($data);
+    
+    // Get all user likes
+    $likes = $instagram->getUserLikes();
+    
+    // Take a look at the API response
+    echo '<pre>';
+    print_r($likes);
+    echo '<pre>';
+?>
+```
 
 **All methods return the API data `json_decode()` - so you can directly access the data.**
 
@@ -65,7 +70,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 ### Setup Instagram ###
 
-`new Instagram(<array>/<string>)`
+`new Instagram(<array>/<string>);`
 
 `array` if you want to authenticate a user and access its data:
 
@@ -77,11 +82,16 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `string` if you *only* want to access public data:
 
-    new Instagram('YOUR_APP_KEY')
+    new Instagram('YOUR_APP_KEY');
 
 ### Get login URL ###
 
 `getLoginUrl(<array>)`
+
+    getLoginUrl(array(
+      'basic',
+      'likes'
+    ));
 
 **Optional scope parameters:**
 
@@ -91,7 +101,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token, that you can directly pass into `setAccessToken()`  
+`true` : Returns only the OAuth token
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token ###
@@ -114,7 +124,8 @@ Returns access token, if you want to store it for later usage:
 - `getUser()`
 - `getUserLikes(<$limit>)`
 - `getUserFeed(<$limit>)`
-- `getUserMedia($id, <$limit>)`
+- `getUserMedia(<$id>, <$limit>)`
+    - if an `$id` isn't defined, it returns the media of the logged in user
 
 > [Sample responses of the User Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources)
 
@@ -131,6 +142,14 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 > [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
 
+### Tag methods ###
+
+- `getTag($name)`
+- `getTagMedia($name)`
+- `searchTags($name)`
+
+> [Sample responses of the Tag Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources)
+
 ### Further endpoints ###
 
 It's planned to extend the class with new methods.
@@ -138,7 +157,7 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Likes`, `Relationships`, `Comments`, `Tags`, `Locations`, `Geographies`
+`Likes`, `Relationships`, `Comments`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
 
@@ -198,6 +217,13 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 
 ## History ##
 
+**Instagram 1.5 - 31/01/2012**
+
+- `release` Second master version
+- `feature` Added Tag endpoints
+- `change` Edited the "Get started" example
+- `change` Now you can pass the `getOAuthToken()` object directly into `setAccessToken()`
+
 **Instagram 1.0 - 20/11/2011**
 
 - `release` First public release
@@ -216,5 +242,5 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 
 ## Credits ##
 
-Copyright (c) 2011 - Programmed by Christian Metz  
+Copyright (c) 2011-2012 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
