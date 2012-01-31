@@ -20,6 +20,7 @@
         display: block;
         height: 29px;
         margin: 50px auto;
+        overflow: hidden;
         text-indent: -9999px;
         width: 200px;
       }
