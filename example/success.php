@@ -10,19 +10,19 @@ $instagram = new Instagram(array(
 ));
 
 // Receive OAuth code parameter
-$authCode = $_GET['code'];
+$code = $_GET['code'];
 
-// Check whether the user granted access
-if (true === isset($authCode)) {
+// Check whether the user has granted access
+if (true === isset($code)) {
 
-  // Get informations about the authenticated user
-  $userData = $instagram->getOAuthToken($authCode);
-  echo 'Your username is: '.$userData->user->username;
+  // Receive OAuth token object
+  $data = $instagram->getOAuthToken($code);
+  echo 'Your username is: '.$data->user->username;
 
   // Store user access token
-  $token = $userData->access_token;
-  $instagram->setAccessToken($token);
+  $instagram->setAccessToken($data);
 
+  // Now you can call all authenticated user methods
   // Get all user likes
   $likes = $instagram->getUserLikes();
 
