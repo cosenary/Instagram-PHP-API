@@ -7,10 +7,10 @@
  * 
  * @author Christian Metz
  * @since 30.10.2011
- * @copyright Christian Metz - MetzWeb Networks
- * @version 1.0
+ * @copyright Christian Metz - MetzWeb Networks 2012
+ * @version 1.5
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
- */ 
+ */
 
 class Instagram {
 
@@ -67,16 +67,16 @@ class Instagram {
 
   /**
    * Default constructor
-   * 
-   * @param array/string $config          Instagram configuration data
+   *
+   * @param array|string $config          Instagram configuration data
    * @return void
    */
   public function __construct($config) {
     if (true === is_array($config)) {
       // if you want to access user data
-      $this->setApiKey($config[apiKey]);
-      $this->setApiSecret($config[apiSecret]);
-      $this->setApiCallback($config[apiCallback]);
+      $this->setApiKey($config['apiKey']);
+      $this->setApiSecret($config['apiSecret']);
+      $this->setApiCallback($config['apiCallback']);
     } else if (true === is_string($config)) {
       // if you only want to access public data
       $this->setApiKey($config);
@@ -135,11 +135,11 @@ class Instagram {
   /**
    * Get user recent media
    *
-   * @param integer $id                   Instagram user id
+   * @param integer [optional] $id        Instagram user id
    * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getUserMedia($id, $limit = 0) {
+  public function getUserMedia($id = 'self', $limit = 0) {
     return $this->_makeCall('users/'.$id.'/media/recent', true, array('count' => $limit));
   }
 
@@ -184,6 +184,36 @@ class Instagram {
   }
 
   /**
+   * Search for tags by name
+   *
+   * @param string $name                  Valid tag name
+   * @return mixed
+   */
+  public function searchTags($name) {
+    return $this->_makeCall('tags/search', false, array('q' => $name));
+  }
+
+  /**
+   * Get info about a tag
+   *
+   * @param string $name                  Valid tag name
+   * @return mixed
+   */
+  public function getTag($name) {
+    return $this->_makeCall('tags/'.$name);
+  }
+
+  /**
+   * Get a recently tagged media
+   *
+   * @param string $name                  Valid tag name
+   * @return mixed
+   */
+  public function getTagMedia($name) {
+    return $this->_makeCall('tags/'.$name.'/media/recent');
+  }
+
+  /**
    * Get the OAuth data of a user by the returned callback code
    *
    * @param string $code                  OAuth2 code variable (after a successful login)
@@ -208,7 +238,7 @@ class Instagram {
    *
    * @param string $function              API resource path
    * @param array [optional] $params      Additional request parameters
-   * @param boolean $auth                 Whether the function requires an access token
+   * @param boolean [optional] $auth      Whether the function requires an access token
    * @return mixed
    */
   private function _makeCall($function, $auth = false, $params = null) {
@@ -269,10 +299,11 @@ class Instagram {
   /**
    * Access Token Setter
    * 
-   * @param string $token
+   * @param object|string $data
    * @return void
    */
-  public function setAccessToken($token) {
+  public function setAccessToken($data) {
+    (true === is_object($data)) ? $token = $data->access_token : $token = $data;
     $this->_accesstoken = $token;
   }
 

@@ -101,7 +101,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token
+`true` : Returns only the OAuth token  
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token ###
