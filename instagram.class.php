@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.5
+ * @version 1.6
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -64,6 +64,13 @@ class Instagram {
    */
   private $_scopes = array('basic', 'likes', 'comments', 'relationships');
 
+  /**
+   * Available actions
+   * 
+   * @var array
+   */
+  private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
+
 
   /**
    * Default constructor
@@ -93,7 +100,7 @@ class Instagram {
    */
   public function getLoginUrl($scope = array('basic')) {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
-      return self::API_OAUTH_URL.'?client_id='.$this->getApiKey().'&redirect_uri='.$this->getApiCallback().'&scope='.implode('+', $scope).'&response_type=code';
+      return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
       throw new Exeption("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
@@ -119,7 +126,7 @@ class Instagram {
   public function getUser($id = 0) {
     $auth = false;
     if ($id === 0 && isset($this->_accesstoken)) { $id = 'self'; $auth = true; }
-    return $this->_makeCall('users/'.$id, $auth);
+    return $this->_makeCall('users/' . $id, $auth);
   }
 
   /**
@@ -140,7 +147,7 @@ class Instagram {
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/'.$id.'/media/recent', true, array('count' => $limit));
+    return $this->_makeCall('users/' . $id . '/media/recent', true, array('count' => $limit));
   }
 
   /**
@@ -151,6 +158,52 @@ class Instagram {
    */
   public function getUserLikes($limit = 0) {
     return $this->_makeCall('users/self/media/liked', true, array('count' => $limit));
+  }
+
+  /**
+   * Get the list of users this user follows
+   *
+   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $limit     Limit of returned results
+   * @return mixed
+   */
+  public function getUserFollows($id = 'self', $limit = 0) {
+    return $this->_makeCall('users/' . $id . '/follows', true, array('count' => $limit));
+  }
+
+  /**
+   * Get the list of users this user is followed by
+   *
+   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $limit     Limit of returned results
+   * @return mixed
+   */
+  public function getUserFollower($id = 'self', $limit = 0) {
+    return $this->_makeCall('users/' . $id . '/followed-by', true, array('count' => $limit));
+  }
+
+  /**
+   * Get information about a relationship to another user
+   *
+   * @param integer $id                   Instagram user id
+   * @return mixed
+   */
+  public function getUserRelationship($id) {
+    return $this->_makeCall('users/' . $id . '/relationship', true);
+  }
+
+  /**
+   * Modify the relationship between the current user and the target user
+   *
+   * @param string $action                Action command (follow/unfollow/block/unblock/approve/deny)
+   * @param integer $user                 Target user id
+   * @return mixed
+   */
+  public function modifyRelationship($action, $user) {
+    if (true === isset($this->_actions[$action]) && isset($user)) {
+      return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action));
+    }
+    throw new Exeption("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
@@ -171,7 +224,7 @@ class Instagram {
    * @return mixed
    */
   public function getMedia($id) {
-    return $this->_makeCall('media/'.$id);
+    return $this->_makeCall('media/' . $id);
   }
 
   /**
@@ -200,7 +253,7 @@ class Instagram {
    * @return mixed
    */
   public function getTag($name) {
-    return $this->_makeCall('tags/'.$name);
+    return $this->_makeCall('tags/' . $name);
   }
 
   /**
@@ -210,7 +263,7 @@ class Instagram {
    * @return mixed
    */
   public function getTagMedia($name) {
-    return $this->_makeCall('tags/'.$name.'/media/recent');
+    return $this->_makeCall('tags/' . $name . '/media/recent');
   }
 
   /**
@@ -244,23 +297,23 @@ class Instagram {
   private function _makeCall($function, $auth = false, $params = null) {
     if (false === $auth) {
       // if the call doesn't requires authentication
-      $authMethod = '?client_id='.$this->getApiKey();
+      $authMethod = '?client_id=' . $this->getApiKey();
     } else {
-      // if the call needs a authenticated user
+      // if the call needs an authenticated user
       if (true === isset($this->_accesstoken)) {
-        $authMethod = '?access_token='.$this->getAccessToken();
+        $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
         throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
     
     if (isset($params) && is_array($params)) {
-      $params = '&'.http_build_query($params);
+      $params = '&' . http_build_query($params);
     } else {
       $params = null;
     }
     
-    $apiCall = self::API_URL.$function.$authMethod.$params;
+    $apiCall = self::API_URL . $function . $authMethod . $params;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
@@ -374,5 +427,3 @@ class Instagram {
   }
 
 }
-
-?>
