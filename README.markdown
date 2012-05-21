@@ -215,6 +215,8 @@ The small App, which is located in the `example/` folder, helps you to get start
 Its whole code is documented and will take you through all steps of the OAuth2 process.  
 The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
+A short tutorial about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
+
 ## History ##
 
 **Instagram 1.5 - 31/01/2012**
