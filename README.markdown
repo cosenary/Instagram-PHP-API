@@ -129,6 +129,19 @@ Returns access token, if you want to store it for later usage:
 
 > [Sample responses of the User Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources)
 
+### Relationship methods ###
+
+**Authenticated user methods**
+
+- `getUserFollows(<$id>, <$limit>)`
+- `getUserFollower(<$id>, <$limit>)`
+- `getUserRelationship($id)`
+- `modifyRelationship($action, $user)`
+    - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
+    - `$user` : Target user id
+
+> [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
+
 ### Media methods ###
 
 **Public methods**
@@ -143,6 +156,8 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 > [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
 
 ### Tag methods ###
+
+**Public methods**
 
 - `getTag($name)`
 - `getTagMedia($name)`
@@ -207,7 +222,7 @@ For all parameters in the configuration array exists a public setter and getter 
   </tr>
 </table>
 </center>
-**<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/auth).</sub>**
+**<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).</sub>**
 
 ## Example App ##
 
@@ -218,6 +233,10 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 A short tutorial about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
 ## History ##
+
+**Instagram 1.6 - 22/05/2012**
+
+
 
 **Instagram 1.5 - 31/01/2012**
 
