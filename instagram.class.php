@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.6
+ * @version 1.6a
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -264,6 +264,25 @@ class Instagram {
    */
   public function getTagMedia($name) {
     return $this->_makeCall('tags/' . $name . '/media/recent');
+  }
+
+  /**
+   * Pagination feature
+   * 
+   * @param object $obj                   Instagram object returned by a method
+   * @return mixed
+   * 
+   * @todo Implement the basic call handling!
+   */
+  public function pagination($obj) {
+    if (true === is_object($obj) && !is_null($obj->pagination)) {
+      // return $this->_makeCall($obj->pagination->next_url, false, array('basic' => true));
+      $apiCall = explode('?', $obj->pagination->next_url);
+      $function = str_replace(self::API_URL, '', $apiCall[0]);
+      return $this->_makeCall($function, true, array('max_id' => $obj->pagination->next_max_id));
+    } else {
+      throw new Exeption("Error: pagination() | This method doesn't support pagination.");
+    }
   }
 
   /**
