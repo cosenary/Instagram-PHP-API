@@ -200,7 +200,7 @@ class Instagram {
    * @return mixed
    */
   public function modifyRelationship($action, $user) {
-    if (true === isset($this->_actions[$action]) && isset($user)) {
+    if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action));
     }
     throw new Exeption("Error: modifyRelationship() | This method requires an action command and the target user id.");
