@@ -95,7 +95,33 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
 
 **Optional scope parameters:**
 
-`basic` *[default]*, `likes`, `comments`, `relationships`
+<table>
+  <tr>
+    <th>Scope</th>
+    <th>Legend</th>
+    <th>Methods</th>
+  </tr>
+  <tr>
+    <td>basic</td>
+    <td>to use all user related methods [default]</td>
+    <td>getUser(), getUserFeed(), getUserFollower() etc.</td>
+  </tr>
+  <tr>
+    <td>relationships</td>
+    <td>to follow and unfollow users</td>
+    <td>modifyRelationship()</td>
+  </tr>
+  <tr>
+    <td>likes</td>
+    <td>to like and unlike items</td>
+    <td>coming soon...</td>
+  </tr>
+  <tr>
+    <td>comments</td>
+    <td>to create or delete comments</td>
+    <td>coming soon...</td>
+  </tr>
+</table>
 
 ### Get OAuth token ###
 
@@ -140,6 +166,14 @@ Returns access token, if you want to store it for later usage:
     - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
     - `$user` : Target user id
 
+Example usage:
+```php
+<?php
+    // Follow the user with the ID 1574083
+    $instagram->modifyRelationship('follow', 1574083);
+?>
+```
+
 > [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
 
 ### Media methods ###
@@ -178,7 +212,6 @@ For all parameters in the configuration array exists a public setter and getter 
 
 ## Samples for redirect URLs ##
 
-<center>
 <table>
   <tr>
     <th>Registered Redirect URI</th>
@@ -221,7 +254,6 @@ For all parameters in the configuration array exists a public setter and getter 
     <td>yes</td>
   </tr>
 </table>
-</center>
 **<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).</sub>**
 
 ## Example App ##
@@ -236,7 +268,8 @@ A short tutorial about how to build an Instagram login with my class, has been p
 
 **Instagram 1.6 - 22/05/2012**
 
-
+- `feature` Added User Relationship endpoints
+- `feature` Added scope parameter table for the `getLoginUrl()` method
 
 **Instagram 1.5 - 31/01/2012**
 
