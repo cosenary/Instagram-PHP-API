@@ -6,6 +6,8 @@ A PHP wrapper for the Instagram API.
 This is my first PHP class, so please bear with me.  
 Feedback or bug reports are appreciated.
 
+> This class documentation is also available as a [PDF download](http://cl.ly/391R3l0E3S1q2p1r2M20).
+
 ## Requirements ##
 
 - PHP 5.2.x or higher
@@ -15,7 +17,7 @@ Feedback or bug reports are appreciated.
 ## Get started ##
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
-Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
+Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a Redirect URI.
 
 > A good place to get started is the example App.
 
@@ -43,7 +45,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
     
-    echo 'Your username is: '.$data->user->username;
+    echo 'Your username is: ' . $data->user->username;
 ?>
 ```
 
@@ -167,6 +169,7 @@ Returns access token, if you want to store it for later usage:
     - `$user` : Target user id
 
 Example usage:
+
 ```php
 <?php
     // Follow the user with the ID 1574083
@@ -206,9 +209,26 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Likes`, `Relationships`, `Comments`, `Locations`, `Geographies`
+`Likes`, `Comments`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
+
+## Pagination *(alpha)* ##
+
+Each endpoint has a maximum range of results, so increasing the "limit" parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
+
+That's the point where the "pagination" feature comes into play.  
+Simply pass an object into the `pagination()` method and receive your next dataset:
+
+```php
+<?php
+    $photos = $instagram->getTagMedia('kitten');
+
+    $result = $instagram->pagination($photos);
+?>
+```
+
+> This is a first implementation. Your feedback is always welcome.
 
 ## Samples for redirect URLs ##
 
@@ -254,7 +274,8 @@ For all parameters in the configuration array exists a public setter and getter 
     <td>yes</td>
   </tr>
 </table>
-**<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).</sub>**
+
+> If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).
 
 ## Example App ##
 
@@ -262,12 +283,13 @@ The small App, which is located in the `example/` folder, helps you to get start
 Its whole code is documented and will take you through all steps of the OAuth2 process.  
 The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
-A short tutorial about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
+A short tutorial about how to build an Instagram login with my class has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
 ## History ##
 
-**Instagram 1.6 - 22/05/2012**
+**Instagram 1.6 alpha - 28/05/2012**
 
+- `feature` Added Pagination method
 - `feature` Added User Relationship endpoints
 - `feature` Added scope parameter table for the `getLoginUrl()` method
 
