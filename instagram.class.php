@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.6 alpha
+ * @version 1.6 beta
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -201,7 +201,7 @@ class Instagram {
    */
   public function modifyRelationship($action, $user) {
     if (true === in_array($action, $this->_actions) && isset($user)) {
-      return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action));
+      return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
     throw new Exeption("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
@@ -309,9 +309,10 @@ class Instagram {
    * @param string $function              API resource path
    * @param array [optional] $params      Additional request parameters
    * @param boolean [optional] $auth      Whether the function requires an access token
+   * @param string [optional] $method     Request type GET|POST
    * @return mixed
    */
-  private function _makeCall($function, $auth = false, $params = null) {
+  private function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
     if (false === $auth) {
       // if the call doesn't requires authentication
       $authMethod = '?client_id=' . $this->getApiKey();
@@ -325,18 +326,23 @@ class Instagram {
     }
     
     if (isset($params) && is_array($params)) {
-      $params = '&' . http_build_query($params);
+      $paramString = '&' . http_build_query($params);
     } else {
-      $params = null;
+      $paramString = null;
     }
     
-    $apiCall = self::API_URL . $function . $authMethod . $params;
+    $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    
+    if ('POST' === $method) {
+      curl_setopt($ch, CURLOPT_POST, count($params));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
+    }
     
     $jsonData = curl_exec($ch);
     curl_close($ch);
