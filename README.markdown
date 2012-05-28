@@ -15,7 +15,7 @@ Feedback or bug reports are appreciated.
 ## Get started ##
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
-Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect URI.
+Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a Redirect URI.
 
 > A good place to get started is the example App.
 
@@ -43,7 +43,7 @@ Take a look at the [uri guidlines](#redirect-uri) before registering a Redirect 
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
     
-    echo 'Your username is: '.$data->user->username;
+    echo 'Your username is: ' . $data->user->username;
 ?>
 ```
 
@@ -166,7 +166,6 @@ Returns access token, if you want to store it for later usage:
     - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
     - `$user` : Target user id
 
-Example usage:
 ```php
 <?php
     // Follow the user with the ID 1574083
@@ -206,9 +205,13 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Likes`, `Relationships`, `Comments`, `Locations`, `Geographies`
+`Likes`, `Comments`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
+
+## Pagination *(alpha)* ##
+
+> This feature is still in development, but you can test it on the dev branch: [Pagination documentation](https://github.com/cosenary/Instagram-PHP-API/tree/dev#pagination-alpha).
 
 ## Samples for redirect URLs ##
 
@@ -254,7 +257,8 @@ For all parameters in the configuration array exists a public setter and getter 
     <td>yes</td>
   </tr>
 </table>
-**<sub>If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).</sub>**
+
+> If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).
 
 ## Example App ##
 
@@ -262,7 +266,7 @@ The small App, which is located in the `example/` folder, helps you to get start
 Its whole code is documented and will take you through all steps of the OAuth2 process.  
 The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
-A short tutorial about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
+A short tutorial about how to build an Instagram login with my class has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
 ## History ##
 
