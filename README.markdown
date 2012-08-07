@@ -114,7 +114,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
   <tr>
     <td>likes</td>
     <td>to like and unlike items</td>
-    <td>coming soon...</td>
+    <td>getMediaLikes(), likeMedia(), deleteLikedMedia()</td>
   </tr>
   <tr>
     <td>comments</td>
@@ -181,8 +181,9 @@ Returns access token, if you want to store it for later usage:
 
 - `getMedia($id)`
 - `getPopularMedia()`
-- `searchMedia($lat, $lng)`
+- `searchMedia($lat, $lng, <$distance>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
+    - `$distance` Distance in meter (max. distance: 5km = 5000) **(radial?)**
 
 All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
 
@@ -198,6 +199,17 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 > [Sample responses of the Tag Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources)
 
+### Likes methods ###
+
+**Authenticated user methods**
+
+- `getMediaLikes($id)`
+- `likeMedia($id)`
+- `deleteLikedMedia($id)`
+
+> How to like a Media: [Example usage](https://gist.github.com/3287237)
+> [Sample responses of the Likes Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources)
+
 ### Further endpoints ###
 
 It's planned to extend the class with new methods.
@@ -205,7 +217,7 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Likes`, `Comments`, `Locations`, `Geographies`
+`Comments`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
 
@@ -269,6 +281,11 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 A short tutorial about how to build an Instagram login with my class has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
 ## History ##
+
+**Instagram 1.7 - 07/08/2012**
+
+- `feature` Added Likes endpoints
+- `change` Added `distance` parameter to `searchMedia()` method (thanks @jonathanwkelly)
 
 **Instagram 1.6 - 22/05/2012**
 

@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.6
+ * @version 1.7
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -102,7 +102,7 @@ class Instagram {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new Exeption("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -203,18 +203,19 @@ class Instagram {
     if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new Exeption("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
    * Search media by its location
    *
-   * @param string $lat                   Latitude of the center search coordinate
-   * @param string $lng                   Longitude of the center search coordinate
+   * @param float $lat                    Latitude of the center search coordinate
+   * @param float $lng                    Longitude of the center search coordinate
+   * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
    * @return mixed
    */
-  public function searchMedia($lat, $lng) {
-    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng));
+  public function searchMedia($lat, $lng, $distance = 1000) {
+    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
   }
 
   /**
@@ -267,6 +268,36 @@ class Instagram {
   }
 
   /**
+   * Get a list of users who have liked this media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function getMediaLikes($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true);
+  }
+
+  /**
+   * Set user like on a media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function likeMedia($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true, null, 'POST');
+  }
+
+  /**
+   * Remove user like on a media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function deleteLikedMedia($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true, null, 'DELETE');
+  }
+
+  /**
    * Get the OAuth data of a user by the returned callback code
    *
    * @param string $code                  OAuth2 code variable (after a successful login)
@@ -304,7 +335,7 @@ class Instagram {
       if (true === isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
     
@@ -325,6 +356,8 @@ class Instagram {
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
+    } else if ('DELETE' === $method) {
+       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
     
     $jsonData = curl_exec($ch);
