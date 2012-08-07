@@ -1,0 +1,406 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Instagram PHP API by cosenary</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Instagram PHP API</h1>
+        <p>An easy-to-use PHP Class for accessing Instagram's API.</p>
+
+        <p class="view"><a href="https://github.com/cosenary/Instagram-PHP-API">View the Project on GitHub <small>cosenary/Instagram-PHP-API</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/cosenary/Instagram-PHP-API/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/cosenary/Instagram-PHP-API/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/cosenary/Instagram-PHP-API">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Instagram PHP API</h1>
+
+<h2>About</h2>
+
+<p>A PHP wrapper for the Instagram API.<br>
+This is my first PHP class, so please bear with me.<br>
+Feedback or bug reports are appreciated.</p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>PHP 5.2.x or higher</li>
+<li>cURL</li>
+<li>Registered Instagram App</li>
+</ul><h2>Get started</h2>
+
+<p><a href="http://instagr.am/developer/register/">Register your application</a> with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.<br>
+Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before registering a Redirect URI.</p>
+
+<blockquote>
+<p>A good place to get started is the example App.</p>
+</blockquote>
+
+<h3>Initialize the class</h3>
+
+<div class="highlight"><pre><span class="cp">&lt;?php</span>
+    <span class="k">require_once</span> <span class="s1">'instagram.class.php'</span><span class="p">;</span>
+
+    <span class="nv">$instagram</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+      <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span><span class="p">,</span>
+      <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span><span class="p">,</span>
+      <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span>
+    <span class="p">));</span>
+
+    <span class="k">echo</span> <span class="s2">"&lt;a href='</span><span class="si">{</span><span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getLoginUrl</span><span class="p">()</span><span class="si">}</span><span class="s2">'&gt;Login with Instagram&lt;/a&gt;"</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>Authenticate user (OAuth2)</h3>
+
+<div class="highlight"><pre><span class="cp">&lt;?php</span>
+    <span class="c1">// Grab OAuth callback code</span>
+    <span class="nv">$code</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'code'</span><span class="p">];</span>
+    <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getOAuthToken</span><span class="p">(</span><span class="nv">$code</span><span class="p">);</span>
+
+    <span class="k">echo</span> <span class="s1">'Your username is: '</span> <span class="o">.</span> <span class="nv">$data</span><span class="o">-&gt;</span><span class="na">user</span><span class="o">-&gt;</span><span class="na">username</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>Get user likes</h3>
+
+<div class="highlight"><pre><span class="cp">&lt;?php</span>
+    <span class="c1">// Store user access token</span>
+    <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">setAccessToken</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+    <span class="c1">// Get all user likes</span>
+    <span class="nv">$likes</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getUserLikes</span><span class="p">();</span>
+
+    <span class="c1">// Take a look at the API response</span>
+    <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span><span class="p">;</span>
+    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$likes</span><span class="p">);</span>
+    <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p><strong>All methods return the API data <code>json_decode()</code> - so you can directly access the data.</strong></p>
+
+<h2>Available methods</h2>
+
+<h3>Setup Instagram</h3>
+
+<p><code>new Instagram(&lt;array&gt;/&lt;string&gt;);</code></p>
+
+<p><code>array</code> if you want to authenticate a user and access its data:</p>
+
+<pre><code>new Instagram(array(
+  'apiKey'      =&gt; 'YOUR_APP_KEY',
+  'apiSecret'   =&gt; 'YOUR_APP_SECRET',
+  'apiCallback' =&gt; 'YOUR_APP_CALLBACK'
+));
+</code></pre>
+
+<p><code>string</code> if you <em>only</em> want to access public data:</p>
+
+<pre><code>new Instagram('YOUR_APP_KEY');
+</code></pre>
+
+<h3>Get login URL</h3>
+
+<p><code>getLoginUrl(&lt;array&gt;)</code></p>
+
+<pre><code>getLoginUrl(array(
+  'basic',
+  'likes'
+));
+</code></pre>
+
+<p><strong>Optional scope parameters:</strong></p>
+
+<table>
+<tr>
+<th>Scope</th>
+    <th>Legend</th>
+    <th>Methods</th>
+  </tr>
+<tr>
+<td>basic</td>
+    <td>to use all user related methods [default]</td>
+    <td>getUser(), getUserFeed(), getUserFollower() etc.</td>
+  </tr>
+<tr>
+<td>relationships</td>
+    <td>to follow and unfollow users</td>
+    <td>modifyRelationship()</td>
+  </tr>
+<tr>
+<td>likes</td>
+    <td>to like and unlike items</td>
+    <td>coming soon...</td>
+  </tr>
+<tr>
+<td>comments</td>
+    <td>to create or delete comments</td>
+    <td>coming soon...</td>
+  </tr>
+</table><h3>Get OAuth token</h3>
+
+<p><code>getOAuthToken($code, &lt;true&gt;/&lt;false&gt;)</code></p>
+
+<p><code>true</code> : Returns only the OAuth token<br><code>false</code> <em>[default]</em> : Returns OAuth token and profile data of the authenticated user</p>
+
+<h3>Set / Get access token</h3>
+
+<p>Stores access token, for further method calls:<br><code>setAccessToken($token)</code></p>
+
+<p>Returns access token, if you want to store it for later usage:<br><code>getAccessToken()</code></p>
+
+<h3>User methods</h3>
+
+<p><strong>Public methods</strong></p>
+
+<ul>
+<li><code>getUser($id)</code></li>
+<li><code>searchUser($name, &lt;$limit&gt;)</code></li>
+</ul><p><strong>Authenticated user methods</strong></p>
+
+<ul>
+<li><code>getUser()</code></li>
+<li><code>getUserLikes(&lt;$limit&gt;)</code></li>
+<li><code>getUserFeed(&lt;$limit&gt;)</code></li>
+<li>
+<code>getUserMedia(&lt;$id&gt;, &lt;$limit&gt;)</code>
+
+<ul>
+<li>if an <code>$id</code> isn't defined, it returns the media of the logged in user</li>
+</ul>
+</li>
+</ul><blockquote>
+<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources">Sample responses of the User Endpoints.</a></p>
+</blockquote>
+
+<h3>Relationship methods</h3>
+
+<p><strong>Authenticated user methods</strong></p>
+
+<ul>
+<li><code>getUserFollows(&lt;$id&gt;, &lt;$limit&gt;)</code></li>
+<li><code>getUserFollower(&lt;$id&gt;, &lt;$limit&gt;)</code></li>
+<li><code>getUserRelationship($id)</code></li>
+<li>
+<code>modifyRelationship($action, $user)</code>
+
+<ul>
+<li>
+<code>$action</code> : Action command (follow / unfollow / block / unblock / approve / deny)</li>
+<li>
+<code>$user</code> : Target user id</li>
+</ul>
+</li>
+</ul><div class="highlight"><pre><span class="cp">&lt;?php</span>
+    <span class="c1">// Follow the user with the ID 1574083</span>
+    <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">modifyRelationship</span><span class="p">(</span><span class="s1">'follow'</span><span class="p">,</span> <span class="mi">1574083</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<blockquote>
+<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources">Sample responses of the Relationship Endpoints.</a></p>
+</blockquote>
+
+<h3>Media methods</h3>
+
+<p><strong>Public methods</strong></p>
+
+<ul>
+<li><code>getMedia($id)</code></li>
+<li><code>getPopularMedia()</code></li>
+<li>
+<code>searchMedia($lat, $lng, &lt;$distance&gt;)</code>
+
+<ul>
+<li>
+<code>$lat</code> and <code>$lng</code> are coordinates and have to be floats like: <code>48.145441892290336</code>,<code>11.568603515625</code>
+</li>
+<li>
+<code>$distance</code> Distance in meter (max. distance: 5km = 5000) <strong>(radial?)</strong>
+</li>
+</ul>
+</li>
+</ul><p>All <code>&lt;$limit&gt;</code> parameters are optional. If the limit is undefined, all available results will be returned.</p>
+
+<blockquote>
+<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources">Sample responses of the Media Endpoints.</a></p>
+</blockquote>
+
+<h3>Tag methods</h3>
+
+<p><strong>Public methods</strong></p>
+
+<ul>
+<li><code>getTag($name)</code></li>
+<li><code>getTagMedia($name)</code></li>
+<li><code>searchTags($name)</code></li>
+</ul><blockquote>
+<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources">Sample responses of the Tag Endpoints.</a></p>
+</blockquote>
+
+<h3>Likes methods</h3>
+
+<p><strong>Authenticated user methods</strong></p>
+
+<ul>
+<li><code>getMediaLikes($id)</code></li>
+<li><code>likeMedia($id)</code></li>
+<li><code>deleteLikedMedia($id)</code></li>
+</ul><blockquote>
+<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources">Sample responses of the Likes Endpoints.</a></p>
+</blockquote>
+
+<h3>Further endpoints</h3>
+
+<p>It's planned to extend the class with new methods.
+Let me know, if you think, that one of the missing endpoints has priority.</p>
+
+<p><strong>Missing Endpoints:</strong></p>
+
+<p><code>Comments</code>, <code>Locations</code>, <code>Geographies</code></p>
+
+<p>For all parameters in the configuration array exists a public setter and getter method.</p>
+
+<h2>Pagination <em>(alpha)</em>
+</h2>
+
+<blockquote>
+<p>This feature is still in development, but you can test it on the dev branch: <a href="https://github.com/cosenary/Instagram-PHP-API/tree/dev#pagination-alpha">Pagination documentation</a>.</p>
+</blockquote>
+
+<h2>Samples for redirect URLs</h2>
+
+<table>
+<tr>
+<th>Registered Redirect URI</th>
+    <th>Redirect URI sent to /authorize</th>
+    <th>Valid?</th>
+  </tr>
+<tr>
+<td>http://yourcallback.com/</td>
+    <td>http://yourcallback.com/</td>
+    <td>yes</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/</td>
+    <td>http://yourcallback.com/?this=that</td>
+    <td>yes</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/?this=that</td>
+    <td>http://yourcallback.com/</td>
+    <td>no</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/?this=that</td>
+    <td>http://yourcallback.com/?this=that&amp;another=true</td>
+    <td>yes</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/?this=that</td>
+    <td>http://yourcallback.com/?another=true&amp;this=that</td>
+    <td>no</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/callback</td>
+    <td>http://yourcallback.com/</td>
+    <td>no</td>
+  </tr>
+<tr>
+<td>http://yourcallback.com/callback</td>
+    <td>http://yourcallback.com/callback/?type=mobile</td>
+    <td>yes</td>
+  </tr>
+</table><blockquote>
+<p>If you need additional informations, take a look at <a href="http://instagram.com/developer/authentication/">Instagrams API docs</a>.</p>
+</blockquote>
+
+<h2>Example App</h2>
+
+<p>The small App, which is located in the <code>example/</code> folder, helps you to get started with the class.<br>
+Its whole code is documented and will take you through all steps of the OAuth2 process.<br>
+The great Instagram Sign In button is designed by <a href="http://twitter.com/mutlu82/">Murat Mutlu</a>.</p>
+
+<p>A short tutorial about how to build an Instagram login with my class has been published at <a href="http://www.9lessons.info/2012/05/login-with-instagram-php.html">9lessons</a>.</p>
+
+<h2>History</h2>
+
+<p><strong>Instagram 1.7 - 07/08/2012</strong></p>
+
+<ul>
+<li>
+<code>feature</code> Added Likes endpoints</li>
+<li>
+<code>change</code> Added <code>distance</code> parameter to <code>searchMedia</code> method (thanks <a href="https://github.com/jonathanwkelly" class="user-mention">@jonathanwkelly</a>)</li>
+</ul><p><strong>Instagram 1.6 - 22/05/2012</strong></p>
+
+<ul>
+<li>
+<code>feature</code> Added User Relationship endpoints</li>
+<li>
+<code>feature</code> Added scope parameter table for the <code>getLoginUrl()</code> method</li>
+</ul><p><strong>Instagram 1.5 - 31/01/2012</strong></p>
+
+<ul>
+<li>
+<code>release</code> Second master version</li>
+<li>
+<code>feature</code> Added Tag endpoints</li>
+<li>
+<code>change</code> Edited the "Get started" example</li>
+<li>
+<code>change</code> Now you can pass the <code>getOAuthToken()</code> object directly into <code>setAccessToken()</code>
+</li>
+</ul><p><strong>Instagram 1.0 - 20/11/2011</strong></p>
+
+<ul>
+<li>
+<code>release</code> First public release</li>
+<li>
+<code>feature</code> Added sample App with documented code</li>
+<li>
+<code>update</code> New detailed documentation</li>
+</ul><p><strong>Instagram 0.8 - 16/11/2011</strong></p>
+
+<ul>
+<li>
+<code>release</code> First inital released version</li>
+<li>
+<code>feature</code> Initialize the class with a config array or string (see example)</li>
+</ul><p><strong>Instagram 0.5 - 12/11/2011</strong></p>
+
+<ul>
+<li>
+<code>release</code> Beta version</li>
+<li>
+<code>update</code> Small documentation</li>
+</ul><h2>Credits</h2>
+
+<p>Copyright (c) 2011-2012 - Programmed by Christian Metz<br>
+Released under the <a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/cosenary">cosenary</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
