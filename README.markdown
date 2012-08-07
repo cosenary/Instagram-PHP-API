@@ -106,12 +106,12 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
   <tr>
     <td>basic</td>
     <td>to use all user related methods [default]</td>
-    <td>getUser(), getUserFeed(), getUserFollower() etc.</td>
+    <td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
   </tr>
   <tr>
     <td>relationships</td>
     <td>to follow and unfollow users</td>
-    <td>modifyRelationship()</td>
+    <td><code>modifyRelationship()</code></td>
   </tr>
   <tr>
     <td>likes</td>

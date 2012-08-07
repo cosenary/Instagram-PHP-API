@@ -102,7 +102,7 @@ class Instagram {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new Exeption("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -203,7 +203,7 @@ class Instagram {
     if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new Exeption("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
@@ -279,7 +279,7 @@ class Instagram {
       (false === strpos($apiCall, 'access_token')) ? $auth = false : $auth = true;
       return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
     } else {
-      throw new Exeption("Error: pagination() | This method doesn't support pagination.");
+      throw new Exception("Error: pagination() | This method doesn't support pagination.");
     }
   }
 
@@ -321,7 +321,7 @@ class Instagram {
       if (true === isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new Exeption("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
     
