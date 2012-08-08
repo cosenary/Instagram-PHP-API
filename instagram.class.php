@@ -276,7 +276,7 @@ class Instagram {
     if (true === is_object($obj) && !is_null($obj->pagination)) {
       $apiCall = explode('?', $obj->pagination->next_url);
       $function = str_replace(self::API_URL, '', $apiCall[0]);
-      (false === strpos($apiCall, 'access_token')) ? $auth = false : $auth = true;
+      (strpos($apiCall, 'access_token') !== false) ? $auth = true : $auth = false;
       return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
     } else {
       throw new Exception("Error: pagination() | This method doesn't support pagination.");
