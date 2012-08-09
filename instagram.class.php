@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.65 alpha
+ * @version 1.6 beta
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
