@@ -102,22 +102,22 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     <th>Methods</th>
   </tr>
   <tr>
-    <td>basic</td>
+    <td><code>basic</code></td>
     <td>to use all user related methods [default]</td>
-    <td>getUser(), getUserFeed(), getUserFollower() etc.</td>
+    <td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
   </tr>
   <tr>
-    <td>relationships</td>
+    <td><code>relationships</code></td>
     <td>to follow and unfollow users</td>
-    <td>modifyRelationship()</td>
+    <td><code>modifyRelationship()</code></td>
   </tr>
   <tr>
-    <td>likes</td>
+    <td><code>likes</code></td>
     <td>to like and unlike items</td>
-    <td>getMediaLikes(), likeMedia(), deleteLikedMedia()</td>
+    <td><code>getMediaLikes()</code>, <code>likeMedia()</code>, <code>deleteLikedMedia()</code></td>
   </tr>
   <tr>
-    <td>comments</td>
+    <td><code>comments</code></td>
     <td>to create or delete comments</td>
     <td>coming soon...</td>
   </tr>
@@ -173,6 +173,12 @@ Returns access token, if you want to store it for later usage:
 ?>
 ```
 
+---
+
+Please note that the `modifyRelationship()` method requires the `relationships` scope.
+
+---
+
 > [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
 
 ### Media methods ###
@@ -207,7 +213,7 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 - `likeMedia($id)`
 - `deleteLikedMedia($id)`
 
-> How to like a Media: [Example usage](https://gist.github.com/3287237)
+> How to like a Media: [Example usage](https://gist.github.com/3287237)  
 > [Sample responses of the Likes Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources)
 
 ### Further endpoints ###
