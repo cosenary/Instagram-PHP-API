@@ -273,15 +273,21 @@ class Instagram {
    * @return mixed
    */
   public function pagination($obj) {
-    if (true === is_object($obj) && !is_null($obj->pagination)) {
-      $apiCall = explode('?', $obj->pagination->next_url);
-      $function = str_replace(self::API_URL, '', $apiCall[0]);
-      (strpos($apiCall, 'access_token') !== false) ? $auth = true : $auth = false;
-      return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
-    } else {
-      throw new Exception("Error: pagination() | This method doesn't support pagination.");
-    }
-  }
+	if (true === is_object($obj) && !is_null($obj->pagination)) {
+		if (!isset($obj->pagination->next_url)) {
+			return;
+		}
+		$apiCall = explode('?', $obj->pagination->next_url);
+		if (count($apiCall) < 2) {
+			return;
+		}
+		$function = str_replace(self::API_URL, '', $apiCall[0]);
+		(strpos($apiCall[1], 'access_token') !== false) ? $auth = true : $auth = false;
+		return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
+	} else {
+		throw new Exception("Error: pagination() | This method doesn't support pagination.");
+	}
+   }
 
   /**
    * Get the OAuth data of a user by the returned callback code
