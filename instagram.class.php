@@ -3,12 +3,12 @@
 /**
  * Instagram API class
  * API Documentation: http://instagram.com/developer/
- * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/blob/master/README.markdown
+ * Class Documentation: https://github.com/cosenary/Instagram-PHP-API
  * 
  * @author Christian Metz
  * @since 30.10.2011
- * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.6 beta
+ * @copyright Christian Metz - MetzWeb Networks 2011-2013
+ * @version 2.0 alpha
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -70,7 +70,6 @@ class Instagram {
    * @var array
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
-
 
   /**
    * Default constructor
@@ -274,9 +273,15 @@ class Instagram {
    */
   public function pagination($obj) {
     if (true === is_object($obj) && !is_null($obj->pagination)) {
+      if (!isset($obj->pagination->next_url)) {
+        return;
+      }
       $apiCall = explode('?', $obj->pagination->next_url);
+      if (count($apiCall) < 2) {
+        return;
+      }
       $function = str_replace(self::API_URL, '', $apiCall[0]);
-      (strpos($apiCall[1], 'access_token') !== false) ? $auth = true : $auth = false;
+      $auth = (strpos($apiCall[1], 'access_token') !== false);
       return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
     } else {
       throw new Exception("Error: pagination() | This method doesn't support pagination.");

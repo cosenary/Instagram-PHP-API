@@ -3,10 +3,7 @@
 ## About ##
 
 A PHP wrapper for the Instagram API.  
-This is my first PHP class, so please bear with me.  
 Feedback or bug reports are appreciated.
-
-> This class documentation is also available as a [PDF download](http://cl.ly/391R3l0E3S1q2p1r2M20).
 
 ## Requirements ##
 
@@ -213,7 +210,7 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 For all parameters in the configuration array exists a public setter and getter method.
 
-## Pagination *(alpha)* ##
+## Pagination *(beta)* ##
 
 Each endpoint has a maximum range of results, so increasing the "limit" parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
 
@@ -286,6 +283,10 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 A short tutorial about how to build an Instagram login with my class has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
 ## History ##
+
+**Instagram 2.0 alpha - 14/06/2013**
+
+- `feature` Improved Pagination functionality
 
 **Instagram 1.6 alpha - 28/05/2012**
 
