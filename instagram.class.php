@@ -263,8 +263,8 @@ class Instagram {
    * @param string $name                  Valid tag name
    * @return mixed
    */
-  public function getTagMedia($name) {
-    return $this->_makeCall('tags/' . $name . '/media/recent');
+  public function getTagMedia($name, $limit) {
+    return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
   }
 
   /**
@@ -445,7 +445,7 @@ class Instagram {
   public function getApiSecret() {
     return $this->_apisecret;
   }
-	
+  
   /**
    * API Callback URL Setter
    * 
