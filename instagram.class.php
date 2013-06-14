@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2012
- * @version 1.7
+ * @version 1.8
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -261,9 +261,10 @@ class Instagram {
    * Get a recently tagged media
    *
    * @param string $name                  Valid tag name
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getTagMedia($name, $limit) {
+  public function getTagMedia($name, $limit = 0) {
     return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
   }
 
