@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2011-2013
- * @version 2.0 alpha
+ * @version 2.0 beta
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -286,6 +286,16 @@ class Instagram {
    */
   public function likeMedia($id) {
     return $this->_makeCall('media/' . $id . '/likes', true, null, 'POST');
+  }
+
+  /**
+   * Remove user like on a media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function deleteLikedMedia($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true, null, 'DELETE');
   }
 
   /**
