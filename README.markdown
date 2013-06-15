@@ -14,7 +14,7 @@ Feedback or bug reports are appreciated.
 ## Get started ##
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
-Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a Redirect URI.
+Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
 
@@ -101,22 +101,22 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     <th>Methods</th>
   </tr>
   <tr>
-    <td>basic</td>
+    <td><code>basic</code></td>
     <td>to use all user related methods [default]</td>
     <td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
   </tr>
   <tr>
-    <td>relationships</td>
+    <td><code>relationships</code></td>
     <td>to follow and unfollow users</td>
     <td><code>modifyRelationship()</code></td>
   </tr>
   <tr>
-    <td>likes</td>
+    <td><code>likes</code></td>
     <td>to like and unlike items</td>
-    <td>coming soon...</td>
+    <td><code>getMediaLikes()</code>, <code>likeMedia()</code>, <code>deleteLikedMedia()</code></td>
   </tr>
   <tr>
-    <td>comments</td>
+    <td><code>comments</code></td>
     <td>to create or delete comments</td>
     <td>coming soon...</td>
   </tr>
@@ -165,14 +165,18 @@ Returns access token, if you want to store it for later usage:
     - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
     - `$user` : Target user id
 
-Example usage:
-
 ```php
 <?php
     // Follow the user with the ID 1574083
     $instagram->modifyRelationship('follow', 1574083);
 ?>
 ```
+
+---
+
+Please note that the `modifyRelationship()` method requires the `relationships` [scope](#get-login-url).
+
+---
 
 > [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
 
@@ -182,8 +186,9 @@ Example usage:
 
 - `getMedia($id)`
 - `getPopularMedia()`
-- `searchMedia($lat, $lng)`
+- `searchMedia($lat, $lng, <$distance>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
+    - `$distance` Radial distance in meter (max. distance: 5km = 5000)
 
 All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
 
@@ -199,6 +204,17 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 > [Sample responses of the Tag Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources)
 
+### Likes methods ###
+
+**Authenticated user methods**
+
+- `getMediaLikes($id)`
+- `likeMedia($id)`
+- `deleteLikedMedia($id)`
+
+> How to like a Media: [Example usage](https://gist.github.com/3287237)  
+> [Sample responses of the Likes Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources)
+
 ### Further endpoints ###
 
 It's planned to extend the class with new methods.
@@ -206,7 +222,7 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Likes`, `Comments`, `Locations`, `Geographies`
+`Comments`, `Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
 
@@ -287,6 +303,7 @@ A short tutorial about how to build an Instagram login with my class has been pu
 **Instagram 2.0 alpha - 14/06/2013**
 
 - `feature` Improved Pagination functionality
+- `change` Added `distance` parameter to `searchMedia()` method (thanks @jonathanwkelly)
 
 **Instagram 1.6 alpha - 28/05/2012**
 
@@ -319,5 +336,5 @@ A short tutorial about how to build an Instagram login with my class has been pu
 
 ## Credits ##
 
-Copyright (c) 2011-2012 - Programmed by Christian Metz  
+Copyright (c) 2011-2013 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).

@@ -71,6 +71,7 @@ class Instagram {
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
+
   /**
    * Default constructor
    *
@@ -208,12 +209,13 @@ class Instagram {
   /**
    * Search media by its location
    *
-   * @param string $lat                   Latitude of the center search coordinate
-   * @param string $lng                   Longitude of the center search coordinate
+   * @param float $lat                    Latitude of the center search coordinate
+   * @param float $lng                    Longitude of the center search coordinate
+   * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
    * @return mixed
    */
-  public function searchMedia($lat, $lng) {
-    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng));
+  public function searchMedia($lat, $lng, $distance = 1000) {
+    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
   }
 
   /**
@@ -259,10 +261,31 @@ class Instagram {
    * Get a recently tagged media
    *
    * @param string $name                  Valid tag name
+   * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
-  public function getTagMedia($name) {
-    return $this->_makeCall('tags/' . $name . '/media/recent');
+  public function getTagMedia($name, $limit = 0) {
+    return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
+  }
+
+  /**
+   * Get a list of users who have liked this media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function getMediaLikes($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true);
+  }
+
+  /**
+   * Set user like on a media
+   *
+   * @param integer $id                   Instagram media id
+   * @return mixed
+   */
+  public function likeMedia($id) {
+    return $this->_makeCall('media/' . $id . '/likes', true, null, 'POST');
   }
 
   /**
@@ -347,6 +370,8 @@ class Instagram {
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
+    } else if ('DELETE' === $method) {
+       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
     
     $jsonData = curl_exec($ch);
@@ -434,7 +459,7 @@ class Instagram {
   public function getApiSecret() {
     return $this->_apisecret;
   }
-	
+  
   /**
    * API Callback URL Setter
    * 
