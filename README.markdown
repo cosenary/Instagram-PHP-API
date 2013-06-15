@@ -189,7 +189,7 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 - `getPopularMedia()`
 - `searchMedia($lat, $lng, <$distance>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
-    - `$distance` Distance in meter (max. distance: 5km = 5000) **(radial?)**
+    - `$distance` Radial distance in meter (max. distance: 5km = 5000)
 
 All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
 
@@ -227,9 +227,9 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 For all parameters in the configuration array exists a public setter and getter method.
 
-## Pagination *(alpha)* ##
+## Pagination *(beta)* ##
 
-> This feature is still in development, but you can test it on the dev branch: [Pagination documentation](https://github.com/cosenary/Instagram-PHP-API/tree/dev#pagination-alpha).
+> This feature is still in development, but you can test it on the dev branch: [Pagination documentation](https://github.com/cosenary/Instagram-PHP-API/tree/dev#pagination-beta).
 
 ## Samples for redirect URLs ##
 
@@ -323,5 +323,5 @@ A short tutorial about how to build an Instagram login with my class has been pu
 
 ## Credits ##
 
-Copyright (c) 2011-2012 - Programmed by Christian Metz  
+Copyright (c) 2011-2013 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
