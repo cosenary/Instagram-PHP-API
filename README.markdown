@@ -15,7 +15,7 @@ Feedback or bug reports are appreciated.
 ## Get started ##
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
-Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a Redirect URI.
+Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
 
@@ -175,7 +175,7 @@ Returns access token, if you want to store it for later usage:
 
 ---
 
-Please note that the `modifyRelationship()` method requires the `relationships` scope.
+Please note that the `modifyRelationship()` method requires the `relationships` [scope](#get-login-url).
 
 ---
 
