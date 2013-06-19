@@ -354,7 +354,7 @@ class Instagram {
     $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
     
     $ch = curl_init();
-	$this->genericCurlOptions($ch);
+    $this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     
@@ -381,7 +381,7 @@ class Instagram {
     $apiHost = self::API_OAUTH_TOKEN_URL;
     
     $ch = curl_init();
-	$this->genericCurlOptions($ch);
+    $this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiHost);
     curl_setopt($ch, CURLOPT_POST, count($apiData));
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
