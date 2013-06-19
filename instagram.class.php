@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * instagram exception class
+ */
+class InstagramException extends Exception {}
+
+/**
  * Instagram API class
  * API Documentation: http://instagram.com/developer/
  * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/blob/master/README.markdown
@@ -88,7 +93,7 @@ class Instagram {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
-      throw new Exception("Error: __construct() - Configuration data is missing.");
+      throw new InstagramException("Error: __construct() - Configuration data is missing.");
     }
   }
 
@@ -102,7 +107,7 @@ class Instagram {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -203,7 +208,7 @@ class Instagram {
     if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new InstagramException("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
@@ -336,7 +341,7 @@ class Instagram {
       if (true === isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
     
@@ -349,9 +354,8 @@ class Instagram {
     $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
     
     $ch = curl_init();
+	$this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiCall);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     
     if ('POST' === $method) {
@@ -377,16 +381,25 @@ class Instagram {
     $apiHost = self::API_OAUTH_TOKEN_URL;
     
     $ch = curl_init();
+	$this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiHost);
     curl_setopt($ch, CURLOPT_POST, count($apiData));
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
     $jsonData = curl_exec($ch);
     curl_close($ch);
     
     return json_decode($jsonData);
+  }
+
+  /**
+   * set generic curl options
+   *
+   * @param curl resource $ch
+   */
+  private function genericCurlOptions(&$ch) {
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   }
 
   /**
