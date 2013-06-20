@@ -318,7 +318,7 @@ class Instagram {
       'redirect_uri'    => $this->getApiCallback(),
       'code'            => $code
     );
-    
+
     $result = $this->_makeOAuthCall($apiData);
     return (false === $token) ? $result : $result->access_token;
   }
@@ -344,30 +344,30 @@ class Instagram {
         throw new InstagramException("This method requires an authenticated users access token.");
       }
     }
-    
+
     if (isset($params) && is_array($params)) {
       $paramString = '&' . http_build_query($params);
     } else {
       $paramString = null;
     }
-    
+
     $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
-    
+
     $ch = curl_init();
     $this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    
+
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
     } else if ('DELETE' === $method) {
-       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
-    
+
     $jsonData = curl_exec($ch);
     curl_close($ch);
-    
+
     return json_decode($jsonData);
   }
 
@@ -379,16 +379,16 @@ class Instagram {
    */
   private function _makeOAuthCall($apiData) {
     $apiHost = self::API_OAUTH_TOKEN_URL;
-    
+
     $ch = curl_init();
     $this->genericCurlOptions($ch);
     curl_setopt($ch, CURLOPT_URL, $apiHost);
     curl_setopt($ch, CURLOPT_POST, count($apiData));
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
-    
+
     $jsonData = curl_exec($ch);
     curl_close($ch);
-    
+
     return json_decode($jsonData);
   }
 
@@ -459,7 +459,7 @@ class Instagram {
   public function getApiSecret() {
     return $this->_apisecret;
   }
-  
+
   /**
    * API Callback URL Setter
    * 
