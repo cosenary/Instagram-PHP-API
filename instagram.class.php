@@ -93,7 +93,7 @@ class Instagram {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
-      throw new InstagramException("Error: __construct() - Configuration data is missing.");
+      throw new InstagramException("Configuration data is missing.");
     }
   }
 
@@ -107,7 +107,7 @@ class Instagram {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new InstagramException("The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -208,7 +208,7 @@ class Instagram {
     if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new InstagramException("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new InstagramException("This method requires an action command and the target user id.");
   }
 
   /**
@@ -341,7 +341,7 @@ class Instagram {
       if (true === isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new InstagramException("This method requires an authenticated users access token.");
       }
     }
     
