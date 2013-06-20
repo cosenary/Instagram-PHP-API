@@ -28,7 +28,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     $instagram = new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
-      'apiCallback' => 'YOUR_APP_CALLBACK'
+      'apiCallback' => 'YOUR_APP_CALLBACK' // [optional]
     ));
     
     echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
@@ -77,7 +77,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
-      'apiCallback' => 'YOUR_APP_CALLBACK'
+      'apiCallback' => 'YOUR_APP_CALLBACK' // [optional]
     ));
 
 `string` if you *only* want to access public data:
@@ -89,8 +89,11 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 `getLoginUrl(<array>)`
 
     getLoginUrl(array(
-      'basic',
-      'likes'
+        'apiCallback' => 'YOUR_APP_CALLBACK',
+        'scope' => array(
+            'basic',
+            'likes'
+        )
     ));
 
 **Optional scope parameters:**

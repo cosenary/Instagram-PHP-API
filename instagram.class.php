@@ -81,14 +81,18 @@ class Instagram {
    * Default constructor
    *
    * @param array|string $config          Instagram configuration data
-   * @return void
+   *
+   * @return Instagram
    */
   public function __construct($config) {
     if (true === is_array($config)) {
       // if you want to access user data
       $this->setApiKey($config['apiKey']);
       $this->setApiSecret($config['apiSecret']);
-      $this->setApiCallback($config['apiCallback']);
+
+      if (isset($config['apiCallback'])) {
+        $this->setApiCallback($config['apiCallback']);
+      }
     } else if (true === is_string($config)) {
       // if you only want to access public data
       $this->setApiKey($config);
@@ -100,12 +104,27 @@ class Instagram {
   /**
    * Generates the OAuth login URL
    *
-   * @param array [optional] $scope       Requesting additional permissions
+   * @param array [optional] $options       additional options for loginUrl
+   *            scope: array('basic', ..)   Requesting additional permissions
+   *            apiCallback: string         Callback Uri so you can set this on the fly as needed
+   *
+   * @throw InstagramException if apiCallback isn't set
+   *
    * @return string                       Instagram OAuth login URL
    */
-  public function getLoginUrl($scope = array('basic')) {
+  public function getLoginUrl(array $options = array()) {
+    $scope = isset($options['scope']) && is_array($options['scope']) ?
+      $options['scope'] : array('basic');
+
+    $apiCallback = isset($options['apiCallback']) && is_string($options['apiCallback']) ?
+      $this->setApiCallback($options['apiCallback']) : $this->getApiCallback();
+
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
-      return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . $this->getApiCallback() . '&scope=' . implode('+', $scope) . '&response_type=code';
+      return self::API_OAUTH_URL .'?'. http_build_query(array(
+        'client_id' => $this->getApiKey(),
+        'redirect_uri' => $apiCallback,
+        'scope' => implode(' ', $scope),
+        'response_type' => 'code'));
     } else {
       throw new InstagramException("The parameter isn't an array or invalid scope permissions used.");
     }
@@ -116,6 +135,7 @@ class Instagram {
    *
    * @param string $name                  Instagram username
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function searchUser($name, $limit = 0) {
@@ -126,6 +146,7 @@ class Instagram {
    * Get user info
    *
    * @param integer [optional] $id        Instagram user id
+   *
    * @return mixed
    */
   public function getUser($id = 0) {
@@ -138,6 +159,7 @@ class Instagram {
    * Get user activity feed
    *
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getUserFeed($limit = 0) {
@@ -149,6 +171,7 @@ class Instagram {
    *
    * @param integer [optional] $id        Instagram user id
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0) {
@@ -159,6 +182,7 @@ class Instagram {
    * Get the liked photos of a user
    *
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getUserLikes($limit = 0) {
@@ -170,6 +194,7 @@ class Instagram {
    *
    * @param integer [optional] $id        Instagram user id
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getUserFollows($id = 'self', $limit = 0) {
@@ -181,6 +206,7 @@ class Instagram {
    *
    * @param integer [optional] $id        Instagram user id
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getUserFollower($id = 'self', $limit = 0) {
@@ -191,6 +217,7 @@ class Instagram {
    * Get information about a relationship to another user
    *
    * @param integer $id                   Instagram user id
+   *
    * @return mixed
    */
   public function getUserRelationship($id) {
@@ -202,6 +229,7 @@ class Instagram {
    *
    * @param string $action                Action command (follow/unfollow/block/unblock/approve/deny)
    * @param integer $user                 Target user id
+   *
    * @return mixed
    */
   public function modifyRelationship($action, $user) {
@@ -217,6 +245,7 @@ class Instagram {
    * @param float $lat                    Latitude of the center search coordinate
    * @param float $lng                    Longitude of the center search coordinate
    * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
+   *
    * @return mixed
    */
   public function searchMedia($lat, $lng, $distance = 1000) {
@@ -227,6 +256,7 @@ class Instagram {
    * Get media by its id
    *
    * @param integer $id                   Instagram media id
+   *
    * @return mixed
    */
   public function getMedia($id) {
@@ -246,6 +276,7 @@ class Instagram {
    * Search for tags by name
    *
    * @param string $name                  Valid tag name
+   *
    * @return mixed
    */
   public function searchTags($name) {
@@ -256,6 +287,7 @@ class Instagram {
    * Get info about a tag
    *
    * @param string $name                  Valid tag name
+   *
    * @return mixed
    */
   public function getTag($name) {
@@ -267,6 +299,7 @@ class Instagram {
    *
    * @param string $name                  Valid tag name
    * @param integer [optional] $limit     Limit of returned results
+   *
    * @return mixed
    */
   public function getTagMedia($name, $limit = 0) {
@@ -277,6 +310,7 @@ class Instagram {
    * Get a list of users who have liked this media
    *
    * @param integer $id                   Instagram media id
+   *
    * @return mixed
    */
   public function getMediaLikes($id) {
@@ -287,6 +321,7 @@ class Instagram {
    * Set user like on a media
    *
    * @param integer $id                   Instagram media id
+   *
    * @return mixed
    */
   public function likeMedia($id) {
@@ -297,6 +332,7 @@ class Instagram {
    * Remove user like on a media
    *
    * @param integer $id                   Instagram media id
+   *
    * @return mixed
    */
   public function deleteLikedMedia($id) {
@@ -308,6 +344,7 @@ class Instagram {
    *
    * @param string $code                  OAuth2 code variable (after a successful login)
    * @param boolean [optional] $token     If it's true, only the access token will be returned
+   *
    * @return mixed
    */
   public function getOAuthToken($code, $token = false) {
@@ -320,7 +357,7 @@ class Instagram {
     );
 
     $result = $this->_makeOAuthCall($apiData);
-    return (false === $token) ? $result : $result->access_token;
+    return (false === $token || !isset($result->access_token)) ? $result : $result->access_token;
   }
 
   /**
@@ -330,6 +367,7 @@ class Instagram {
    * @param array [optional] $params      Additional request parameters
    * @param boolean [optional] $auth      Whether the function requires an access token
    * @param string [optional] $method     Request type GET|POST
+   *
    * @return mixed
    */
   private function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
@@ -375,6 +413,7 @@ class Instagram {
    * The OAuth call operator
    *
    * @param array $apiData                The post API data
+   *
    * @return mixed
    */
   private function _makeOAuthCall($apiData) {
@@ -406,11 +445,12 @@ class Instagram {
    * Access Token Setter
    * 
    * @param object|string $data
-   * @return void
+   *
+   * @return return
    */
   public function setAccessToken($data) {
     (true === is_object($data)) ? $token = $data->access_token : $token = $data;
-    $this->_accesstoken = $token;
+    return $this->_accesstoken = $token;
   }
 
   /**
@@ -426,10 +466,11 @@ class Instagram {
    * API-key Setter
    * 
    * @param string $apiKey
-   * @return void
+   *
+   * @return string
    */
   public function setApiKey($apiKey) {
-    $this->_apikey = $apiKey;
+    return $this->_apikey = $apiKey;
   }
 
   /**
@@ -445,10 +486,11 @@ class Instagram {
    * API Secret Setter
    * 
    * @param string $apiSecret 
-   * @return void
+   *
+   * @return string
    */
   public function setApiSecret($apiSecret) {
-    $this->_apisecret = $apiSecret;
+    return $this->_apisecret = $apiSecret;
   }
 
   /**
@@ -464,18 +506,24 @@ class Instagram {
    * API Callback URL Setter
    * 
    * @param string $apiCallback
-   * @return void
+   *
+   * @return string
    */
   public function setApiCallback($apiCallback) {
-    $this->_callbackurl = $apiCallback;
+    return $this->_callbackurl = $apiCallback;
   }
 
   /**
    * API Callback URL Getter
+   *
+   * @throw InstagramException if callback Uri isn't set
    * 
    * @return string
    */
   public function getApiCallback() {
+    if (!$this->_callbackurl) {
+      throw new InstagramException('Callback URI not set yet');
+    }
     return $this->_callbackurl;
   }
 
