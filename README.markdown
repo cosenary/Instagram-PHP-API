@@ -3,7 +3,6 @@
 ## About ##
 
 A PHP wrapper for the Instagram API.  
-This is my first PHP class, so please bear with me.  
 Feedback or bug reports are appreciated.
 
 ## Requirements ##
