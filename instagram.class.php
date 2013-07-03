@@ -318,6 +318,17 @@ class Instagram {
   }
 
   /**
+   * Get a list of comments for this media
+   *
+   * @param integer $id                   Instagram media id
+   *
+   * @return mixed
+   */
+  public function getMediaComments($id) {
+    return $this->_makeCall('media/' . $id . '/comments', true);
+  }
+
+  /**
    * Set user like on a media
    *
    * @param integer $id                   Instagram media id
