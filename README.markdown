@@ -1,24 +1,26 @@
-# Instagram PHP API #
+# Instagram PHP API
 
-## About ##
+## About
 
 A PHP wrapper for the Instagram API.  
 Feedback or bug reports are appreciated.
 
-## Requirements ##
+> Supports also [Instagram video](#instagram-videos) responses.
+
+## Requirements
 
 - PHP 5.2.x or higher
 - cURL
 - Registered Instagram App
 
-## Get started ##
+## Get started
 
 [Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
 Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
 
-### Initialize the class ###
+### Initialize the class
 
 ```php
 <?php
@@ -34,7 +36,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 ?>
 ```
 
-### Authenticate user (OAuth2) ###
+### Authenticate user (OAuth2)
 
 ```php
 <?php
@@ -46,7 +48,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 ?>
 ```
 
-### Get user likes ###
+### Get user likes
 
 ```php
 <?php
@@ -65,32 +67,38 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 **All methods return the API data `json_decode()` - so you can directly access the data.**
 
-## Available methods ##
+## Available methods
 
-### Setup Instagram ###
+### Setup Instagram
 
 `new Instagram(<array>/<string>);`
 
 `array` if you want to authenticate a user and access its data:
 
-    new Instagram(array(
-      'apiKey'      => 'YOUR_APP_KEY',
-      'apiSecret'   => 'YOUR_APP_SECRET',
-      'apiCallback' => 'YOUR_APP_CALLBACK'
-    ));
+```php
+new Instagram(array(
+  'apiKey'      => 'YOUR_APP_KEY',
+  'apiSecret'   => 'YOUR_APP_SECRET',
+  'apiCallback' => 'YOUR_APP_CALLBACK'
+));
+```
 
 `string` if you *only* want to access public data:
 
-    new Instagram('YOUR_APP_KEY');
+```php
+new Instagram('YOUR_APP_KEY');
+```
 
-### Get login URL ###
+### Get login URL
 
 `getLoginUrl(<array>)`
 
-    getLoginUrl(array(
-      'basic',
-      'likes'
-    ));
+```php
+getLoginUrl(array(
+  'basic',
+  'likes'
+));
+```
 
 **Optional scope parameters:**
 
@@ -122,14 +130,14 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
   </tr>
 </table>
 
-### Get OAuth token ###
+### Get OAuth token
 
 `getOAuthToken($code, <true>/<false>)`
 
 `true` : Returns only the OAuth token  
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
-### Set / Get access token ###
+### Set / Get access token
 
 Stores access token, for further method calls:  
 `setAccessToken($token)`
@@ -137,7 +145,7 @@ Stores access token, for further method calls:
 Returns access token, if you want to store it for later usage:  
 `getAccessToken()`
 
-### User methods ###
+### User methods
 
 **Public methods**
 
@@ -154,7 +162,7 @@ Returns access token, if you want to store it for later usage:
 
 > [Sample responses of the User Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources)
 
-### Relationship methods ###
+### Relationship methods
 
 **Authenticated user methods**
 
@@ -180,7 +188,7 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 
 > [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
 
-### Media methods ###
+### Media methods
 
 **Public methods**
 
@@ -194,7 +202,7 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 > [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
 
-### Tag methods ###
+### Tag methods
 
 **Public methods**
 
@@ -204,7 +212,7 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 
 > [Sample responses of the Tag Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources)
 
-### Likes methods ###
+### Likes methods
 
 **Authenticated user methods**
 
@@ -215,7 +223,7 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 > How to like a Media: [Example usage](https://gist.github.com/3287237)  
 > [Sample responses of the Likes Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources)
 
-### Further endpoints ###
+### Further endpoints
 
 It's planned to extend the class with new methods.
 Let me know, if you think, that one of the missing endpoints has priority.
@@ -226,9 +234,17 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 For all parameters in the configuration array exists a public setter and getter method.
 
-## Pagination *(beta)* ##
+## Instagram videos
 
-Each endpoint has a maximum range of results, so increasing the "limit" parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
+`isVideo()` indicated by the `type` value.
+
+```json
+
+```
+
+## Pagination
+
+Each endpoint has a maximum range of results, so increasing the `limit` parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
 
 That's the point where the "pagination" feature comes into play.  
 Simply pass an object into the `pagination()` method and receive your next dataset:
@@ -241,9 +257,9 @@ Simply pass an object into the `pagination()` method and receive your next datas
 ?>
 ```
 
-> This is a first implementation. Your feedback is always welcome.
+> AJAX implementation: 'Load more' button
 
-## Samples for redirect URLs ##
+## Samples for redirect URLs
 
 <table>
   <tr>
@@ -288,17 +304,17 @@ Simply pass an object into the `pagination()` method and receive your next datas
   </tr>
 </table>
 
-> If you need additional informations, take a look at [Instagrams API docs](http://instagram.com/developer/authentication/).
+> If you need further information about an endpoint, take a look at the [Instagram API docs](http://instagram.com/developer/authentication/).
 
-## Example App ##
+## Example App
 
-The small App, which is located in the `example/` folder, helps you to get started with the class.  
-Its whole code is documented and will take you through all steps of the OAuth2 process.  
+To get started with the class, take a look at the example App, located in the `example/` folder.  
+Its code is well documented and will take you through all required steps, of the OAuth2 process.  
 The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
 
-A short tutorial about how to build an Instagram login with my class has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
+A short tutorial, about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
-## History ##
+## History
 
 **Instagram 2.0 alpha - 14/06/2013**
 
@@ -334,7 +350,7 @@ A short tutorial about how to build an Instagram login with my class has been pu
 - `release` Beta version
 - `update` Small documentation
 
-## Credits ##
+## Credits
 
 Copyright (c) 2011-2013 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
