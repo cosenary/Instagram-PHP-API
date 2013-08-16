@@ -384,6 +384,11 @@ class Instagram {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
     $jsonData = curl_exec($ch);
+	
+	if ( false === $jsonData ) {
+			echo 'Curl error: ' . curl_error( $ch );
+		}
+		
     curl_close($ch);
     
     return json_decode($jsonData);
