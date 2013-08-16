@@ -3,7 +3,7 @@
 /**
  * Instagram API class
  * API Documentation: http://instagram.com/developer/
- * Class Documentation: https://github.com/cosenary/Instagram-PHP-API
+ * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/tree/dev
  * 
  * @author Christian Metz
  * @since 30.10.2011
@@ -385,6 +385,9 @@ class Instagram {
     }
     
     $jsonData = curl_exec($ch);
+    if (false === $jsonData) {
+      throw new Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
+    }
     curl_close($ch);
     
     return json_decode($jsonData);
@@ -407,6 +410,9 @@ class Instagram {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
     $jsonData = curl_exec($ch);
+    if (false === $jsonData) {
+      throw new Exception("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
+    }
     curl_close($ch);
     
     return json_decode($jsonData);
