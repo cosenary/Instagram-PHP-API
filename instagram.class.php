@@ -358,7 +358,7 @@ class Instagram {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
     } else if ('DELETE' === $method) {
-       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
     
     $jsonData = curl_exec($ch);
@@ -384,11 +384,11 @@ class Instagram {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
     $jsonData = curl_exec($ch);
-	
-	if ( false === $jsonData ) {
-			echo 'Curl error: ' . curl_error( $ch );
-		}
-		
+    
+    if (false === $jsonData) {
+      echo 'Curl error: ' . curl_error($ch);
+    }
+    
     curl_close($ch);
     
     return json_decode($jsonData);
