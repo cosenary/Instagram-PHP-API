@@ -6,7 +6,7 @@ require 'instagram.class.php';
 $instagram = new Instagram('YOUR_APP_KEY');
 
 // Get popular media
-$popular = $instagram->getPopularMedia();
+$popular = json_decode($instagram->getPopularMedia());
 
 // Display results
 foreach ($popular->data as $data) {

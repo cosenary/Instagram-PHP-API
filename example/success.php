@@ -24,7 +24,7 @@ if (true === isset($code)) {
 
   // Now you can call all authenticated user methods
   // Get all user likes
-  $likes = $instagram->getUserLikes();
+  $likes = json_decode($instagram->getUserLikes());
 
   // Display all user likes
   foreach ($likes->data as $entry) {
