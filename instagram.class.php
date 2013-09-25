@@ -362,9 +362,12 @@ class Instagram {
     }
     
     $jsonData = curl_exec($ch);
-    curl_close($ch);
+	
+    if ( false === $jsonData ) {
+			echo 'Curl error: ' . curl_error( $ch );
+	}
     
-    return json_decode($jsonData);
+    return $jsonData;
   }
 
   /**
@@ -387,11 +390,11 @@ class Instagram {
 	
 	if ( false === $jsonData ) {
 			echo 'Curl error: ' . curl_error( $ch );
-		}
+	}
 		
     curl_close($ch);
     
-    return json_decode($jsonData);
+    return $jsonData;
   }
 
   /**
