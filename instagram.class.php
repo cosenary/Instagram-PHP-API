@@ -301,10 +301,11 @@ class Instagram {
   /**
    * Pagination feature
    * 
-   * @param object $obj                   Instagram object returned by a method
+   * @param object  $obj                  Instagram object returned by a method
+   * @param integer $limit                Limit of returned results
    * @return mixed
    */
-  public function pagination($obj) {
+  public function pagination($obj, $limit = 0) {
     if (true === is_object($obj) && !is_null($obj->pagination)) {
       if (!isset($obj->pagination->next_url)) {
         return;
@@ -315,7 +316,7 @@ class Instagram {
       }
       $function = str_replace(self::API_URL, '', $apiCall[0]);
       $auth = (strpos($apiCall[1], 'access_token') !== false);
-      return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id));
+      return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
     } else {
       throw new Exception("Error: pagination() | This method doesn't support pagination.");
     }
