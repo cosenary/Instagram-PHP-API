@@ -239,7 +239,7 @@ For all parameters in the configuration array exists a public setter and getter 
 `isVideo()` indicated by the `type` value.
 
 ```json
-
+coming with version 2.0 beta 3
 ```
 
 ## Pagination
@@ -317,19 +317,17 @@ A short tutorial, about how to build an Instagram login with my class, has been 
 ## History ##
 
 > Version 2.0 is in development.  
-> Get a sneak peek at the [dev branch](https://github.com/cosenary/Instagram-PHP-API/tree/dev).
+> Your feedback is always welcome!
 
-**Instagram 1.9 - 04/09/2013**
+**Instagram 2.0 alpha 2 - 04/09/2013**
 
-- `bug` / `change` cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)
+- `merge` Merged master branch updates
+    - `update` Updated documentation
+    - `bug` / `change` cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)
+    - `feature` Added cURL error message
+    - `feature` Added `limit` to `getTagMedia()` method
 
-**Instagram 1.8 - 14/06/2013 16/08/2013**
-
-- `update` Updated documentation
-- `feature` Added cURL error message
-- `feature` Added `limit` to `getTagMedia()` method
-
-**Instagram 2.0 alpha - 14/06/2013**
+**Instagram 2.0 alpha 1 - 14/06/2013**
 
 - `feature` Improved Pagination functionality
 - `change` Added `distance` parameter to `searchMedia()` method (thanks @jonathanwkelly)
