@@ -374,14 +374,15 @@ class Instagram {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
     } else if ('DELETE' === $method) {
-       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
     
     $jsonData = curl_exec($ch);
@@ -407,7 +408,8 @@ class Instagram {
     curl_setopt($ch, CURLOPT_POST, count($apiData));
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
     $jsonData = curl_exec($ch);
     if (false === $jsonData) {

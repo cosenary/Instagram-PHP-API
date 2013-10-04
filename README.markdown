@@ -314,7 +314,20 @@ The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.c
 
 A short tutorial, about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
 
-## History
+## History ##
+
+> Version 2.0 is in development.  
+> Get a sneak peek at the [dev branch](https://github.com/cosenary/Instagram-PHP-API/tree/dev).
+
+**Instagram 1.9 - 04/09/2013**
+
+- `bug` / `change` cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)
+
+**Instagram 1.8 - 14/06/2013 16/08/2013**
+
+- `update` Updated documentation
+- `feature` Added cURL error message
+- `feature` Added `limit` to `getTagMedia()` method
 
 **Instagram 2.0 alpha - 14/06/2013**
 
