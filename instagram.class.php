@@ -149,7 +149,7 @@ class Instagram {
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0, $params = array()) {
-    return $this->_makeCall('users/' . $id . '/media/recently', true, array_merge(array('count' => $limit), $params));
+    return $this->_makeCall('users/' . $id . '/media/recent', true, array_merge(array('count' => $limit), $params));
   }
 
   /**
