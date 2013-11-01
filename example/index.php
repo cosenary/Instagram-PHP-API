@@ -1,51 +1,53 @@
+<?php
+
+require 'instagram.class.php';
+
+// initialize class
+$instagram = new Instagram(array(
+  'apiKey'      => 'YOUR_APP_KEY',
+  'apiSecret'   => 'YOUR_APP_SECRET',
+  'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php
+));
+
+// create login URL
+$loginUrl = $instagram->getLoginUrl();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Charset -->
     <meta charset="utf-8">
-
-    <!-- Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram - OAuth Login</title>
-
-    <!-- CSS -->
-    <style type="text/css">
-      * {
-        margin: 0px;
-        padding: 0px;
-      }
-
-      a.button {
-        background: url(instagram-login-button.png) no-repeat transparent;
-        cursor: pointer;
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <style>
+      .login {
         display: block;
-        height: 29px;
-        margin: 50px auto;
-        overflow: hidden;
-        text-indent: -9999px;
-        width: 200px;
-      }
-
-      a.button:hover {
-        background-position: 0 -29px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 50px;
       }
     </style>
   </head>
   <body>
-
-    <?php
-      require 'instagram.class.php';
-      
-      // Setup class
-      $instagram = new Instagram(array(
-        'apiKey'      => 'YOUR_APP_KEY',
-        'apiSecret'   => 'YOUR_APP_SECRET',
-        'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php
-      ));
-      
-      // Display the login button
-      $loginUrl = $instagram->getLoginUrl();
-      echo "<a class=\"button\" href=\"$loginUrl\">Sign in with Instagram</a>";
-    ?>
-
+    <div class="container">
+      <header class="clearfix">
+        <h1>Instagram <span>display your photo stream</span></h1>
+      </header>
+      <div class="main">
+        <ul class="grid">
+          <li><img src="assets/instagram-big.png" alt="Instagram logo"></li>
+          <li>
+            <a class="login" href="<? echo $loginUrl ?>">» Login with Instagram</a>
+            <h>Use your Instagram account to login.</h4>
+          </li>
+        </ul>
+        <!-- GitHub project -->
+        <footer>
+          <p>created by <a href="https://github.com/cosenary/Instagram-PHP-API">cosenary's Instagram class</a>, available on GitHub</p>
+        </footer>
+      </div>
+    </div>
   </body>
 </html>

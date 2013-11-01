@@ -1,0 +1,158 @@
+/**
+ * Instagram PHP API
+ * basic styling for demo pages
+ * 
+ * @link https://github.com/cosenary/Instagram-PHP-API
+ * @author Christian Metz
+ * @since 01.10.2013
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+html {
+  height: 100%;
+}
+
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+body {
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+  background: #f9f9f9;
+  font-weight: 300;
+  font-size: 15px;
+  color: #333;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+a {
+  color: #555;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+}
+
+.container > header {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 30px 50px 30px;
+}
+
+.container > header {
+  padding: 60px 30px 50px;
+  text-align: center;
+}
+
+.container > header h1 {
+  font-size: 34px;
+  line-height: 38px;
+  margin: 0 auto;
+  font-weight: 700;
+  color: #333;
+}
+
+.container > header h1 span {
+  display: block;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.main > footer {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.main > footer p {
+  display: block;
+  padding: 10px;
+}
+
+.grid {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
+.grid li {
+  display: inline-block;
+  margin: 10px 5px 0 5px;
+  vertical-align: top;
+  height: 250px;
+  border-radius: 3px;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 250px;
+  z-index: 1;
+}
+
+.content {
+  padding: 100px 8px 8px;
+  position: absolute;
+  background: #edeff0;
+  width: 250px;
+  height: 250px;
+  z-index: 0;
+}
+
+.comment {
+  margin-top: 12px;
+  color: #b7c0c7;
+  font-size: 14px;
+  max-height: 88px;
+  overflow: hidden;
+}
+
+.content > p {
+  display: inline-block;
+  color: #9BA6B0;
+  font-weight: 500;
+}
+
+.content > .avatar {
+  background-size: 40px auto;
+  border-radius: 50%;
+  display: inline-block;
+  height: 40px;
+  margin-right: 8px;
+  vertical-align: middle;
+  width: 40px;
+}

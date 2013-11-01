@@ -1,46 +1,9 @@
 <?php
 
-/**
- * Instagram PHP API
- * 
- * @link https://github.com/cosenary/Instagram-PHP-API
- * @author Christian Metz
- * @since 01.10.2013
- */
-
 require_once 'instagram.class.php';
 
-// initialize class
-$instagram = new Instagram(array(
-  'apiKey'      => 'YOUR_APP_KEY',
-  'apiSecret'   => 'YOUR_APP_SECRET',
-  'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php
-));
-
-// receive OAuth code parameter
-$code = $_GET['code'];
-
-// check whether the user has granted access
-if (isset($code)) {
-
-  // receive OAuth token object
-  $data = $instagram->getOAuthToken($code);
-  $username = $username = $data->user->username;
-  
-  // store user access token
-  $instagram->setAccessToken($data);
-
-  // now you have access to all authenticated user methods
-  $media = $instagram->getUserMedia();
-
-} else {
-
-  // check whether an error occurred
-  if (isset($_GET['error'])) {
-    echo 'An error occurred: ' . $_GET['error_description'];
-  }
-
-}
+$instagram = new Instagram('YOUR_APP_KEY');
+$pics = $instagram->getPopularMedia();
 
 ?>
 
@@ -49,20 +12,19 @@ if (isset($code)) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram - photo stream</title>
+    <title>Instagram - popular photos</title>
     <link rel="stylesheet" type="text/css" href="assets/style.css">
   </head>
   <body>
     <div class="container">
       <header class="clearfix">
         <img src="assets/instagram.png" alt="Instagram logo">
-        <h1>Instagram photos <span>taken by <? echo $data->user->username ?></span></h1>
+        <h1>Instagram <span>popular photos</span></h1>
       </header>
       <div class="main">
         <ul class="grid">
         <?php
-          // display all user likes
-          foreach ($media->data as $pic) {
+          foreach ($pics->data as $pic) {
             echo "<li>
                     <img class=\"image\" src=\"{$pic->images->low_resolution->url}\"/>
                       <div class=\"content\">

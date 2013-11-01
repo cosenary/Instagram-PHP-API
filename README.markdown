@@ -343,8 +343,8 @@ A short tutorial, about how to build an Instagram login with my class, has been 
 **Instagram 2.0 alpha 3 - 01/11/2013**
 
 - `feature` Comment endpoint implemented
+- `feature` New example with a fancy GUI
 - `update` Improved documentation
-- `draft` New example with a fancy GUI
 
 **Instagram 2.0 alpha 2 - 04/09/2013**
 
