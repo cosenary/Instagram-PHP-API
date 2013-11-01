@@ -329,13 +329,19 @@ Iteration with `do-while` loop.
 
 ## Example App
 
-To get started with the class, take a look at the example App, located in the `example/` folder.  
-Its code is well documented and will take you through all required steps, of the OAuth2 process.  
-The great Instagram Sign In button is designed by [Murat Mutlu](http://twitter.com/mutlu82/).
+The example project, located in the `example/` folder, helps you to get started.  
+Its code is well documented and takes you through all required steps of the OAuth2 process.  
 
-A short tutorial, about how to build an Instagram login with my class, has been published at [9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html).
+#### More examples, tutorials:
 
-## History ##
+- [User likes](https://gist.github.com/cosenary/3287237)
+- [Load more button](https://gist.github.com/cosenary/2975779)
+- [User most recent media](https://gist.github.com/cosenary/1711218)
+- [Instagram login by 9lessons](http://www.9lessons.info/2012/05/login-with-instagram-php.html)
+
+> Let me know if you have to share a code example, too.
+
+## History
 
 > Version 2.0 is in development.  
 > Your feedback is always welcome!
