@@ -11,7 +11,6 @@
  * @version 2.0 beta
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
-
 class Instagram {
 
   /**
@@ -120,7 +119,7 @@ class Instagram {
   /**
    * Get user info
    *
-   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $id        Instagram user ID
    * @return mixed
    */
   public function getUser($id = 0) {
@@ -142,7 +141,7 @@ class Instagram {
   /**
    * Get user recent media
    *
-   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $id        Instagram user ID
    * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
@@ -163,7 +162,7 @@ class Instagram {
   /**
    * Get the list of users this user follows
    *
-   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $id        Instagram user ID
    * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
@@ -174,7 +173,7 @@ class Instagram {
   /**
    * Get the list of users this user is followed by
    *
-   * @param integer [optional] $id        Instagram user id
+   * @param integer [optional] $id        Instagram user ID
    * @param integer [optional] $limit     Limit of returned results
    * @return mixed
    */
@@ -185,7 +184,7 @@ class Instagram {
   /**
    * Get information about a relationship to another user
    *
-   * @param integer $id                   Instagram user id
+   * @param integer $id                   Instagram user ID
    * @return mixed
    */
   public function getUserRelationship($id) {
@@ -196,7 +195,7 @@ class Instagram {
    * Modify the relationship between the current user and the target user
    *
    * @param string $action                Action command (follow/unfollow/block/unblock/approve/deny)
-   * @param integer $user                 Target user id
+   * @param integer $user                 Target user ID
    * @return mixed
    */
   public function modifyRelationship($action, $user) {
@@ -221,7 +220,7 @@ class Instagram {
   /**
    * Get media by its id
    *
-   * @param integer $id                   Instagram media id
+   * @param integer $id                   Instagram media ID
    * @return mixed
    */
   public function getMedia($id) {
@@ -271,7 +270,7 @@ class Instagram {
   /**
    * Get a list of users who have liked this media
    *
-   * @param integer $id                   Instagram media id
+   * @param integer $id                   Instagram media ID
    * @return mixed
    */
   public function getMediaLikes($id) {
@@ -279,9 +278,42 @@ class Instagram {
   }
 
   /**
+   * Get a list of comments for this media
+   * 
+   * @param integer $id                   Instagram media ID
+   * @return mixed
+   */
+  public function getMediaComments($id) {
+    return $this->_makeCall('media/' . $id . '/comments', false);
+  }
+
+  /**
+   * Add a comment on a media
+   * 
+   * @param integer $id                   Instagram media ID
+   * @param string $text                  Comment content
+   * @return mixed
+   */
+  public function addMediaComment($id, $text) {
+    return $this->_makeCall('media/' . $id . '/comments', true, array('text' => $text), 'POST');
+  }
+
+  /**
+   * Remove user comment on a media
+   * 
+   * @param integer $id                   Instagram media ID
+   * @param string $commentID             User comment ID
+   * @return mixed
+   */
+  public function deleteMediaComment($id, $commentID) {
+    return $this->_makeCall('media/' . $id . '/comments/' . $commentID, true, null, 'DELETE');
+  }
+
+
+  /**
    * Set user like on a media
    *
-   * @param integer $id                   Instagram media id
+   * @param integer $id                   Instagram media ID
    * @return mixed
    */
   public function likeMedia($id) {
@@ -291,7 +323,7 @@ class Instagram {
   /**
    * Remove user like on a media
    *
-   * @param integer $id                   Instagram media id
+   * @param integer $id                   Instagram media ID
    * @return mixed
    */
   public function deleteLikedMedia($id) {

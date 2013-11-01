@@ -5,7 +5,7 @@
 A PHP wrapper for the Instagram API.  
 Feedback or bug reports are appreciated.
 
-> Supports also [Instagram video](#instagram-videos) responses.
+> Supports [Instagram video](#instagram-videos) responses.
 
 ## Requirements
 
@@ -126,7 +126,7 @@ getLoginUrl(array(
   <tr>
     <td><code>comments</code></td>
     <td>to create or delete comments</td>
-    <td>coming soon...</td>
+    <td><code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code></td>
   </tr>
 </table>
 
@@ -152,7 +152,7 @@ Returns access token, if you want to store it for later usage:
 - `getUser($id)`
 - `searchUser($name, <$limit>)`
 
-**Authenticated user methods**
+**Authenticated methods**
 
 - `getUser()`
 - `getUserLikes(<$limit>)`
@@ -160,11 +160,11 @@ Returns access token, if you want to store it for later usage:
 - `getUserMedia(<$id>, <$limit>)`
     - if an `$id` isn't defined, it returns the media of the logged in user
 
-> [Sample responses of the User Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources)
+> [Sample responses of the User Endpoints.](http://instagram.com/developer/endpoints/users/)
 
 ### Relationship methods
 
-**Authenticated user methods**
+**Authenticated methods**
 
 - `getUserFollows(<$id>, <$limit>)`
 - `getUserFollower(<$id>, <$limit>)`
@@ -186,7 +186,7 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 
 ---
 
-> [Sample responses of the Relationship Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources)
+> [Sample responses of the Relationship Endpoints.](http://instagram.com/developer/endpoints/relationships/)
 
 ### Media methods
 
@@ -200,7 +200,28 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 
 All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
 
-> [Sample responses of the Media Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources)
+> [Sample responses of the Media Endpoints.](http://instagram.com/developer/endpoints/media/)
+
+### Comment methods
+
+**Public methods**
+
+- `getMediaComments($id)`
+
+**Authenticated methods**
+
+- `addMediaComment($id, $text)`
+    - **restricted access:** please email `apidevelopers[at]instagram.com` for access
+- `deleteMediaComment($id, $commentID)`
+    - the comment must be authored by the authenticated user
+
+---
+
+Please note that the authenticated methods require the `comments` [scope](#get-login-url).
+
+---
+
+> [Sample responses of the Comment Endpoints.](http://instagram.com/developer/endpoints/comments/)
 
 ### Tag methods
 
@@ -210,18 +231,18 @@ All `<$limit>` parameters are optional. If the limit is undefined, all available
 - `getTagMedia($name)`
 - `searchTags($name)`
 
-> [Sample responses of the Tag Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources)
+> [Sample responses of the Tag Endpoints.](http://instagram.com/developer/endpoints/tags/)
 
 ### Likes methods
 
-**Authenticated user methods**
+**Authenticated methods**
 
 - `getMediaLikes($id)`
 - `likeMedia($id)`
 - `deleteLikedMedia($id)`
 
 > How to like a Media: [Example usage](https://gist.github.com/3287237)  
-> [Sample responses of the Likes Endpoints.](https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources)
+> [Sample responses of the Likes Endpoints.](http://instagram.com/developer/endpoints/likes/)
 
 ### Further endpoints
 
@@ -230,7 +251,7 @@ Let me know, if you think, that one of the missing endpoints has priority.
 
 **Missing Endpoints:**
 
-`Comments`, `Locations`, `Geographies`
+`Locations`, `Geographies`
 
 For all parameters in the configuration array exists a public setter and getter method.
 
@@ -238,7 +259,7 @@ For all parameters in the configuration array exists a public setter and getter 
 
 `isVideo()` indicated by the `type` value.
 
-```json
+```
 coming with version 2.0 beta 3
 ```
 
@@ -257,7 +278,7 @@ Simply pass an object into the `pagination()` method and receive your next datas
 ?>
 ```
 
-> AJAX implementation: 'Load more' button
+Iteration with `do-while` loop.
 
 ## Samples for redirect URLs
 
@@ -318,6 +339,12 @@ A short tutorial, about how to build an Instagram login with my class, has been 
 
 > Version 2.0 is in development.  
 > Your feedback is always welcome!
+
+**Instagram 2.0 alpha 3 - 01/11/2013**
+
+- `feature` Comment endpoint implemented
+- `update` Improved documentation
+- `draft` New example with a fancy GUI
 
 **Instagram 2.0 alpha 2 - 04/09/2013**
 
