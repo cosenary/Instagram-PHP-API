@@ -331,6 +331,38 @@ class Instagram {
   }
 
   /**
+   * Get information about a location
+   *
+   * @param integer $id                   Instagram location ID
+   * @return mixed
+   */
+  public function getLocation($id) {
+    return $this->_makeCall('locations/' . $id, false);
+  }
+
+  /**
+   * Get recent media from a given location
+   *
+   * @param integer $id                   Instagram location ID
+   * @return mixed
+   */
+  public function getLocationMedia($id) {
+    return $this->_makeCall('locations/' . $id . '/media/recent', false);
+  }
+
+  /**
+   * Get recent media from a given location
+   *
+   * @param float $lat                    Latitude of the center search coordinate
+   * @param float $lng                    Longitude of the center search coordinate
+   * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
+   * @return mixed
+   */
+  public function searchLocation($lat, $lng, $distance = 1000) {
+    return $this->_makeCall('locations/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
+  }
+
+  /**
    * Pagination feature
    * 
    * @param object  $obj                  Instagram object returned by a method

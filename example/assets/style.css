@@ -23,7 +23,6 @@ html {
   margin: 0;
 }
 
-/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
 .clearfix:before,
 .clearfix:after {
   content: " ";
@@ -115,7 +114,7 @@ a {
   overflow: hidden;
 }
 
-.image {
+.media {
   position: absolute;
   left: 0;
   top: 0;
@@ -155,4 +154,33 @@ a {
   margin-right: 8px;
   vertical-align: middle;
   width: 40px;
+}
+
+/* Video.js play button */
+.vjs-default-skin
+.vjs-big-play-button:before {
+  color: #fff !important;
+  text-shadow: none !important;
+  line-height: 0 !important;
+}
+.vjs-default-skin
+.vjs-big-play-button {
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  left: 50% !important;
+  top: 50% !important;
+  font-size: 8em !important;
+  margin-left: -30px !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+.vjs-default-skin:hover .vjs-big-play-button,
+.vjs-default-skin .vjs-big-play-button:focus {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 none !important;
+  transition: none !important;
 }

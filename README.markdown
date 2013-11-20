@@ -244,24 +244,17 @@ Please note that the authenticated methods require the `comments` [scope](#get-l
 > How to like a Media: [Example usage](https://gist.github.com/3287237)  
 > [Sample responses of the Likes Endpoints.](http://instagram.com/developer/endpoints/likes/)
 
-### Further endpoints
-
-It's planned to extend the class with new methods.
-Let me know, if you think, that one of the missing endpoints has priority.
-
-**Missing Endpoints:**
-
-`Locations`, `Geographies`
-
-For all parameters in the configuration array exists a public setter and getter method.
-
 ## Instagram videos
 
-`isVideo()` indicated by the `type` value.
+Instagram entries are marked with a `type` attribute (`image` or `video`), that allows you to identify videos.
 
-```
-coming with version 2.0 beta 3
-```
+An example of how to embed Instagram videos by using [Video.js](http://www.videojs.com), can be found in the `/example` folder.  
+
+---
+
+**Please note:** Instagram currently doesn't allow to filter videos.
+
+---
 
 ## Pagination
 
@@ -330,7 +323,7 @@ Iteration with `do-while` loop.
 ## Example App
 
 The example project, located in the `example/` folder, helps you to get started.  
-Its code is well documented and takes you through all required steps of the OAuth2 process.  
+The code is well documented and takes you through all required steps of the OAuth2 process.  
 Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
 
 #### More examples, tutorials:
@@ -346,6 +339,11 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 > Version 2.0 is in development.  
 > Your feedback is always welcome!
+
+**Instagram 2.0 alpha 4 - 20/11/2013**
+
+- `feature` Added *Locations* endpoint
+- `update` Updated example project to display Instagram videos
 
 **Instagram 2.0 alpha 3 - 01/11/2013**
 
