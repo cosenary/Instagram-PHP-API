@@ -1,5 +1,14 @@
 # Instagram PHP API #
 
+---
+
+##### Version 2 is about to arrive
+ 
+[Grab it on the dev branch](https://github.com/cosenary/Instagram-PHP-API/tree/dev) and make sure you check out the new example project.  
+Your feedback is always welcome! Have fun :)
+
+---
+
 ## About ##
 
 A PHP wrapper for the Instagram API.  
