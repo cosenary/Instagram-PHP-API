@@ -326,7 +326,7 @@ The example project, located in the `example/` folder, helps you to get started.
 The code is well documented and takes you through all required steps of the OAuth2 process.  
 Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
 
-#### More examples, tutorials:
+#### More examples and tutorials:
 
 - [User likes](https://gist.github.com/cosenary/3287237)
 - [Load more button](https://gist.github.com/cosenary/2975779)
@@ -340,7 +340,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 > Version 2.0 is in development.  
 > Your feedback is always welcome!
 
-**Instagram 2.0 alpha 4 - 20/11/2013**
+**Instagram 2.0 beta - 20/11/2013**
 
 - `feature` Added *Locations* endpoint
 - `update` Updated example project to display Instagram videos
