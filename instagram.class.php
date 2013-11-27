@@ -208,14 +208,16 @@ class Instagram {
   /**
    * Search media by its location
    *
-   * @param float $lat                    Latitude of the center search coordinate
-   * @param float $lng                    Longitude of the center search coordinate
-   * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
+   * @param float $lat                          Latitude of the center search coordinate
+   * @param float $lng                          Longitude of the center search coordinate
+   * @param integer [optional] $distance        Distance in metres (Default is 1km (distance=1000), max. is 5km)
+   * @param timestamp [optional] $min_timestamp	All media returned will be taken later than this timestamp. (Default: 5 Days Ago)
+   * @param timestamp [optional] $max_timestamp	All media returned will be taken earlier than this timestamp. Default: Now)
    * @return mixed
    */
-  public function searchMedia($lat, $lng, $distance = 1000) {
-    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
-  }
+    public function searchMedia($lat, $lng, $distance = null, $min_timestamp = null, $max_timestamp = null, $limit = null) {
+        return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance, 'min_timestamp' => $min_timestamp, 'max_timestamp' => $max_timestamp, 'count' => $limit));
+    }
 
   /**
    * Get media by its id
