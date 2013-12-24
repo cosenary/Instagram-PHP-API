@@ -322,7 +322,9 @@ Iteration with `do-while` loop.
 
 ## Example App
 
-The example project, located in the `example/` folder, helps you to get started.  
+![Image](http://cl.ly/image/221T1g3w3u2J/preview.png)
+
+This example project, located in the `example/` folder, helps you to get started.  
 The code is well documented and takes you through all required steps of the OAuth2 process.  
 Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
 
@@ -337,21 +339,22 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## History
 
-> Version 2.0 is in development.  
-> Your feedback is always welcome!
+**Instagram 2.0 - 24/12/2013**
+
+- `release` version 2.0
 
 **Instagram 2.0 beta - 20/11/2013**
 
 - `feature` Added *Locations* endpoint
 - `update` Updated example project to display Instagram videos
 
-**Instagram 2.0 alpha 3 - 01/11/2013**
+**Instagram 2.0 alpha 4 - 01/11/2013**
 
 - `feature` Comment endpoint implemented
 - `feature` New example with a fancy GUI
 - `update` Improved documentation
 
-**Instagram 2.0 alpha 2 - 04/09/2013**
+**Instagram 2.0 alpha 3 - 04/09/2013**
 
 - `merge` Merged master branch updates
     - `update` Updated documentation
@@ -359,12 +362,12 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
     - `feature` Added cURL error message
     - `feature` Added `limit` to `getTagMedia()` method
 
-**Instagram 2.0 alpha 1 - 14/06/2013**
+**Instagram 2.0 alpha 2 - 14/06/2013**
 
 - `feature` Improved Pagination functionality
 - `change` Added `distance` parameter to `searchMedia()` method (thanks @jonathanwkelly)
 
-**Instagram 1.6 alpha - 28/05/2012**
+**Instagram 2.0 alpha 1 - 28/05/2012**
 
 - `feature` Added Pagination method
 - `feature` Added User Relationship endpoints
@@ -395,5 +398,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## Credits
 
-Copyright (c) 2011-2013 - Programmed by Christian Metz  
+Copyright (c) 2011-2014 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
