@@ -7,8 +7,8 @@
  * 
  * @author Christian Metz
  * @since 30.10.2011
- * @copyright Christian Metz - MetzWeb Networks 2011-2013
- * @version 2.0 beta
+ * @copyright Christian Metz - MetzWeb Networks 2011-2014
+ * @version 2.0
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Instagram {
@@ -69,7 +69,6 @@ class Instagram {
    * @var array
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
-
 
   /**
    * Default constructor
@@ -308,7 +307,6 @@ class Instagram {
   public function deleteMediaComment($id, $commentID) {
     return $this->_makeCall('media/' . $id . '/comments/' . $commentID, true, null, 'DELETE');
   }
-
 
   /**
    * Set user like on a media
