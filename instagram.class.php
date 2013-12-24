@@ -413,7 +413,7 @@ class Instagram {
    * @param string [optional] $method     Request type GET|POST
    * @return mixed
    */
-  private function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
+  protected function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
     if (false === $auth) {
       // if the call doesn't requires authentication
       $authMethod = '?client_id=' . $this->getApiKey();
