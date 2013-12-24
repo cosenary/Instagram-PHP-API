@@ -1,4 +1,4 @@
-# ![Image](https://raw.github.com/cosenary/Instagram-PHP-API/example/assets/instagram.png) Instagram PHP API
+# ![Image](https://raw.github.com/cosenary/Instagram-PHP-API/master/example/assets/instagram.png) Instagram PHP API V2
 
 ## About
 
