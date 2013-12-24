@@ -131,10 +131,11 @@ class Instagram {
    * Get user activity feed
    *
    * @param integer [optional] $limit     Limit of returned results
+   * @param array [optional] $param       Parameters accepted by the endpoint 
    * @return mixed
    */
-  public function getUserFeed($limit = 0) {
-    return $this->_makeCall('users/self/feed', true, array('count' => $limit));
+  public function getUserFeed($limit = 0, $params = array()) {
+    return $this->_makeCall('users/self/feed', true, array_merge(array('count' => $limit), $params));
   }
 
   /**
@@ -142,20 +143,22 @@ class Instagram {
    *
    * @param integer [optional] $id        Instagram user ID
    * @param integer [optional] $limit     Limit of returned results
+   * @param array [optional] $param       Parameters accepted by the endpoint     
    * @return mixed
    */
-  public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', true, array('count' => $limit));
+  public function getUserMedia($id = 'self', $limit = 0, $params = array()) {
+    return $this->_makeCall('users/' . $id . '/media/recent', true, array_merge(array('count' => $limit), $params));
   }
 
   /**
    * Get the liked photos of a user
    *
    * @param integer [optional] $limit     Limit of returned results
+   * @param array [optional] $param       Parameters accepted by the endpoint 
    * @return mixed
    */
-  public function getUserLikes($limit = 0) {
-    return $this->_makeCall('users/self/media/liked', true, array('count' => $limit));
+  public function getUserLikes($limit = 0, $params = array()) {
+    return $this->_makeCall('users/self/media/liked', true, array_merge(array('count' => $limit), $params));
   }
 
   /**
