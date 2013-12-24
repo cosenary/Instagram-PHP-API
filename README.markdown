@@ -344,8 +344,7 @@ A short tutorial about how to build an Instagram login with my class has been pu
 
 ## Credits ##
 
-Copyright (c) 2011-2013 - Programmed by Christian Metz  
+Copyright (c) 2011-2014 - Programmed by Christian Metz  
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
