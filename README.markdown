@@ -331,6 +331,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 #### More examples and tutorials:
 
 - [User likes](https://gist.github.com/cosenary/3287237)
+- [Follow user](https://gist.github.com/cosenary/8322459)
 - [Load more button](https://gist.github.com/cosenary/2975779)
 - [User most recent media](https://gist.github.com/cosenary/1711218)
 - [Instagram login (by 9lessons)](http://www.9lessons.info/2012/05/login-with-instagram-php.html)
