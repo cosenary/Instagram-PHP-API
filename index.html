@@ -29,19 +29,17 @@
       </header>
       <section>
         <h1>
-<a name="instagram-php-api" class="anchor" href="#instagram-php-api"><span class="octicon octicon-link"></span></a>Instagram PHP API</h1>
+<a name="-instagram-php-api-v2" class="anchor" href="#-instagram-php-api-v2"><span class="octicon octicon-link"></span></a><img src="https://raw.github.com/cosenary/Instagram-PHP-API/master/example/assets/instagram.png" alt="Image"> Instagram PHP API V2</h1>
 
-<hr><h5>
-<a name="version-2-is-about-to-arrive" class="anchor" href="#version-2-is-about-to-arrive"><span class="octicon octicon-link"></span></a>Version 2 is about to arrive</h5>
-
-<p><a href="https://github.com/cosenary/Instagram-PHP-API/tree/dev">Grab it on the dev branch</a> and make sure you check out the new example project.<br>
-Your feedback is always welcome! Have fun :)</p>
-
-<hr><h2>
+<h2>
 <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 
 <p>A PHP wrapper for the Instagram API.<br>
 Feedback or bug reports are appreciated.</p>
+
+<blockquote>
+<p>Supports <a href="#instagram-videos">Instagram video</a> responses.</p>
+</blockquote>
 
 <h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
@@ -117,28 +115,28 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 
 <p><code>array</code> if you want to authenticate a user and access its data:</p>
 
-<pre><code>new Instagram(array(
-  'apiKey'      =&gt; 'YOUR_APP_KEY',
-  'apiSecret'   =&gt; 'YOUR_APP_SECRET',
-  'apiCallback' =&gt; 'YOUR_APP_CALLBACK'
-));
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span><span class="p">,</span>
+  <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span><span class="p">,</span>
+  <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span>
+<span class="p">));</span>
+</pre></div>
 
 <p><code>string</code> if you <em>only</em> want to access public data:</p>
 
-<pre><code>new Instagram('YOUR_APP_KEY');
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="s1">'YOUR_APP_KEY'</span><span class="p">);</span>
+</pre></div>
 
 <h3>
 <a name="get-login-url" class="anchor" href="#get-login-url"><span class="octicon octicon-link"></span></a>Get login URL</h3>
 
 <p><code>getLoginUrl(&lt;array&gt;)</code></p>
 
-<pre><code>getLoginUrl(array(
-  'basic',
-  'likes'
-));
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="nx">getLoginUrl</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'basic'</span><span class="p">,</span>
+  <span class="s1">'likes'</span>
+<span class="p">));</span>
+</pre></div>
 
 <p><strong>Optional scope parameters:</strong></p>
 
@@ -169,7 +167,9 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <tr>
 <td><code>comments</code></td>
     <td>to create or delete comments</td>
-    <td>coming soon...</td>
+    <td>
+<code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code>
+</td>
   </tr>
 </table><h3>
 <a name="get-oauth-token" class="anchor" href="#get-oauth-token"><span class="octicon octicon-link"></span></a>Get OAuth token</h3>
@@ -193,7 +193,7 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <ul>
 <li><code>getUser($id)</code></li>
 <li><code>searchUser($name, &lt;$limit&gt;)</code></li>
-</ul><p><strong>Authenticated user methods</strong></p>
+</ul><p><strong>Authenticated methods</strong></p>
 
 <ul>
 <li><code>getUser()</code></li>
@@ -207,13 +207,13 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 </ul>
 </li>
 </ul><blockquote>
-<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/User-resources">Sample responses of the User Endpoints.</a></p>
+<p><a href="http://instagram.com/developer/endpoints/users/">Sample responses of the User Endpoints.</a></p>
 </blockquote>
 
 <h3>
 <a name="relationship-methods" class="anchor" href="#relationship-methods"><span class="octicon octicon-link"></span></a>Relationship methods</h3>
 
-<p><strong>Authenticated user methods</strong></p>
+<p><strong>Authenticated methods</strong></p>
 
 <ul>
 <li><code>getUserFollows(&lt;$id&gt;, &lt;$limit&gt;)</code></li>
@@ -238,7 +238,7 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <hr><p>Please note that the <code>modifyRelationship()</code> method requires the <code>relationships</code> <a href="#get-login-url">scope</a>.</p>
 
 <hr><blockquote>
-<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Relationship-resources">Sample responses of the Relationship Endpoints.</a></p>
+<p><a href="http://instagram.com/developer/endpoints/relationships/">Sample responses of the Relationship Endpoints.</a></p>
 </blockquote>
 
 <h3>
@@ -263,7 +263,38 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 </ul><p>All <code>&lt;$limit&gt;</code> parameters are optional. If the limit is undefined, all available results will be returned.</p>
 
 <blockquote>
-<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Media-resources">Sample responses of the Media Endpoints.</a></p>
+<p><a href="http://instagram.com/developer/endpoints/media/">Sample responses of the Media Endpoints.</a></p>
+</blockquote>
+
+<h3>
+<a name="comment-methods" class="anchor" href="#comment-methods"><span class="octicon octicon-link"></span></a>Comment methods</h3>
+
+<p><strong>Public methods</strong></p>
+
+<ul>
+<li><code>getMediaComments($id)</code></li>
+</ul><p><strong>Authenticated methods</strong></p>
+
+<ul>
+<li>
+<code>addMediaComment($id, $text)</code>
+
+<ul>
+<li>
+<strong>restricted access:</strong> please email <code>apidevelopers[at]instagram.com</code> for access</li>
+</ul>
+</li>
+<li>
+<code>deleteMediaComment($id, $commentID)</code>
+
+<ul>
+<li>the comment must be authored by the authenticated user</li>
+</ul>
+</li>
+</ul><hr><p>Please note that the authenticated methods require the <code>comments</code> <a href="#get-login-url">scope</a>.</p>
+
+<hr><blockquote>
+<p><a href="http://instagram.com/developer/endpoints/comments/">Sample responses of the Comment Endpoints.</a></p>
 </blockquote>
 
 <h3>
@@ -276,41 +307,47 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <li><code>getTagMedia($name)</code></li>
 <li><code>searchTags($name)</code></li>
 </ul><blockquote>
-<p><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Tag-resources">Sample responses of the Tag Endpoints.</a></p>
+<p><a href="http://instagram.com/developer/endpoints/tags/">Sample responses of the Tag Endpoints.</a></p>
 </blockquote>
 
 <h3>
 <a name="likes-methods" class="anchor" href="#likes-methods"><span class="octicon octicon-link"></span></a>Likes methods</h3>
 
-<p><strong>Authenticated user methods</strong></p>
+<p><strong>Authenticated methods</strong></p>
 
 <ul>
 <li><code>getMediaLikes($id)</code></li>
 <li><code>likeMedia($id)</code></li>
 <li><code>deleteLikedMedia($id)</code></li>
 </ul><blockquote>
-<p>How to like a Media: <a href="https://gist.github.com/3287237">Example usage</a><br><a href="https://github.com/cosenary/Instagram-PHP-API/wiki/Likes-resources">Sample responses of the Likes Endpoints.</a></p>
+<p>How to like a Media: <a href="https://gist.github.com/3287237">Example usage</a><br><a href="http://instagram.com/developer/endpoints/likes/">Sample responses of the Likes Endpoints.</a></p>
 </blockquote>
-
-<h3>
-<a name="further-endpoints" class="anchor" href="#further-endpoints"><span class="octicon octicon-link"></span></a>Further endpoints</h3>
-
-<p>It's planned to extend the class with new methods.
-Let me know, if you think, that one of the missing endpoints has priority.</p>
-
-<p><strong>Missing Endpoints:</strong></p>
-
-<p><code>Comments</code>, <code>Locations</code>, <code>Geographies</code></p>
-
-<p>For all parameters in the configuration array exists a public setter and getter method.</p>
 
 <h2>
-<a name="pagination-beta" class="anchor" href="#pagination-beta"><span class="octicon octicon-link"></span></a>Pagination <em>(beta)</em>
-</h2>
+<a name="instagram-videos" class="anchor" href="#instagram-videos"><span class="octicon octicon-link"></span></a>Instagram videos</h2>
 
-<blockquote>
-<p>This feature is still in development, but you can test it on the dev branch: <a href="https://github.com/cosenary/Instagram-PHP-API/tree/dev#pagination-beta">Pagination documentation</a>.</p>
-</blockquote>
+<p>Instagram entries are marked with a <code>type</code> attribute (<code>image</code> or <code>video</code>), that allows you to identify videos.</p>
+
+<p>An example of how to embed Instagram videos by using <a href="http://www.videojs.com">Video.js</a>, can be found in the <code>/example</code> folder.  </p>
+
+<hr><p><strong>Please note:</strong> Instagram currently doesn't allow to filter videos.</p>
+
+<hr><h2>
+<a name="pagination" class="anchor" href="#pagination"><span class="octicon octicon-link"></span></a>Pagination</h2>
+
+<p>Each endpoint has a maximum range of results, so increasing the <code>limit</code> parameter above the limit won't help (e.g. <code>getUserMedia()</code> has a limit of 90).</p>
+
+<p>That's the point where the "pagination" feature comes into play.<br>
+Simply pass an object into the <code>pagination()</code> method and receive your next dataset:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="nv">$photos</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getTagMedia</span><span class="p">(</span><span class="s1">'kitten'</span><span class="p">);</span>
+
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">pagination</span><span class="p">(</span><span class="nv">$photos</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>Iteration with <code>do-while</code> loop.</p>
 
 <h2>
 <a name="samples-for-redirect-urls" class="anchor" href="#samples-for-redirect-urls"><span class="octicon octicon-link"></span></a>Samples for redirect URLs</h2>
@@ -357,50 +394,85 @@ Let me know, if you think, that one of the missing endpoints has priority.</p>
     <td>yes</td>
   </tr>
 </table><blockquote>
-<p>If you need additional informations, take a look at <a href="http://instagram.com/developer/authentication/">Instagrams API docs</a>.</p>
+<p>If you need further information about an endpoint, take a look at the <a href="http://instagram.com/developer/authentication/">Instagram API docs</a>.</p>
 </blockquote>
 
 <h2>
 <a name="example-app" class="anchor" href="#example-app"><span class="octicon octicon-link"></span></a>Example App</h2>
 
-<p>The small App, which is located in the <code>example/</code> folder, helps you to get started with the class.<br>
-Its whole code is documented and will take you through all steps of the OAuth2 process.<br>
-The great Instagram Sign In button is designed by <a href="http://twitter.com/mutlu82/">Murat Mutlu</a>.</p>
+<p><img src="http://cl.ly/image/221T1g3w3u2J/preview.png" alt="Image"></p>
 
-<p>A short tutorial about how to build an Instagram login with my class has been published at <a href="http://www.9lessons.info/2012/05/login-with-instagram-php.html">9lessons</a>.</p>
+<p>This example project, located in the <code>example/</code> folder, helps you to get started.<br>
+The code is well documented and takes you through all required steps of the OAuth2 process.<br>
+Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDESIGN">Ricardo de Zoete Pro</a>.</p>
+
+<h4>
+<a name="more-examples-and-tutorials" class="anchor" href="#more-examples-and-tutorials"><span class="octicon octicon-link"></span></a>More examples and tutorials:</h4>
+
+<ul>
+<li><a href="https://gist.github.com/cosenary/3287237">User likes</a></li>
+<li><a href="https://gist.github.com/cosenary/8322459">Follow user</a></li>
+<li><a href="https://gist.github.com/cosenary/7267139">User follower</a></li>
+<li><a href="https://gist.github.com/cosenary/2975779">Load more button</a></li>
+<li><a href="https://gist.github.com/cosenary/1711218">User most recent media</a></li>
+<li><a href="http://www.9lessons.info/2012/05/login-with-instagram-php.html">Instagram login (by 9lessons)</a></li>
+</ul><blockquote>
+<p>Let me know if you have to share a code example, too.</p>
+</blockquote>
 
 <h2>
 <a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h2>
 
-<blockquote>
-<p>Version 2.0 is in development.<br>
-Get a sneak peek at the <a href="https://github.com/cosenary/Instagram-PHP-API/tree/dev">dev branch</a>.</p>
-</blockquote>
-
-<p><strong>Instagram 1.9 - 04/09/2013</strong></p>
+<p><strong>Instagram 2.0 - 24/12/2013</strong></p>
 
 <ul>
 <li>
-<code>bug</code> / <code>change</code> cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)</li>
-</ul><p><strong>Instagram 1.8 - 14/06/2013 16/08/2013</strong></p>
+<code>release</code> version 2.0</li>
+</ul><p><strong>Instagram 2.0 beta - 20/11/2013</strong></p>
+
+<ul>
+<li>
+<code>feature</code> Added <em>Locations</em> endpoint</li>
+<li>
+<code>update</code> Updated example project to display Instagram videos</li>
+</ul><p><strong>Instagram 2.0 alpha 4 - 01/11/2013</strong></p>
+
+<ul>
+<li>
+<code>feature</code> Comment endpoint implemented</li>
+<li>
+<code>feature</code> New example with a fancy GUI</li>
+<li>
+<code>update</code> Improved documentation</li>
+</ul><p><strong>Instagram 2.0 alpha 3 - 04/09/2013</strong></p>
+
+<ul>
+<li>
+<code>merge</code> Merged master branch updates
 
 <ul>
 <li>
 <code>update</code> Updated documentation</li>
 <li>
+<code>bug</code> / <code>change</code> cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)</li>
+<li>
 <code>feature</code> Added cURL error message</li>
 <li>
 <code>feature</code> Added <code>limit</code> to <code>getTagMedia()</code> method</li>
-</ul><p><strong>Instagram 1.7 - 07/08/2012</strong></p>
+</ul>
+</li>
+</ul><p><strong>Instagram 2.0 alpha 2 - 14/06/2013</strong></p>
 
 <ul>
 <li>
-<code>feature</code> Added Likes endpoints</li>
+<code>feature</code> Improved Pagination functionality</li>
 <li>
 <code>change</code> Added <code>distance</code> parameter to <code>searchMedia()</code> method (thanks <a href="https://github.com/jonathanwkelly" class="user-mention">@jonathanwkelly</a>)</li>
-</ul><p><strong>Instagram 1.6 - 22/05/2012</strong></p>
+</ul><p><strong>Instagram 2.0 alpha 1 - 28/05/2012</strong></p>
 
 <ul>
+<li>
+<code>feature</code> Added Pagination method</li>
 <li>
 <code>feature</code> Added User Relationship endpoints</li>
 <li>
@@ -443,8 +515,10 @@ Get a sneak peek at the <a href="https://github.com/cosenary/Instagram-PHP-API/t
 </ul><h2>
 <a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
 
-<p>Copyright (c) 2011-2013 - Programmed by Christian Metz<br>
+<p>Copyright (c) 2011-2014 - Programmed by Christian Metz<br>
 Released under the <a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>.</p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png" alt="Bitdeli Badge"></a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/cosenary">cosenary</a></p>
