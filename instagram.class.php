@@ -8,7 +8,7 @@
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2011-2014
- * @version 2.0
+ * @version 2.1
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Instagram {
@@ -145,7 +145,7 @@ class Instagram {
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', true, array('count' => $limit));
+    return $this->_makeCall('users/' . $id . '/media/recent', ($id === 'self'), array('count' => $limit));
   }
 
   /**
@@ -209,10 +209,12 @@ class Instagram {
    *
    * @param float $lat                    Latitude of the center search coordinate
    * @param float $lng                    Longitude of the center search coordinate
-   * @param integer [optional] $distance  Distance in meter (max. distance: 5km = 5000)
+   * @param integer [optional] $distance  Distance in metres (default is 1km (distance=1000), max. is 5km)
+   * @param long [optional] $minTimestamp Media taken later than this timestamp (default: 5 days ago)
+   * @param long [optional] $maxTimestamp Media taken earlier than this timestamp (default: now)
    * @return mixed
    */
-  public function searchMedia($lat, $lng, $distance = 1000) {
+  public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = NULL, $maxTimestamp = NULL) {
     return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
   }
 
@@ -378,7 +380,11 @@ class Instagram {
       }
       $function = str_replace(self::API_URL, '', $apiCall[0]);
       $auth = (strpos($apiCall[1], 'access_token') !== false);
-      return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
+      if (isset($obj->pagination->next_max_id)) {
+        return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
+      } else {
+        return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
+      }
     } else {
       throw new Exception("Error: pagination() | This method doesn't support pagination.");
     }

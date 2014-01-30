@@ -151,6 +151,7 @@ Returns access token, if you want to store it for later usage:
 
 - `getUser($id)`
 - `searchUser($name, <$limit>)`
+- `getUserMedia($id, <$limit>)`
 
 **Authenticated methods**
 
@@ -166,8 +167,8 @@ Returns access token, if you want to store it for later usage:
 
 **Authenticated methods**
 
-- `getUserFollows(<$id>, <$limit>)`
-- `getUserFollower(<$id>, <$limit>)`
+- `getUserFollows($id, <$limit>)`
+- `getUserFollower($id, <$limit>)`
 - `getUserRelationship($id)`
 - `modifyRelationship($action, $user)`
     - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
@@ -194,11 +195,11 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 
 - `getMedia($id)`
 - `getPopularMedia()`
-- `searchMedia($lat, $lng, <$distance>)`
+- `searchMedia($lat, $lng, <$distance>, <$minTimestamp>, <$maxTimestamp>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
-    - `$distance` Radial distance in meter (max. distance: 5km = 5000)
-
-All `<$limit>` parameters are optional. If the limit is undefined, all available results will be returned.
+    - `$distance` Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
+    - `$minTimestamp` All media returned will be taken *later* than this timestamp (default: 5 days ago)
+    - `$maxTimestamp` All media returned will be taken *earlier* than this timestamp (default: now)
 
 > [Sample responses of the Media Endpoints.](http://instagram.com/developer/endpoints/media/)
 
@@ -243,6 +244,8 @@ Please note that the authenticated methods require the `comments` [scope](#get-l
 
 > How to like a Media: [Example usage](https://gist.github.com/3287237)  
 > [Sample responses of the Likes Endpoints.](http://instagram.com/developer/endpoints/likes/)
+
+All `<...>` parameters are optional. If the limit is undefined, all available results will be returned.
 
 ## Instagram videos
 
@@ -340,6 +343,12 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 > Let me know if you have to share a code example, too.
 
 ## History
+
+**Instagram 2.1 - 30/01/2014**
+
+- `update` added min and max_timestamp to `searchMedia()`
+- `update` public authentication for `getUserMedia()` method
+- `fix` support for inconsistent pagination return type (*relationship endpoint*)
 
 **Instagram 2.0 - 24/12/2013**
 
