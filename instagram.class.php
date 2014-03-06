@@ -28,7 +28,7 @@ class Instagram {
    */
   const API_OAUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token';
 
-  /**
+    /**
    * The Instagram API Key
    * 
    * @var string
@@ -55,6 +55,13 @@ class Instagram {
    * @var string
    */
   private $_accesstoken;
+  
+  /**
+   * Verify token for subscriptions
+   * 
+   * @var string
+   */
+  private $_verifytoken;
 
   /**
    * Available scopes
@@ -69,7 +76,7 @@ class Instagram {
    * @var array
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
-
+  
   /**
    * Default constructor
    *
@@ -361,7 +368,62 @@ class Instagram {
   public function searchLocation($lat, $lng, $distance = 1000) {
     return $this->_makeCall('locations/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
   }
-
+  
+  /**
+   * List all your subscriptions
+   *
+   * @return mixed
+   */
+  public function listSubscriptions(){
+     return $this->_makeCall('subscriptions',false,array('client_secret'=>$this->getApiSecret()));     
+  }
+  
+  /**
+   * Create a subscription
+   * 
+   * @param string $object                           Object type (user, tag, geography, location)
+   * @param string [optional]$object_id              Name of the object you want to subscribe : can be a location, a tag, 
+   * @param array [optional] $additionalParams       Distance in meter (max. distance: 5km = 5000)
+   * @param string [optional] $aspect                Aspect of the object, only media is supported for this time.
+   * @return mixed
+   */
+  public function createSubscription($object,  $object_id='', $additionalParams=array(), $aspect='media'){
+      return $this->_makeCall('subscriptions',false,
+                               array_merge(array('object'=>$object,
+                                            'aspect'=>$aspect,
+                                            'object_id'=>$object_id,
+                                            'verify_token'=>$this->getVerifyToken(),
+                                            'client_secret' =>$this->getApiSecret(),
+                                            'callback_url'=>$this->getApiCallback()
+                            ),$additionalParams)
+                             ,'POST');           
+  }
+   /**
+   * Delete a subscription
+   * 
+   * @param string $id              Id of the subscription you want to delete
+   * @return mixed
+   */
+  public function deleteSubscriptionById($id){
+      return $this->_makeCall('subscriptions',false,array('id'=>$id,
+                                                          'verify_token'=>$this->getVerifyToken(),
+                                                          'client_secret' =>$this->getApiSecret()
+                                                    ),'DELETE');  
+  }
+  
+   /**
+   * Delete subscriptions
+   * 
+   * @param string $object              Object type that you want to delete (Ex.: trag, user, geography, location)
+   * @return mixed
+   */
+  public function deleteSubscriptions($object){
+      return $this->_makeCall('subscriptions',false,array('object'=>$object,
+                                                          'verify_token'=>$this->getVerifyToken(),
+                                                          'client_secret' =>$this->getApiSecret()
+                                ),'DELETE'); 
+  }
+  
   /**
    * Pagination feature
    * 
@@ -488,7 +550,7 @@ class Instagram {
     
     return json_decode($jsonData);
   }
-
+ 
   /**
    * Access Token Setter
    * 
@@ -564,6 +626,25 @@ class Instagram {
    */
   public function getApiCallback() {
     return $this->_callbackurl;
+  }
+  
+  /**
+   * Verify Token Setter
+   * 
+   * @param string $data
+   * @return void
+   */
+  public function setVerifyToken($token) {
+    $this->_verifytoken = $token;
+  }
+
+  /**
+   * Access Token Getter
+   * 
+   * @return string
+   */
+  public function getVerifyToken() {
+    return $this->_verifytoken;
   }
 
 }
