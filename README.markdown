@@ -3,7 +3,7 @@
 ## About
 
 A PHP wrapper for the Instagram API.  
-Feedback or bug reports are appreciated.
+Feedback or bug reports are appreciated. Test
 
 > Supports [Instagram video](#instagram-videos) responses.
 
