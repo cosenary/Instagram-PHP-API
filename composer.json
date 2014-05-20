@@ -1,5 +1,5 @@
 {
-	"name": "cosenary/instagram",
+	"name": "tripnity/instagram",
 	"type": "library",
 	"description": "An easy-to-use PHP Class for accessing Instagram's API.",
 	"keywords": ["instagram", "api"],
