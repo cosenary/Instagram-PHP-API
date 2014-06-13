@@ -227,6 +227,20 @@ class Instagram {
   public function getMedia($id) {
     return $this->_makeCall('media/' . $id);
   }
+  
+  /**
+   * Get media by its shortcode
+   * A media object's shortcode can be found in its shortlink URL.
+   * An example shortlink is http://instagram.com/p/D/
+   * Its corresponding shortcode is D.
+   * 
+   * @param string $id                   Shortcode
+   * @return mixed
+   */
+  public function getMediaShortcode($id) {
+    return $this->_makeCall('media/shortcode/' . $id);
+  }
+
 
   /**
    * Get the most popular media
