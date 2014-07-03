@@ -11,6 +11,7 @@
  * @version 2.1
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
+
 class Instagram {
 
   /**
@@ -142,10 +143,21 @@ class Instagram {
    *
    * @param integer [optional] $id        Instagram user ID
    * @param integer [optional] $limit     Limit of returned results
+   * @param string [optional] $maxTime    The maximum timestamp of returned results
+   * @param string [optional] $minTime    The minimum timestamp of returned results
+   * @param string [optional] $maxID      The maximum ID of returned results
+   * @param string [optional] $minID      The minimum ID of returned results
    * @return mixed
    */
-  public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', ($id === 'self'), array('count' => $limit));
+  public function getUserMedia($id = 'self', $limit = 0, $maxTime = '', $minTime = '', $maxID = '', $minID = '') {
+    //return $this->_makeCall('users/' . $id . '/media/recent', ($id === 'self'), array('count' => $limit));
+    return $this->_makeCall('users/' . $id . '/media/recent', ($id === 'self'), 
+                            array('count' => $limit,
+                                  'max_timestamp' => $maxTime,
+                                  'min_timestamp' => $minTime,
+                                  'max_id' => $maxID,
+                                  'min_id' => $minID
+                                 ));
   }
 
   /**
