@@ -24,14 +24,14 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ```php
 <?php
-    require_once 'instagram.class.php';
-    
-    $instagram = new Instagram(array(
+    require 'vendor/autoload.php';
+
+    $instagram = new Cosenary\Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
       'apiCallback' => 'YOUR_APP_CALLBACK'
     ));
-    
+
     echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ?>
 ```
@@ -43,7 +43,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     // Grab OAuth callback code
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
-    
+
     echo 'Your username is: ' . $data->user->username;
 ?>
 ```
@@ -54,10 +54,10 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 <?php
     // Store user access token
     $instagram->setAccessToken($data);
-    
+
     // Get all user likes
     $likes = $instagram->getUserLikes();
-    
+
     // Take a look at the API response
     echo '<pre>';
     print_r($likes);
