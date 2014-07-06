@@ -1,11 +1,16 @@
 {
-	"name": "cosenary/instagram",
+	"name": "Andreyco/InstagramPHP",
 	"type": "library",
 	"description": "An easy-to-use PHP Class for accessing Instagram's API.",
 	"keywords": ["instagram", "api"],
-	"homepage": "https://github.com/cosenary/Instagram-PHP-API",
+	"homepage": "https://github.com/Andreyco/Instagram-PHP-API",
 	"license": "BSD",
 	"authors": [
+		{
+			"name": "Andrej Badin",
+			"email": "contact@andrejbadin.com",
+			"homepage": "http://andrejbadin.com"
+		},
 		{
 			"name": "Christian Metz",
 			"email": "christian-metz1@gmx.net",
@@ -13,12 +18,12 @@
 		}
 	],
 	"require": {
-		"php": ">=5.2.0",
+		"php": ">=5.3.0",
 		"ext-curl": "*"
 	},
 	"autoload": {
 		"psr-4": {
-			"Cosenary\\": "src/Cosenary"
+			"Andreyco\\Instagram\\": "src/Instagram"
 		}
 	}
 }

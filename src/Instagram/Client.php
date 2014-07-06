@@ -1,4 +1,4 @@
-<?php namespace Cosenary;
+<?php namespace Andreyco\Instagram;
 
 /**
  * Instagram API class
@@ -11,7 +11,7 @@
  * @version 2.1
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
-class Instagram {
+class Client {
 
   /**
    * The API base URL
