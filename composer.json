@@ -1,10 +1,10 @@
 {
-	"name": "Andreyco/InstagramPHP",
+	"name": "andreyco/instagram-php",
 	"type": "library",
 	"description": "An easy-to-use PHP Class for accessing Instagram's API.",
 	"keywords": ["instagram", "api"],
 	"homepage": "https://github.com/Andreyco/InstagramPHP",
-	"license": "BSD",
+	"license": "BSD-4-Clause",
 	"authors": [
 		{
 			"name": "Andrej Badin",

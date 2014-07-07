@@ -30,7 +30,7 @@ I strongly advice using Composer to keep updates as smooth as possible.
 #### 2. Require composer package.
 ```javascript
 "require": {
-	"andreyco/instagramphp": "dev-master"
+	"andreyco/instagram-php": "dev-master"
 },
 ```
 
