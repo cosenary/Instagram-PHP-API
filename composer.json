@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "An easy-to-use PHP Class for accessing Instagram's API.",
 	"keywords": ["instagram", "api"],
-	"homepage": "https://github.com/Andreyco/Instagram-PHP-API",
+	"homepage": "https://github.com/Andreyco/InstagramPHP",
 	"license": "BSD",
 	"authors": [
 		{
@@ -23,7 +23,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Andreyco\\Instagram\\": "src/Instagram"
+			"Andreyco\\InstagramPHP\\": "src/InstagramPHP"
 		}
 	}
 }

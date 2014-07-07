@@ -1,8 +1,8 @@
 <?php
 
-require_once 'instagram.class.php';
+require '../vendor/autoload.php';
 
-$instagram = new Instagram('YOUR_APP_KEY');
+$instagram = new Andreyco\InstagramPHP\Client('adasd');('YOUR_APP_KEY');
 $result = $instagram->getPopularMedia();
 
 ?>
@@ -28,7 +28,7 @@ $result = $instagram->getPopularMedia();
         <?php
           foreach ($result->data as $media) {
             $content = "<li>";
-            
+
             // output media
             if ($media->type === 'video') {
               // video
@@ -43,7 +43,7 @@ $result = $instagram->getPopularMedia();
               $image = $media->images->low_resolution->url;
               $content .= "<img class=\"media\" src=\"{$image}\"/>";
             }
-            
+
             // create meta section
             $avatar = $media->user->profile_picture;
             $username = $media->user->username;
@@ -53,7 +53,7 @@ $result = $instagram->getPopularMedia();
                            <p>{$username}</p>
                            <div class=\"comment\">{$comment}</div>
                          </div>";
-            
+
             // output media
             echo $content . "</li>";
           }

@@ -1,14 +1,14 @@
-<?php namespace Andreyco\Instagram;
+<?php namespace Andreyco\InstagramPHP;
 
 /**
  * Instagram API class
  * API Documentation: http://instagram.com/developer/
- * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/tree/dev
+ * Class Documentation: https://github.com/Andreyco/InstagramPHP/tree/dev
  *
- * @author Christian Metz
- * @since 30.10.2011
- * @copyright Christian Metz - MetzWeb Networks 2011-2014
- * @version 2.1
+ * @author Andrej Badin
+ * @since 7.7.2014
+ * @copyright Andrej Badin
+ * @version 3
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Client {

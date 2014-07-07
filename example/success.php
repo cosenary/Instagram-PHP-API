@@ -1,17 +1,9 @@
 <?php
 
-/**
- * Instagram PHP API
- * 
- * @link https://github.com/cosenary/Instagram-PHP-API
- * @author Christian Metz
- * @since 01.10.2013
- */
-
-require_once 'instagram.class.php';
+require '../vendor/autoload.php';
 
 // initialize class
-$instagram = new Instagram(array(
+$instagram = new Andreyco\InstagramPHP\Client(array(
   'apiKey'      => 'YOUR_APP_KEY',
   'apiSecret'   => 'YOUR_APP_SECRET',
   'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php
@@ -26,7 +18,7 @@ if (isset($code)) {
   // receive OAuth token object
   $data = $instagram->getOAuthToken($code);
   $username = $username = $data->user->username;
-  
+
   // store user access token
   $instagram->setAccessToken($data);
 
@@ -66,7 +58,7 @@ if (isset($code)) {
           // display all user likes
           foreach ($result->data as $media) {
             $content = "<li>";
-            
+
             // output media
             if ($media->type === 'video') {
               // video
@@ -81,7 +73,7 @@ if (isset($code)) {
               $image = $media->images->low_resolution->url;
               $content .= "<img class=\"media\" src=\"{$image}\"/>";
             }
-            
+
             // create meta section
             $avatar = $media->user->profile_picture;
             $username = $media->user->username;
@@ -91,7 +83,7 @@ if (isset($code)) {
                            <p>{$username}</p>
                            <div class=\"comment\">{$comment}</div>
                          </div>";
-            
+
             // output media
             echo $content . "</li>";
           }
