@@ -360,6 +360,9 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 > Let me know if you have to share a code example, too.
 
 ## History
+**Instagram 3.1 - 08/07/2014**  
+- `feature` Laravel support.
+
 **Instagram 3.0 - 07/07/2014**  
 - `update` Forked repository. Introduced new `Andreyco\InstagramPHP` namespace.
 - `feature` Implemented PSR4 autoloading.  
