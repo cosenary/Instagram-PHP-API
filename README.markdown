@@ -1,37 +1,51 @@
-# ![Image](https://raw.github.com/cosenary/Instagram-PHP-API/master/example/assets/instagram.png) Instagram PHP API V2
+# Instagram PHP API v3.0
 
 ## About
 
-A PHP wrapper for the Instagram API.  
+A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
 
+> [Composer package](#2-require-composer-package) available.  
 > Supports [Instagram video](#instagram-videos) responses.
 
 ## Requirements
 
-- PHP 5.2.x or higher
-- cURL
 - Registered Instagram App
+- PHP 5.3.x or higher
+- cURL
 
 ## Get started
+### Register your application
 
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
+[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `clientId` and `clientSecret`.  
 Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
+
+### Instalation
+
+I strongly advice using Composer to keep updates as smooth as possible.
+
+#### 1. Download and unzip.
+#### 2. Require composer package.
+```javascript
+"require": {
+	"andreyco/instagram-php": "dev-master"
+},
+```
 
 ### Initialize the class
 
 ```php
 <?php
-    require_once 'instagram.class.php';
-    
-    $instagram = new Instagram(array(
+    require 'vendor/autoload.php';
+
+    $instagram = new Andreyco\InstagramPHP\Client(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
       'apiCallback' => 'YOUR_APP_CALLBACK'
     ));
-    
+
     echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ?>
 ```
@@ -43,7 +57,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     // Grab OAuth callback code
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
-    
+
     echo 'Your username is: ' . $data->user->username;
 ?>
 ```
@@ -52,16 +66,18 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ```php
 <?php
-    // Store user access token
-    $instagram->setAccessToken($data);
-    
-    // Get all user likes
-    $likes = $instagram->getUserLikes();
-    
+    // Set user access token
+    $myAccessToken = '...';
+    $instagram->setAccessToken($myAccessToken);
+    $myLikes = $instagram->getUserLikes();
+
+    $yourAccessToken = '...';
+    $instagram->setAccessToken($yourAccessToken);
+    $yourLikes = $instagram->getUserLikes();
+
     // Take a look at the API response
-    echo '<pre>';
-    print_r($likes);
-    echo '<pre>';
+    print_r($myLikes);
+    print_r($yourLikes);
 ?>
 ```
 
@@ -71,12 +87,12 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ### Setup Instagram
 
-`new Instagram(<array>/<string>);`
+`new Andreyco\InstagramPHP\Client(<array>/<string>);`
 
 `array` if you want to authenticate a user and access its data:
 
 ```php
-new Instagram(array(
+new Andreyco\InstagramPHP\Client(array(
   'apiKey'      => 'YOUR_APP_KEY',
   'apiSecret'   => 'YOUR_APP_SECRET',
   'apiCallback' => 'YOUR_APP_CALLBACK'
@@ -86,7 +102,7 @@ new Instagram(array(
 `string` if you *only* want to access public data:
 
 ```php
-new Instagram('YOUR_APP_KEY');
+new Andreyco\InstagramPHP\Client('YOUR_APP_KEY');
 ```
 
 ### Get login URL
@@ -344,6 +360,14 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 > Let me know if you have to share a code example, too.
 
 ## History
+**Instagram 3.1 - 08/07/2014**  
+- `feature` Laravel support.
+
+**Instagram 3.0 - 07/07/2014**  
+- `update` Forked repository. Introduced new `Andreyco\InstagramPHP` namespace.
+- `feature` Implemented PSR4 autoloading.  
+- `feature` Published as Composer package.  
+
 
 **Instagram 2.1 - 30/01/2014**
 
@@ -410,7 +434,9 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## Credits
 
-Copyright (c) 2011-2014 - Programmed by Christian Metz  
+Copyright (c) 2014 - Programmed by Andrej Badin
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
+
+Forked from Christian Metz's source.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
