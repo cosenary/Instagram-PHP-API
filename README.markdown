@@ -5,7 +5,7 @@
 A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
 
-> [Composer package](#require-composer-package) available.
+> [Composer package](#2-require-composer-package) available.  
 > Supports [Instagram video](#instagram-videos) responses.
 
 ## Requirements
