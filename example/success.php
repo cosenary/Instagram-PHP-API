@@ -85,7 +85,7 @@ if (isset($code)) {
             // create meta section
             $avatar = $media->user->profile_picture;
             $username = $media->user->username;
-            $comment = $media->caption->text;
+            $comment = (!empty($media->caption->text))? $media->caption->text : '';
             $content .= "<div class=\"content\">
                            <div class=\"avatar\" style=\"background-image: url({$avatar})\"></div>
                            <p>{$username}</p>
