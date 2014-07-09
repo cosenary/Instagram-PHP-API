@@ -2,8 +2,17 @@
 
 require_once 'instagram.class.php';
 
+// initialize class
 $instagram = new Instagram('YOUR_APP_KEY');
+// if you want to access public methods only, you just need set the App key
+// and won't need to set an access token
 $result = $instagram->getPopularMedia();
+
+// if a user is already logged in and you have stored the access token
+// in your application (session etc), then pass it to the object
+// to use authenticated methods
+//   $instagram->setAccessToken('ACCESS_TOKEN');
+//   $result = $instagram->getUserLikes();
 
 ?>
 
@@ -54,7 +63,6 @@ $result = $instagram->getPopularMedia();
                            <div class=\"comment\">{$comment}</div>
                          </div>";
 
-            // output media
             echo $content . "</li>";
           }
         ?>

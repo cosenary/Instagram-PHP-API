@@ -15,10 +15,12 @@ Feedback or bug reports are appreciated.
 
 ## Get started
 
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.
+To use the Instagram API with OAuth you have to register yourself as developer at the [Instagram Developer Platform](http://instagr.am/developer/register/) and set up an App.
 Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
+
+Please note that Instagram mainly refers to »Clients« instead of »Apps«. So »Client ID« and »Client Secret« are the same as »App Key« and »App Secret«.
 
 ### Initialize the class
 
@@ -52,13 +54,13 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ```php
 <?php
-    // Store user access token
+    // set user access token
     $instagram->setAccessToken($data);
 
-    // Get all user likes
+    // get all user likes
     $likes = $instagram->getUserLikes();
 
-    // Take a look at the API response
+    // take a look at the API response
     echo '<pre>';
     print_r($likes);
     echo '<pre>';
@@ -83,7 +85,7 @@ new Instagram(array(
 ));
 ```
 
-`string` if you *only* want to access public data:
+`string` if you *only* want to use public methods with your registered App and therefore not need to authenticate a user:
 
 ```php
 new Instagram('YOUR_APP_KEY');
@@ -139,10 +141,10 @@ getLoginUrl(array(
 
 ### Set / Get access token
 
-Stores access token, for further method calls:
+Set the access token, for further method calls:
 `setAccessToken($token)`
 
-Returns access token, if you want to store it for later usage:
+Return the access token, if you want to store it for later usage:
 `getAccessToken()`
 
 ### User methods
@@ -152,14 +154,15 @@ Returns access token, if you want to store it for later usage:
 - `getUser($id)`
 - `searchUser($name, <$limit>)`
 - `getUserMedia($id, <$limit>)`
+    - getUserMedia is only public if you provide an user ID
 
 **Authenticated methods**
 
 - `getUser()`
 - `getUserLikes(<$limit>)`
 - `getUserFeed(<$limit>)`
-- `getUserMedia(<$id>, <$limit>)`
-    - if an `$id` isn't defined, it returns the media of the logged in user
+- `getUserMedia('<$id>', <$limit>)`
+    - if `$id` isn't defined or equals 'self', it returns the media of the logged in user
 
 > [Sample responses of the User Endpoints.](http://instagram.com/developer/endpoints/users/)
 
