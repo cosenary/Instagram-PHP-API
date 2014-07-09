@@ -2,7 +2,7 @@
 
 ## About
 
-A PHP wrapper for the Instagram API.  
+A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
 
 > Supports [Instagram video](#instagram-videos) responses.
@@ -15,23 +15,29 @@ Feedback or bug reports are appreciated.
 
 ## Get started
 
-[Register your application](http://instagr.am/developer/register/) with Instagram, and receive your OAuth `client_id` and `client_secret`.  
+To use the Instagram API with OAuth you have to register yourself as developer at the [Instagram Developer Platform](http://instagr.am/developer/register/) and set up an App.
 Take a look at the [uri guidlines](#samples-for-redirect-urls) before registering a redirect URI.
 
 > A good place to get started is the example App.
+
+---
+
+Please note that Instagram mainly refers to »Clients« instead of »Apps«. So »Client ID« and »Client Secret« are the same as »App Key« and »App Secret«.
+
+---
 
 ### Initialize the class
 
 ```php
 <?php
     require_once 'instagram.class.php';
-    
+
     $instagram = new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
       'apiCallback' => 'YOUR_APP_CALLBACK'
     ));
-    
+
     echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ?>
 ```
@@ -43,7 +49,7 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
     // Grab OAuth callback code
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
-    
+
     echo 'Your username is: ' . $data->user->username;
 ?>
 ```
@@ -52,13 +58,13 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ```php
 <?php
-    // Store user access token
+    // set user access token
     $instagram->setAccessToken($data);
-    
-    // Get all user likes
+
+    // get all user likes
     $likes = $instagram->getUserLikes();
-    
-    // Take a look at the API response
+
+    // take a look at the API response
     echo '<pre>';
     print_r($likes);
     echo '<pre>';
@@ -83,7 +89,7 @@ new Instagram(array(
 ));
 ```
 
-`string` if you *only* want to access public data:
+`string` if you *only* want to use public methods with your registered App and therefore not need to authenticate a user:
 
 ```php
 new Instagram('YOUR_APP_KEY');
@@ -134,15 +140,15 @@ getLoginUrl(array(
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token  
+`true` : Returns only the OAuth token
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token
 
-Stores access token, for further method calls:  
+Set the access token, for further method calls:
 `setAccessToken($token)`
 
-Returns access token, if you want to store it for later usage:  
+Return the access token, if you want to store it for later usage:
 `getAccessToken()`
 
 ### User methods
@@ -152,14 +158,15 @@ Returns access token, if you want to store it for later usage:
 - `getUser($id)`
 - `searchUser($name, <$limit>)`
 - `getUserMedia($id, <$limit>)`
+    - getUserMedia is only public if you provide an user ID
 
 **Authenticated methods**
 
 - `getUser()`
 - `getUserLikes(<$limit>)`
 - `getUserFeed(<$limit>)`
-- `getUserMedia(<$id>, <$limit>)`
-    - if an `$id` isn't defined, it returns the media of the logged in user
+- `getUserMedia('<$id>', <$limit>)`
+    - if `$id` isn't defined or equals 'self', it returns the media of the logged in user
 
 > [Sample responses of the User Endpoints.](http://instagram.com/developer/endpoints/users/)
 
@@ -242,7 +249,7 @@ Please note that the authenticated methods require the `comments` [scope](#get-l
 - `likeMedia($id)`
 - `deleteLikedMedia($id)`
 
-> How to like a Media: [Example usage](https://gist.github.com/3287237)  
+> How to like a Media: [Example usage](https://gist.github.com/3287237)
 > [Sample responses of the Likes Endpoints.](http://instagram.com/developer/endpoints/likes/)
 
 All `<...>` parameters are optional. If the limit is undefined, all available results will be returned.
@@ -251,7 +258,7 @@ All `<...>` parameters are optional. If the limit is undefined, all available re
 
 Instagram entries are marked with a `type` attribute (`image` or `video`), that allows you to identify videos.
 
-An example of how to embed Instagram videos by using [Video.js](http://www.videojs.com), can be found in the `/example` folder.  
+An example of how to embed Instagram videos by using [Video.js](http://www.videojs.com), can be found in the `/example` folder.
 
 ---
 
@@ -263,7 +270,7 @@ An example of how to embed Instagram videos by using [Video.js](http://www.video
 
 Each endpoint has a maximum range of results, so increasing the `limit` parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
 
-That's the point where the "pagination" feature comes into play.  
+That's the point where the "pagination" feature comes into play.
 Simply pass an object into the `pagination()` method and receive your next dataset:
 
 ```php
@@ -327,8 +334,8 @@ Iteration with `do-while` loop.
 
 ![Image](http://cl.ly/image/221T1g3w3u2J/preview.png)
 
-This example project, located in the `example/` folder, helps you to get started.  
-The code is well documented and takes you through all required steps of the OAuth2 process.  
+This example project, located in the `example/` folder, helps you to get started.
+The code is well documented and takes you through all required steps of the OAuth2 process.
 Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
 
 #### More examples and tutorials:
@@ -410,7 +417,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## Credits
 
-Copyright (c) 2011-2014 - Programmed by Christian Metz  
+Copyright (c) 2011-2014 - Programmed by Christian Metz
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

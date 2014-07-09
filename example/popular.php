@@ -2,8 +2,17 @@
 
 require_once 'instagram.class.php';
 
+// initialize class
 $instagram = new Instagram('YOUR_APP_KEY');
+// if you want to access public methods only, you just need set the App key
+// and won't need to set an access token
 $result = $instagram->getPopularMedia();
+
+// if a user is already logged in and you have stored the access token
+// in your application (session etc), then pass it to the object
+// to use authenticated methods
+//   $instagram->setAccessToken('ACCESS_TOKEN');
+//   $result = $instagram->getUserLikes();
 
 ?>
 
@@ -28,7 +37,7 @@ $result = $instagram->getPopularMedia();
         <?php
           foreach ($result->data as $media) {
             $content = "<li>";
-            
+
             // output media
             if ($media->type === 'video') {
               // video
@@ -43,7 +52,7 @@ $result = $instagram->getPopularMedia();
               $image = $media->images->low_resolution->url;
               $content .= "<img class=\"media\" src=\"{$image}\"/>";
             }
-            
+
             // create meta section
             $avatar = $media->user->profile_picture;
             $username = $media->user->username;
@@ -53,8 +62,7 @@ $result = $instagram->getPopularMedia();
                            <p>{$username}</p>
                            <div class=\"comment\">{$comment}</div>
                          </div>";
-            
-            // output media
+
             echo $content . "</li>";
           }
         ?>

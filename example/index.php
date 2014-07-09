@@ -4,12 +4,12 @@ require 'instagram.class.php';
 
 // initialize class
 $instagram = new Instagram(array(
-  'apiKey'      => 'YOUR_APP_KEY',
-  'apiSecret'   => 'YOUR_APP_SECRET',
-  'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php
+  'apiKey'      => 'YOUR_APP_KEY', // »Client ID«
+  'apiSecret'   => 'YOUR_APP_SECRET', // »Client Secret«
+  'apiCallback' => 'YOUR_APP_CALLBACK' // must point to success.php - set these parameters in success.php as well!
 ));
 
-// create login URL
+// create OAuth login URL
 $loginUrl = $instagram->getLoginUrl();
 
 ?>
