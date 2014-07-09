@@ -20,7 +20,11 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 > A good place to get started is the example App.
 
+---
+
 Please note that Instagram mainly refers to »Clients« instead of »Apps«. So »Client ID« and »Client Secret« are the same as »App Key« and »App Secret«.
+
+---
 
 ### Initialize the class
 
