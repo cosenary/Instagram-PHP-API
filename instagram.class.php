@@ -382,6 +382,8 @@ class Instagram {
       $auth = (strpos($apiCall[1], 'access_token') !== false);
       if (isset($obj->pagination->next_max_id)) {
         return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
+      } elseif (isset($obj->pagination->next_max_like_id)) {
+        return $this->_makeCall($function, $auth, array('max_like_id' => $obj->pagination->next_max_like_id, 'count' => $limit));
       } else {
         return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
       }
