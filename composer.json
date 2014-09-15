@@ -17,8 +17,6 @@
 		"ext-curl": "*"
 	},
 	"autoload": {
-		"psr-0": {
-			"Instagram": "lib/"
-		}
+        "classmap": ["./"]
 	}
 }
