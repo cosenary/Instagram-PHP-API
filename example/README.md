@@ -22,9 +22,9 @@ This example project guides you through the required steps of the OAuth2 login p
 
 After successfully logging in (`index.php`) you will see your personal Instagram media stream. Videos are supported (HTML5 mobile friendly).
 
-The `success.php` page is a good place to test the class different [user methods](https://github.com/cosenary/Instagram-PHP-API#user-methods).
+The `success.php` page is a good place to test the class different [user methods](../README.md#user-methods).
 
-Please note that some methods require additional permissions. An overview of the available scopes can be found here: [Instagram scopes](https://github.com/cosenary/Instagram-PHP-API#get-login-url)
+Please note that some methods require additional permissions. An overview of the available scopes can be found here: [Instagram scopes](../README.md#get-login-url)
 
 ![Image](http://cl.ly/image/221T1g3w3u2J/preview.png)
 
