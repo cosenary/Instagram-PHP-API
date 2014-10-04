@@ -5,7 +5,7 @@
 A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
 
-> [Composer](#installation) package available.
+> [Composer](#installation) package available.  
 > Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
 
 ## Requirements
@@ -150,11 +150,8 @@ getLoginUrl(array(
 
 ### Set / Get access token
 
-Set the access token, for further method calls:
-`setAccessToken($token)`
-
-Get the access token, if you want to store it for later usage:
-`getAccessToken()`
+- Set the access token, for further method calls: `setAccessToken($token)`
+- Get the access token, if you want to store it for later usage: `getAccessToken()`
 
 ### User methods
 
@@ -208,9 +205,9 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 - `getPopularMedia()`
 - `searchMedia($lat, $lng, <$distance>, <$minTimestamp>, <$maxTimestamp>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
-    - `$distance` Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
-    - `$minTimestamp` All media returned will be taken *later* than this timestamp (default: 5 days ago)
-    - `$maxTimestamp` All media returned will be taken *earlier* than this timestamp (default: now)
+    - `$distance` : Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
+    - `$minTimestamp` : All media returned will be taken *later* than this timestamp (default: 5 days ago)
+    - `$maxTimestamp` : All media returned will be taken *earlier* than this timestamp (default: now)
 
 > [Sample responses of the Media Endpoints.](http://instagram.com/developer/endpoints/media/)
 
@@ -371,6 +368,8 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## History
 
+> Version 3.0 is in development and includes support for real-time subscriptions.
+
 **Instagram 2.2 - 04/10/2014**
 
 - `feature` Added "Enforce signed header"
@@ -444,6 +443,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 ## Credits
 
 Copyright (c) 2011-2014 - Programmed by Christian Metz
+
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
