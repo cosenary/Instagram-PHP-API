@@ -48,7 +48,7 @@ $result = $instagram->getPopularMedia();
             // create meta section
             $avatar = $media->user->profile_picture;
             $username = $media->user->username;
-            $if (!empty($media->caption->text)) $comment = $media->caption->text; else $comment ="";
+            $comment = (!empty($media->caption->text)) ? $media->caption->text : '';
             $content .= "<div class=\"content\">
                            <div class=\"avatar\" style=\"background-image: url({$avatar})\"></div>
                            <p>{$username}</p>
