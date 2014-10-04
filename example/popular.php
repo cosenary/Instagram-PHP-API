@@ -1,6 +1,7 @@
 <?php
 
-require_once 'instagram.class.php';
+require_once 'Instagram.php';
+use MetzWeb\Instagram\Instagram;
 
 $instagram = new Instagram('YOUR_APP_KEY');
 $result = $instagram->getPopularMedia();

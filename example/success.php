@@ -8,7 +8,8 @@
  * @since 01.10.2013
  */
 
-require_once 'instagram.class.php';
+require_once 'Instagram.php';
+use MetzWeb\Instagram\Instagram;
 
 // initialize class
 $instagram = new Instagram(array(

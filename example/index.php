@@ -1,6 +1,7 @@
 <?php
 
-require 'instagram.class.php';
+require 'Instagram.php';
+use MetzWeb\Instagram\Instagram;
 
 // initialize class
 $instagram = new Instagram(array(

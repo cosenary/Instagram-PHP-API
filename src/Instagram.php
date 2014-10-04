@@ -1,14 +1,17 @@
 <?php
 
+namespace MetzWeb\Instagram;
+
 /**
  * Instagram API class
+ *
  * API Documentation: http://instagram.com/developer/
- * Class Documentation: https://github.com/cosenary/Instagram-PHP-API/tree/dev
+ * Class Documentation: https://github.com/cosenary/Instagram-PHP-API
  * 
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2011-2014
- * @version 2.1
+ * @version 2.2
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Instagram {
@@ -55,6 +58,13 @@ class Instagram {
    * @var string
    */
   private $_accesstoken;
+
+  /**
+   * Whether a signed header should be used
+   * 
+   * @var boolean
+   */
+  private $_signedheader = false;
 
   /**
    * Available scopes
@@ -440,10 +450,16 @@ class Instagram {
     
     $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
     
+    // signed header of POST/DELETE requests
+    $headerData = array('Accept: application/json');
+    if (true === $this->_signedheader && 'GET' !== $method) {
+      $headerData[] = 'X-Insta-Forwarded-For: ' . $this->_signHeader();
+    }
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiCall);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
@@ -487,6 +503,17 @@ class Instagram {
     curl_close($ch);
     
     return json_decode($jsonData);
+  }
+
+  /**
+   * Sign header by using the app's IP and its API secret
+   * 
+   * @return string                       The signed header
+   */
+  private function _signHeader() {
+    $ipAddress = $_SERVER['SERVER_ADDR'];
+    $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
+    return join('|', array($ipAddress, $signature));
   }
 
   /**
@@ -564,6 +591,16 @@ class Instagram {
    */
   public function getApiCallback() {
     return $this->_callbackurl;
+  }
+
+  /**
+   * Enforce Signed Header
+   *
+   * @param boolean $signedHeader
+   * @return void
+   */
+  public function setSignedHeader($signedHeader) {
+    $this->_signedheader = $signedHeader;
   }
 
 }

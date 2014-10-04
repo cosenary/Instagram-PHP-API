@@ -17,8 +17,8 @@
 		"ext-curl": "*"
 	},
 	"autoload": {
-		"psr-0": {
-			"Instagram": "lib/"
+		"psr-4": {
+			"MetzWeb\\Instagram\\": "src"
 		}
 	}
 }

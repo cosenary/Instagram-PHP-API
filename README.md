@@ -5,7 +5,7 @@
 A PHP wrapper for the Instagram API.  
 Feedback or bug reports are appreciated.
 
-> Supports [Instagram video](#instagram-videos) responses.
+> Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
 
 ## Requirements
 
@@ -24,7 +24,8 @@ Take a look at the [uri guidlines](#samples-for-redirect-urls) before registerin
 
 ```php
 <?php
-    require_once 'instagram.class.php';
+    require_once 'Instagram.php';
+    use MetzWeb\Instagram\Instagram;
     
     $instagram = new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
@@ -259,6 +260,21 @@ An example of how to embed Instagram videos by using [Video.js](http://www.video
 
 ---
 
+## Signed Header
+
+In order to prevent that your access tokens gets stolen, Instagram recommends to sign your requests with a hash of your API secret and IP address.
+
+1. Activate ["Enforce Signed Header"](http://instagram.com/developer/clients/manage/) in your Instagram client settings.
+2. Enable the signed-header in your Instagram class:
+
+  ```php
+  $instagram->setSignedHeader(true);
+  ```
+
+3. You are good to go! Now, all your `POST` and `DELETE` requests will be secured with a signed header.
+
+Go into more detail about how it works in the [Instagram API Docs](http://instagram.com/developer/restrict-api-requests/#enforce-signed-header).
+
 ## Pagination
 
 Each endpoint has a maximum range of results, so increasing the `limit` parameter above the limit won't help (e.g. `getUserMedia()` has a limit of 90).
@@ -344,6 +360,12 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 > Let me know if you have to share a code example, too.
 
 ## History
+
+**Instagram 2.2 - 04/10/2014**
+
+- `feature` Added "Enforce signed header"
+- `update` Increased timeout from 5 to 20 seconds
+- `update` Class name, package and Composer support (`MetzWeb\Instagram`)
 
 **Instagram 2.1 - 30/01/2014**
 
