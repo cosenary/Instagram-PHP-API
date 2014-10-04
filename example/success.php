@@ -59,7 +59,7 @@ if (isset($code)) {
     <div class="container">
       <header class="clearfix">
         <img src="assets/instagram.png" alt="Instagram logo">
-        <h1>Instagram photos <span>taken by <? echo $data->user->username ?></span></h1>
+        <h1>Instagram photos <span>taken by <?php echo $data->user->username ?></span></h1>
       </header>
       <div class="main">
         <ul class="grid">
