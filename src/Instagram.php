@@ -96,7 +96,7 @@ class Instagram {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
-      throw new Exception("Error: __construct() - Configuration data is missing.");
+      throw new \Exception("Error: __construct() - Configuration data is missing.");
     }
   }
 
@@ -110,7 +110,7 @@ class Instagram {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . urlencode($this->getApiCallback()) . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new \Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -211,7 +211,7 @@ class Instagram {
     if (true === in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new \Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
@@ -396,7 +396,7 @@ class Instagram {
         return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
       }
     } else {
-      throw new Exception("Error: pagination() | This method doesn't support pagination.");
+      throw new \Exception("Error: pagination() | This method doesn't support pagination.");
     }
   }
 
@@ -438,7 +438,7 @@ class Instagram {
       if (true === isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new \Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
 
@@ -472,7 +472,7 @@ class Instagram {
 
     $jsonData = curl_exec($ch);
     if (false === $jsonData) {
-      throw new Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
+      throw new \Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
 
@@ -498,7 +498,7 @@ class Instagram {
 
     $jsonData = curl_exec($ch);
     if (false === $jsonData) {
-      throw new Exception("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
+      throw new \Exception("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
 
