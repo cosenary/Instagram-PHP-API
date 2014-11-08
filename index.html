@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>Instagram PHP API</h1>
-        <p>An easy-to-use PHP Class for accessing Instagram's API.</p>
+        <p>An easy-to-use PHP Class for accessing Instagram&#39;s API.</p>
 
         <p class="view"><a href="https://github.com/cosenary/Instagram-PHP-API">View the Project on GitHub <small>cosenary/Instagram-PHP-API</small></a></p>
 
@@ -29,171 +29,189 @@
       </header>
       <section>
         <h1>
-<a name="-instagram-php-api-v2" class="anchor" href="#-instagram-php-api-v2"><span class="octicon octicon-link"></span></a><img src="https://raw.github.com/cosenary/Instagram-PHP-API/master/example/assets/instagram.png" alt="Image"> Instagram PHP API V2</h1>
+<a id="-instagram-php-api-v2" class="anchor" href="#-instagram-php-api-v2" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<img src="example/assets/instagram.png" alt="Image"> Instagram PHP API V2</h1>
 
 <h2>
-<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2>
 
-<p>A PHP wrapper for the Instagram API.<br>
+<p>A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.</p>
 
 <blockquote>
-<p>Supports <a href="#instagram-videos">Instagram video</a> responses.</p>
+<p><a href="#installation">Composer</a> package available.<br>
+Supports <a href="#instagram-videos">Instagram Video</a> and <a href="#signed-header">Signed Header</a>.</p>
 </blockquote>
 
 <h2>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <ul>
 <li>PHP 5.2.x or higher</li>
 <li>cURL</li>
 <li>Registered Instagram App</li>
-</ul><h2>
-<a name="get-started" class="anchor" href="#get-started"><span class="octicon octicon-link"></span></a>Get started</h2>
+</ul>
 
-<p><a href="http://instagr.am/developer/register/">Register your application</a> with Instagram, and receive your OAuth <code>client_id</code> and <code>client_secret</code>.<br>
-Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before registering a redirect URI.</p>
+<h2>
+<a id="get-started" class="anchor" href="#get-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get started</h2>
+
+<p>To use the Instagram API you have to register yourself as a developer at the <a href="http://instagr.am/developer/register/">Instagram Developer Platform</a> and create an application. Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before registering a redirect URI. You will receive your <code>client_id</code> and <code>client_secret</code>.</p>
+
+<hr>
+
+<p>Please note that Instagram mainly refers to »Clients« instead of »Apps«. So »Client ID« and »Client Secret« are the same as »App Key« and »App Secret«.</p>
+
+<hr>
 
 <blockquote>
-<p>A good place to get started is the example App.</p>
+<p>A good place to get started is the <a href="example/README.md">example project</a>.</p>
 </blockquote>
 
 <h3>
-<a name="initialize-the-class" class="anchor" href="#initialize-the-class"><span class="octicon octicon-link"></span></a>Initialize the class</h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">require_once</span> <span class="s1">'instagram.class.php'</span><span class="p">;</span>
-
-    <span class="nv">$instagram</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-      <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span><span class="p">,</span>
-      <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span><span class="p">,</span>
-      <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span>
-    <span class="p">));</span>
-
-    <span class="k">echo</span> <span class="s2">"&lt;a href='</span><span class="si">{</span><span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getLoginUrl</span><span class="p">()</span><span class="si">}</span><span class="s2">'&gt;Login with Instagram&lt;/a&gt;"</span><span class="p">;</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
+<p>I strongly advice using <a href="https://getcomposer.org">Composer</a> to keep updates as smooth as possible.</p>
 
 <h3>
-<a name="authenticate-user-oauth2" class="anchor" href="#authenticate-user-oauth2"><span class="octicon octicon-link"></span></a>Authenticate user (OAuth2)</h3>
+<a id="initialize-the-class" class="anchor" href="#initialize-the-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initialize the class</h3>
 
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="c1">// Grab OAuth callback code</span>
-    <span class="nv">$code</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'code'</span><span class="p">];</span>
-    <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getOAuthToken</span><span class="p">(</span><span class="nv">$code</span><span class="p">);</span>
-
-    <span class="k">echo</span> <span class="s1">'Your username is: '</span> <span class="o">.</span> <span class="nv">$data</span><span class="o">-&gt;</span><span class="na">user</span><span class="o">-&gt;</span><span class="na">username</span><span class="p">;</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="cp">&lt;?php</span><span class="h"></span>
+<span class="h">    <span class="k">require_once</span> <span class="s1">'Instagram.php'</span>;</span>
+<span class="h">    <span class="k">use</span> MetzWeb\Instagram\Instagram;</span>
+<span class="h"></span>
+<span class="h">    <span class="nv">$instagram</span> <span class="o">=</span> <span class="k">new</span> <span class="no">Instagram</span>(<span class="nf">array</span>(</span>
+<span class="h">      <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span>,</span>
+<span class="h">      <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span>,</span>
+<span class="h">      <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span></span>
+<span class="h">    ));</span>
+<span class="h"></span>
+<span class="h">    <span class="nf">echo</span> <span class="s2">"&lt;a href='{<span class="nv">$instagram</span><span class="o">-&gt;</span>getLoginUrl()}'&gt;Login with Instagram&lt;/a&gt;"</span>;</span>
+<span class="h"></span><span class="cp"><span class="h">?</span>&gt;</span></pre></div>
 
 <h3>
-<a name="get-user-likes" class="anchor" href="#get-user-likes"><span class="octicon octicon-link"></span></a>Get user likes</h3>
+<a id="authenticate-user-oauth2" class="anchor" href="#authenticate-user-oauth2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authenticate user (OAuth2)</h3>
 
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="c1">// Store user access token</span>
-    <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">setAccessToken</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="cp">&lt;?php</span><span class="h"></span>
+<span class="h">    <span class="c1">// grab OAuth callback code</span></span>
+<span class="h">    <span class="nv">$code</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="o">[</span><span class="s1">'code'</span><span class="o">]</span>;</span>
+<span class="h">    <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span>getOAuthToken(<span class="nv">$code</span>);</span>
+<span class="h"></span>
+<span class="h">    <span class="nf">echo</span> <span class="s1">'Your username is: '</span> <span class="o">.</span> <span class="nv">$data</span><span class="o">-&gt;</span><span class="nv">user</span><span class="o">-&gt;</span><span class="nv">username</span>;</span>
+<span class="h"></span><span class="cp"><span class="h">?</span>&gt;</span></pre></div>
 
-    <span class="c1">// Get all user likes</span>
-    <span class="nv">$likes</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getUserLikes</span><span class="p">();</span>
+<h3>
+<a id="get-user-likes" class="anchor" href="#get-user-likes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get user likes</h3>
 
-    <span class="c1">// Take a look at the API response</span>
-    <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span><span class="p">;</span>
-    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$likes</span><span class="p">);</span>
-    <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span><span class="p">;</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="cp">&lt;?php</span><span class="h"></span>
+<span class="h">    <span class="c1">// set user access token</span></span>
+<span class="h">    <span class="nv">$instagram</span><span class="o">-&gt;</span>setAccessToken(<span class="nv">$data</span>);</span>
+<span class="h"></span>
+<span class="h">    <span class="c1">// get all user likes</span></span>
+<span class="h">    <span class="nv">$likes</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span>getUserLikes();</span>
+<span class="h"></span>
+<span class="h">    <span class="c1">// take a look at the API response</span></span>
+<span class="h">    <span class="nf">echo</span> <span class="s1">'&lt;pre&gt;'</span>;</span>
+<span class="h">    <span class="nf">print_r</span>(<span class="nv">$likes</span>);</span>
+<span class="h">    <span class="nf">echo</span> <span class="s1">'&lt;pre&gt;'</span>;</span>
+<span class="h"></span><span class="cp"><span class="h">?</span>&gt;</span></pre></div>
 
 <p><strong>All methods return the API data <code>json_decode()</code> - so you can directly access the data.</strong></p>
 
 <h2>
-<a name="available-methods" class="anchor" href="#available-methods"><span class="octicon octicon-link"></span></a>Available methods</h2>
+<a id="available-methods" class="anchor" href="#available-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available methods</h2>
 
 <h3>
-<a name="setup-instagram" class="anchor" href="#setup-instagram"><span class="octicon octicon-link"></span></a>Setup Instagram</h3>
+<a id="setup-instagram" class="anchor" href="#setup-instagram" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup Instagram</h3>
 
 <p><code>new Instagram(&lt;array&gt;/&lt;string&gt;);</code></p>
 
 <p><code>array</code> if you want to authenticate a user and access its data:</p>
 
-<div class="highlight highlight-php"><pre><span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-  <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span><span class="p">,</span>
-  <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span><span class="p">,</span>
-  <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span>
-<span class="p">));</span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="h"><span class="k">new</span> <span class="no">Instagram</span>(<span class="nf">array</span>(</span>
+<span class="h">  <span class="s1">'apiKey'</span>      <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_KEY'</span>,</span>
+<span class="h">  <span class="s1">'apiSecret'</span>   <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_SECRET'</span>,</span>
+<span class="h">  <span class="s1">'apiCallback'</span> <span class="o">=&gt;</span> <span class="s1">'YOUR_APP_CALLBACK'</span></span>
+<span class="h">));</span></pre></div>
 
 <p><code>string</code> if you <em>only</em> want to access public data:</p>
 
-<div class="highlight highlight-php"><pre><span class="k">new</span> <span class="nx">Instagram</span><span class="p">(</span><span class="s1">'YOUR_APP_KEY'</span><span class="p">);</span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="h"><span class="k">new</span> <span class="no">Instagram</span>(<span class="s1">'YOUR_APP_KEY'</span>);</span></pre></div>
 
 <h3>
-<a name="get-login-url" class="anchor" href="#get-login-url"><span class="octicon octicon-link"></span></a>Get login URL</h3>
+<a id="get-login-url" class="anchor" href="#get-login-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get login URL</h3>
 
 <p><code>getLoginUrl(&lt;array&gt;)</code></p>
 
-<div class="highlight highlight-php"><pre><span class="nx">getLoginUrl</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-  <span class="s1">'basic'</span><span class="p">,</span>
-  <span class="s1">'likes'</span>
-<span class="p">));</span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="h">getLoginUrl(<span class="nf">array</span>(</span>
+<span class="h">  <span class="s1">'basic'</span>,</span>
+<span class="h">  <span class="s1">'likes'</span></span>
+<span class="h">));</span></pre></div>
 
 <p><strong>Optional scope parameters:</strong></p>
 
 <table>
-<tr>
-<th>Scope</th>
+  <tr>
+    <th>Scope</th>
     <th>Legend</th>
     <th>Methods</th>
   </tr>
-<tr>
-<td><code>basic</code></td>
+  <tr>
+    <td><code>basic</code></td>
     <td>to use all user related methods [default]</td>
     <td>
 <code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
   </tr>
-<tr>
-<td><code>relationships</code></td>
+  <tr>
+    <td><code>relationships</code></td>
     <td>to follow and unfollow users</td>
     <td><code>modifyRelationship()</code></td>
   </tr>
-<tr>
-<td><code>likes</code></td>
+  <tr>
+    <td><code>likes</code></td>
     <td>to like and unlike items</td>
     <td>
 <code>getMediaLikes()</code>, <code>likeMedia()</code>, <code>deleteLikedMedia()</code>
 </td>
   </tr>
-<tr>
-<td><code>comments</code></td>
+  <tr>
+    <td><code>comments</code></td>
     <td>to create or delete comments</td>
     <td>
 <code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code>
 </td>
   </tr>
-</table><h3>
-<a name="get-oauth-token" class="anchor" href="#get-oauth-token"><span class="octicon octicon-link"></span></a>Get OAuth token</h3>
+</table>
+
+<h3>
+<a id="get-oauth-token" class="anchor" href="#get-oauth-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get OAuth token</h3>
 
 <p><code>getOAuthToken($code, &lt;true&gt;/&lt;false&gt;)</code></p>
 
-<p><code>true</code> : Returns only the OAuth token<br><code>false</code> <em>[default]</em> : Returns OAuth token and profile data of the authenticated user</p>
+<p><code>true</code> : Returns only the OAuth token<br>
+<code>false</code> <em>[default]</em> : Returns OAuth token and profile data of the authenticated user</p>
 
 <h3>
-<a name="set--get-access-token" class="anchor" href="#set--get-access-token"><span class="octicon octicon-link"></span></a>Set / Get access token</h3>
+<a id="set--get-access-token" class="anchor" href="#set--get-access-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set / Get access token</h3>
 
-<p>Stores access token, for further method calls:<br><code>setAccessToken($token)</code></p>
-
-<p>Returns access token, if you want to store it for later usage:<br><code>getAccessToken()</code></p>
+<ul>
+<li>Set the access token, for further method calls: <code>setAccessToken($token)</code>
+</li>
+<li>Get the access token, if you want to store it for later usage: <code>getAccessToken()</code>
+</li>
+</ul>
 
 <h3>
-<a name="user-methods" class="anchor" href="#user-methods"><span class="octicon octicon-link"></span></a>User methods</h3>
+<a id="user-methods" class="anchor" href="#user-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>User methods</h3>
 
 <p><strong>Public methods</strong></p>
 
 <ul>
 <li><code>getUser($id)</code></li>
 <li><code>searchUser($name, &lt;$limit&gt;)</code></li>
-</ul><p><strong>Authenticated methods</strong></p>
+<li><code>getUserMedia($id, &lt;$limit&gt;)</code></li>
+</ul>
+
+<p><strong>Authenticated methods</strong></p>
 
 <ul>
 <li><code>getUser()</code></li>
@@ -203,21 +221,23 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <code>getUserMedia(&lt;$id&gt;, &lt;$limit&gt;)</code>
 
 <ul>
-<li>if an <code>$id</code> isn't defined, it returns the media of the logged in user</li>
+<li>if an <code>$id</code> isn't defined or equals <code>'self'</code>, it returns the media of the logged in user</li>
 </ul>
 </li>
-</ul><blockquote>
+</ul>
+
+<blockquote>
 <p><a href="http://instagram.com/developer/endpoints/users/">Sample responses of the User Endpoints.</a></p>
 </blockquote>
 
 <h3>
-<a name="relationship-methods" class="anchor" href="#relationship-methods"><span class="octicon octicon-link"></span></a>Relationship methods</h3>
+<a id="relationship-methods" class="anchor" href="#relationship-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relationship methods</h3>
 
 <p><strong>Authenticated methods</strong></p>
 
 <ul>
-<li><code>getUserFollows(&lt;$id&gt;, &lt;$limit&gt;)</code></li>
-<li><code>getUserFollower(&lt;$id&gt;, &lt;$limit&gt;)</code></li>
+<li><code>getUserFollows($id, &lt;$limit&gt;)</code></li>
+<li><code>getUserFollower($id, &lt;$limit&gt;)</code></li>
 <li><code>getUserRelationship($id)</code></li>
 <li>
 <code>modifyRelationship($action, $user)</code>
@@ -229,20 +249,25 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <code>$user</code> : Target user id</li>
 </ul>
 </li>
-</ul><div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="c1">// Follow the user with the ID 1574083</span>
-    <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">modifyRelationship</span><span class="p">(</span><span class="s1">'follow'</span><span class="p">,</span> <span class="mi">1574083</span><span class="p">);</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
+</ul>
 
-<hr><p>Please note that the <code>modifyRelationship()</code> method requires the <code>relationships</code> <a href="#get-login-url">scope</a>.</p>
+<div class="highlight highlight-php"><pre><span class="cp">&lt;?php</span><span class="h"></span>
+<span class="h">    <span class="c1">// Follow the user with the ID 1574083</span></span>
+<span class="h">    <span class="nv">$instagram</span><span class="o">-&gt;</span>modifyRelationship(<span class="s1">'follow'</span>, <span class="m">1574083</span>);</span>
+<span class="h"></span><span class="cp"><span class="h">?</span>&gt;</span></pre></div>
 
-<hr><blockquote>
+<hr>
+
+<p>Please note that the <code>modifyRelationship()</code> method requires the <code>relationships</code> <a href="#get-login-url">scope</a>.</p>
+
+<hr>
+
+<blockquote>
 <p><a href="http://instagram.com/developer/endpoints/relationships/">Sample responses of the Relationship Endpoints.</a></p>
 </blockquote>
 
 <h3>
-<a name="media-methods" class="anchor" href="#media-methods"><span class="octicon octicon-link"></span></a>Media methods</h3>
+<a id="media-methods" class="anchor" href="#media-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Media methods</h3>
 
 <p><strong>Public methods</strong></p>
 
@@ -250,30 +275,36 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <li><code>getMedia($id)</code></li>
 <li><code>getPopularMedia()</code></li>
 <li>
-<code>searchMedia($lat, $lng, &lt;$distance&gt;)</code>
+<code>searchMedia($lat, $lng, &lt;$distance&gt;, &lt;$minTimestamp&gt;, &lt;$maxTimestamp&gt;)</code>
 
 <ul>
 <li>
 <code>$lat</code> and <code>$lng</code> are coordinates and have to be floats like: <code>48.145441892290336</code>,<code>11.568603515625</code>
 </li>
 <li>
-<code>$distance</code> Radial distance in meter (max. distance: 5km = 5000)</li>
+<code>$distance</code> : Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)</li>
+<li>
+<code>$minTimestamp</code> : All media returned will be taken <em>later</em> than this timestamp (default: 5 days ago)</li>
+<li>
+<code>$maxTimestamp</code> : All media returned will be taken <em>earlier</em> than this timestamp (default: now)</li>
 </ul>
 </li>
-</ul><p>All <code>&lt;$limit&gt;</code> parameters are optional. If the limit is undefined, all available results will be returned.</p>
+</ul>
 
 <blockquote>
 <p><a href="http://instagram.com/developer/endpoints/media/">Sample responses of the Media Endpoints.</a></p>
 </blockquote>
 
 <h3>
-<a name="comment-methods" class="anchor" href="#comment-methods"><span class="octicon octicon-link"></span></a>Comment methods</h3>
+<a id="comment-methods" class="anchor" href="#comment-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comment methods</h3>
 
 <p><strong>Public methods</strong></p>
 
 <ul>
 <li><code>getMediaComments($id)</code></li>
-</ul><p><strong>Authenticated methods</strong></p>
+</ul>
+
+<p><strong>Authenticated methods</strong></p>
 
 <ul>
 <li>
@@ -291,14 +322,20 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <li>the comment must be authored by the authenticated user</li>
 </ul>
 </li>
-</ul><hr><p>Please note that the authenticated methods require the <code>comments</code> <a href="#get-login-url">scope</a>.</p>
+</ul>
 
-<hr><blockquote>
+<hr>
+
+<p>Please note that the authenticated methods require the <code>comments</code> <a href="#get-login-url">scope</a>.</p>
+
+<hr>
+
+<blockquote>
 <p><a href="http://instagram.com/developer/endpoints/comments/">Sample responses of the Comment Endpoints.</a></p>
 </blockquote>
 
 <h3>
-<a name="tag-methods" class="anchor" href="#tag-methods"><span class="octicon octicon-link"></span></a>Tag methods</h3>
+<a id="tag-methods" class="anchor" href="#tag-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag methods</h3>
 
 <p><strong>Public methods</strong></p>
 
@@ -306,12 +343,14 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <li><code>getTag($name)</code></li>
 <li><code>getTagMedia($name)</code></li>
 <li><code>searchTags($name)</code></li>
-</ul><blockquote>
+</ul>
+
+<blockquote>
 <p><a href="http://instagram.com/developer/endpoints/tags/">Sample responses of the Tag Endpoints.</a></p>
 </blockquote>
 
 <h3>
-<a name="likes-methods" class="anchor" href="#likes-methods"><span class="octicon octicon-link"></span></a>Likes methods</h3>
+<a id="likes-methods" class="anchor" href="#likes-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Likes methods</h3>
 
 <p><strong>Authenticated methods</strong></p>
 
@@ -319,95 +358,122 @@ Take a look at the <a href="#samples-for-redirect-urls">uri guidlines</a> before
 <li><code>getMediaLikes($id)</code></li>
 <li><code>likeMedia($id)</code></li>
 <li><code>deleteLikedMedia($id)</code></li>
-</ul><blockquote>
-<p>How to like a Media: <a href="https://gist.github.com/3287237">Example usage</a><br><a href="http://instagram.com/developer/endpoints/likes/">Sample responses of the Likes Endpoints.</a></p>
+</ul>
+
+<blockquote>
+<p>How to like a Media: <a href="https://gist.github.com/3287237">Example usage</a>
+<a href="http://instagram.com/developer/endpoints/likes/">Sample responses of the Likes Endpoints.</a></p>
 </blockquote>
 
+<p>All <code>&lt;...&gt;</code> parameters are optional. If the limit is undefined, all available results will be returned.</p>
+
 <h2>
-<a name="instagram-videos" class="anchor" href="#instagram-videos"><span class="octicon octicon-link"></span></a>Instagram videos</h2>
+<a id="instagram-videos" class="anchor" href="#instagram-videos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instagram videos</h2>
 
 <p>Instagram entries are marked with a <code>type</code> attribute (<code>image</code> or <code>video</code>), that allows you to identify videos.</p>
 
-<p>An example of how to embed Instagram videos by using <a href="http://www.videojs.com">Video.js</a>, can be found in the <code>/example</code> folder.  </p>
+<p>An example of how to embed Instagram videos by using <a href="http://www.videojs.com">Video.js</a>, can be found in the <code>/example</code> folder.</p>
 
-<hr><p><strong>Please note:</strong> Instagram currently doesn't allow to filter videos.</p>
+<hr>
 
-<hr><h2>
-<a name="pagination" class="anchor" href="#pagination"><span class="octicon octicon-link"></span></a>Pagination</h2>
+<p><strong>Please note:</strong> Instagram currently doesn't allow to filter videos.</p>
+
+<hr>
+
+<h2>
+<a id="signed-header" class="anchor" href="#signed-header" aria-hidden="true"><span class="octicon octicon-link"></span></a>Signed Header</h2>
+
+<p>In order to prevent that your access tokens gets stolen, Instagram recommends to sign your requests with a hash of your API secret and IP address.</p>
+
+<ol>
+<li>Activate <a href="http://instagram.com/developer/clients/manage/">"Enforce Signed Header"</a> in your Instagram client settings.</li>
+<li>
+<p>Enable the signed-header in your Instagram class:</p>
+
+<div class="highlight highlight-php"><pre><span class="h"><span class="nv">$instagram</span><span class="o">-&gt;</span>setSignedHeader(<span class="kc">true</span>);</span></pre></div>
+</li>
+<li><p>You are good to go! Now, all your <code>POST</code> and <code>DELETE</code> requests will be secured with a signed header.</p></li>
+</ol>
+
+<p>Go into more detail about how it works in the <a href="http://instagram.com/developer/restrict-api-requests/#enforce-signed-header">Instagram API Docs</a>.</p>
+
+<h2>
+<a id="pagination" class="anchor" href="#pagination" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pagination</h2>
 
 <p>Each endpoint has a maximum range of results, so increasing the <code>limit</code> parameter above the limit won't help (e.g. <code>getUserMedia()</code> has a limit of 90).</p>
 
-<p>That's the point where the "pagination" feature comes into play.<br>
+<p>That's the point where the "pagination" feature comes into play.
 Simply pass an object into the <code>pagination()</code> method and receive your next dataset:</p>
 
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="nv">$photos</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">getTagMedia</span><span class="p">(</span><span class="s1">'kitten'</span><span class="p">);</span>
-
-    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span><span class="na">pagination</span><span class="p">(</span><span class="nv">$photos</span><span class="p">);</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
+<div class="highlight highlight-php"><pre><span class="cp">&lt;?php</span><span class="h"></span>
+<span class="h">    <span class="nv">$photos</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span>getTagMedia(<span class="s1">'kitten'</span>);</span>
+<span class="h"></span>
+<span class="h">    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$instagram</span><span class="o">-&gt;</span>pagination(<span class="nv">$photos</span>);</span>
+<span class="h"></span><span class="cp"><span class="h">?</span>&gt;</span></pre></div>
 
 <p>Iteration with <code>do-while</code> loop.</p>
 
 <h2>
-<a name="samples-for-redirect-urls" class="anchor" href="#samples-for-redirect-urls"><span class="octicon octicon-link"></span></a>Samples for redirect URLs</h2>
+<a id="samples-for-redirect-urls" class="anchor" href="#samples-for-redirect-urls" aria-hidden="true"><span class="octicon octicon-link"></span></a>Samples for redirect URLs</h2>
 
 <table>
-<tr>
-<th>Registered Redirect URI</th>
+  <tr>
+    <th>Registered Redirect URI</th>
     <th>Redirect URI sent to /authorize</th>
     <th>Valid?</th>
   </tr>
-<tr>
-<td>http://yourcallback.com/</td>
+  <tr>
+    <td>http://yourcallback.com/</td>
     <td>http://yourcallback.com/</td>
     <td>yes</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/</td>
+  <tr>
+    <td>http://yourcallback.com/</td>
     <td>http://yourcallback.com/?this=that</td>
     <td>yes</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/?this=that</td>
+  <tr>
+    <td>http://yourcallback.com/?this=that</td>
     <td>http://yourcallback.com/</td>
     <td>no</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/?this=that</td>
+  <tr>
+    <td>http://yourcallback.com/?this=that</td>
     <td>http://yourcallback.com/?this=that&amp;another=true</td>
     <td>yes</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/?this=that</td>
+  <tr>
+    <td>http://yourcallback.com/?this=that</td>
     <td>http://yourcallback.com/?another=true&amp;this=that</td>
     <td>no</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/callback</td>
+  <tr>
+    <td>http://yourcallback.com/callback</td>
     <td>http://yourcallback.com/</td>
     <td>no</td>
   </tr>
-<tr>
-<td>http://yourcallback.com/callback</td>
+  <tr>
+    <td>http://yourcallback.com/callback</td>
     <td>http://yourcallback.com/callback/?type=mobile</td>
     <td>yes</td>
   </tr>
-</table><blockquote>
+</table>
+
+<blockquote>
 <p>If you need further information about an endpoint, take a look at the <a href="http://instagram.com/developer/authentication/">Instagram API docs</a>.</p>
 </blockquote>
 
 <h2>
-<a name="example-app" class="anchor" href="#example-app"><span class="octicon octicon-link"></span></a>Example App</h2>
+<a id="example-app" class="anchor" href="#example-app" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example App</h2>
 
 <p><img src="http://cl.ly/image/221T1g3w3u2J/preview.png" alt="Image"></p>
 
-<p>This example project, located in the <code>example/</code> folder, helps you to get started.<br>
-The code is well documented and takes you through all required steps of the OAuth2 process.<br>
+<p>This example project, located in the <code>example/</code> folder, helps you to get started.
+The code is well documented and takes you through all required steps of the OAuth2 process.
 Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDESIGN">Ricardo de Zoete Pro</a>.</p>
 
 <h4>
-<a name="more-examples-and-tutorials" class="anchor" href="#more-examples-and-tutorials"><span class="octicon octicon-link"></span></a>More examples and tutorials:</h4>
+<a id="more-examples-and-tutorials" class="anchor" href="#more-examples-and-tutorials" aria-hidden="true"><span class="octicon octicon-link"></span></a>More examples and tutorials:</h4>
 
 <ul>
 <li><a href="https://gist.github.com/cosenary/3287237">User likes</a></li>
@@ -415,27 +481,63 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <li><a href="https://gist.github.com/cosenary/7267139">User follower</a></li>
 <li><a href="https://gist.github.com/cosenary/2975779">Load more button</a></li>
 <li><a href="https://gist.github.com/cosenary/1711218">User most recent media</a></li>
-<li><a href="http://www.9lessons.info/2012/05/login-with-instagram-php.html">Instagram login (by 9lessons)</a></li>
-</ul><blockquote>
+<li><a href="https://gist.github.com/cosenary/8803601">Instagram login</a></li>
+<li><a href="http://www.9lessons.info/2012/05/login-with-instagram-php.html">Instagram signup (9lessons tutorial)</a></li>
+</ul>
+
+<blockquote>
 <p>Let me know if you have to share a code example, too.</p>
 </blockquote>
 
 <h2>
-<a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h2>
+<a id="history" class="anchor" href="#history" aria-hidden="true"><span class="octicon octicon-link"></span></a>History</h2>
+
+<blockquote>
+<p>Version 3.0 is in development and includes support for real-time subscriptions.</p>
+</blockquote>
+
+<p><strong>Instagram 2.2 - 04/10/2014</strong></p>
+
+<ul>
+<li>
+<code>feature</code> Added "Enforce signed header"</li>
+<li>
+<code>feature</code> Implemented PSR4 autoloading.</li>
+<li>
+<code>update</code> Increased timeout from 5 to 20 seconds</li>
+<li>
+<code>update</code> Class name, package renamed</li>
+</ul>
+
+<p><strong>Instagram 2.1 - 30/01/2014</strong></p>
+
+<ul>
+<li>
+<code>update</code> added min and max_timestamp to <code>searchMedia()</code>
+</li>
+<li>
+<code>update</code> public authentication for <code>getUserMedia()</code> method</li>
+<li>
+<code>fix</code> support for inconsistent pagination return type (<em>relationship endpoint</em>)</li>
+</ul>
 
 <p><strong>Instagram 2.0 - 24/12/2013</strong></p>
 
 <ul>
 <li>
 <code>release</code> version 2.0</li>
-</ul><p><strong>Instagram 2.0 beta - 20/11/2013</strong></p>
+</ul>
+
+<p><strong>Instagram 2.0 beta - 20/11/2013</strong></p>
 
 <ul>
 <li>
 <code>feature</code> Added <em>Locations</em> endpoint</li>
 <li>
 <code>update</code> Updated example project to display Instagram videos</li>
-</ul><p><strong>Instagram 2.0 alpha 4 - 01/11/2013</strong></p>
+</ul>
+
+<p><strong>Instagram 2.0 alpha 4 - 01/11/2013</strong></p>
 
 <ul>
 <li>
@@ -444,7 +546,9 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <code>feature</code> New example with a fancy GUI</li>
 <li>
 <code>update</code> Improved documentation</li>
-</ul><p><strong>Instagram 2.0 alpha 3 - 04/09/2013</strong></p>
+</ul>
+
+<p><strong>Instagram 2.0 alpha 3 - 04/09/2013</strong></p>
 
 <ul>
 <li>
@@ -461,14 +565,18 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <code>feature</code> Added <code>limit</code> to <code>getTagMedia()</code> method</li>
 </ul>
 </li>
-</ul><p><strong>Instagram 2.0 alpha 2 - 14/06/2013</strong></p>
+</ul>
+
+<p><strong>Instagram 2.0 alpha 2 - 14/06/2013</strong></p>
 
 <ul>
 <li>
 <code>feature</code> Improved Pagination functionality</li>
 <li>
 <code>change</code> Added <code>distance</code> parameter to <code>searchMedia()</code> method (thanks <a href="https://github.com/jonathanwkelly" class="user-mention">@jonathanwkelly</a>)</li>
-</ul><p><strong>Instagram 2.0 alpha 1 - 28/05/2012</strong></p>
+</ul>
+
+<p><strong>Instagram 2.0 alpha 1 - 28/05/2012</strong></p>
 
 <ul>
 <li>
@@ -477,7 +585,9 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <code>feature</code> Added User Relationship endpoints</li>
 <li>
 <code>feature</code> Added scope parameter table for the <code>getLoginUrl()</code> method</li>
-</ul><p><strong>Instagram 1.5 - 31/01/2012</strong></p>
+</ul>
+
+<p><strong>Instagram 1.5 - 31/01/2012</strong></p>
 
 <ul>
 <li>
@@ -489,7 +599,9 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <li>
 <code>change</code> Now you can pass the <code>getOAuthToken()</code> object directly into <code>setAccessToken()</code>
 </li>
-</ul><p><strong>Instagram 1.0 - 20/11/2011</strong></p>
+</ul>
+
+<p><strong>Instagram 1.0 - 20/11/2011</strong></p>
 
 <ul>
 <li>
@@ -498,25 +610,32 @@ Credit for the awesome Instagram icons goes to <a href="http://dribbble.com/RZDE
 <code>feature</code> Added sample App with documented code</li>
 <li>
 <code>update</code> New detailed documentation</li>
-</ul><p><strong>Instagram 0.8 - 16/11/2011</strong></p>
+</ul>
+
+<p><strong>Instagram 0.8 - 16/11/2011</strong></p>
 
 <ul>
 <li>
 <code>release</code> First inital released version</li>
 <li>
 <code>feature</code> Initialize the class with a config array or string (see example)</li>
-</ul><p><strong>Instagram 0.5 - 12/11/2011</strong></p>
+</ul>
+
+<p><strong>Instagram 0.5 - 12/11/2011</strong></p>
 
 <ul>
 <li>
 <code>release</code> Beta version</li>
 <li>
 <code>update</code> Small documentation</li>
-</ul><h2>
-<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+</ul>
 
-<p>Copyright (c) 2011-2014 - Programmed by Christian Metz<br>
-Released under the <a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>.</p>
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>Copyright (c) 2011-2014 - Programmed by Christian Metz</p>
+
+<p>Released under the <a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>.</p>
 
 <p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png" alt="Bitdeli Badge"></a></p>
       </section>
