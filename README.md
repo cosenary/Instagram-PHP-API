@@ -1,4 +1,10 @@
-# ![Image](example/assets/instagram.png) Instagram PHP API V2
+# ![Image](example/assets/instagram.png) Instagram PHP API V3
+
+---
+
+**Caution:** this is the development branch for the upcoming version 3
+
+---
 
 ## About
 
@@ -202,6 +208,7 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 **Public methods**
 
 - `getMedia($id)`
+- `getMediaShortcode($shortcode)`
 - `getPopularMedia()`
 - `searchMedia($lat, $lng, <$distance>, <$minTimestamp>, <$maxTimestamp>)`
     - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
@@ -352,7 +359,7 @@ Iteration with `do-while` loop.
 
 This example project, located in the `example/` folder, helps you to get started.
 The code is well documented and takes you through all required steps of the OAuth2 process.
-Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
+Credit for the awesome Instagram icons goes to [mauroxanish](http://mauroxanish.deviantart.com).
 
 #### More examples and tutorials:
 
@@ -368,7 +375,19 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## History
 
-> Version 3.0 is in development and includes support for real-time subscriptions.
+**Instagram 3.0 alpha - 08/11/2014**
+
+> Preperation for the V3 release.
+
+- [x] Add `getMediaShortcode()` endpoint
+- [x] Update Instagram icon for V3
+- [ ] Real-time subscriptions
+- [ ] More flexible requests (method params)
+- [ ] Fix broken private-profile access
+- [ ] New fancy example app
+- [ ] Update pagination
+- [ ] Update documentation
+	- [ ] Remove response wiki in favor of Instagram docs
 
 **Instagram 2.2 - 04/10/2014**
 

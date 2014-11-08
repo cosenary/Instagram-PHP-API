@@ -38,4 +38,4 @@ If you've done improvements or added some fancy features, please share them and 
 
 ---
 
-Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dribbble.com/RZDESIGN).
+Credit for the awesome Instagram icons goes to [mauroxanish](http://mauroxanish.deviantart.com).

@@ -11,7 +11,7 @@ namespace MetzWeb\Instagram;
  * @author Christian Metz
  * @since 30.10.2011
  * @copyright Christian Metz - MetzWeb Networks 2011-2014
- * @version 2.2
+ * @version 3.0 alpha
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Instagram {
@@ -239,6 +239,16 @@ class Instagram {
   }
 
   /**
+   * Get media by its shortcode
+   *
+   * @param string $shortcode             Instagram media shortcode
+   * @return mixed
+   */
+  public function getMediaShortcode($shortcode) {
+    return $this->_makeCall('media/shortcode/' . $shortcode);
+  }
+
+  /**
    * Get the most popular media
    *
    * @return mixed
@@ -460,6 +470,7 @@ class Instagram {
     curl_setopt($ch, CURLOPT_URL, $apiCall);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+    curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -470,7 +481,12 @@ class Instagram {
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
 
-    $jsonData = curl_exec($ch);
+    // execute API request
+    $response = curl_exec($ch);
+
+    // split header from JSON data and assign each to a variable
+    list($headerContent, $jsonData) = explode("\r\n\r\n", $response, 2);
+
     if (false === $jsonData) {
       throw new \Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
@@ -517,6 +533,30 @@ class Instagram {
   }
 
   /**
+   * Read header content in an array
+   *
+   * @param string $headerContent          HTTP response header
+   * @return array
+   */
+  private function _processHeaders($headerContent) {
+    $headers = array();
+
+    // iterate over the header string line by line
+    foreach (explode("\r\n", $headerContent) as $i => $line) {
+      if ($i === 0) {
+        // the first line contains the HTTP response code
+        $headers['http_code'] = $line;
+      } else {
+        // split headers into key (name) and value
+        list($key, $value) = explode(': ', $line);
+        $headers[$key] = $value;
+      }
+    }
+
+    return $headers;
+  }
+
+  /**
    * Access Token Setter
    *
    * @param object|string $data
@@ -558,7 +598,7 @@ class Instagram {
   /**
    * API Secret Setter
    *
-   * @param string $apiSecret 
+   * @param string $apiSecret
    * @return void
    */
   public function setApiSecret($apiSecret) {
