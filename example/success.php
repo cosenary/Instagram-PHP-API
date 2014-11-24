@@ -8,7 +8,7 @@
  * @since 01.10.2013
  */
 
-require_once 'Instagram.php';
+require '../src/Instagram.php';
 use MetzWeb\Instagram\Instagram;
 
 // initialize class
