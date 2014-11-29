@@ -1,6 +1,6 @@
 <?php
 
-require 'Instagram.php';
+require '../src/Instagram.php';
 use MetzWeb\Instagram\Instagram;
 
 // initialize class
@@ -40,7 +40,7 @@ $loginUrl = $instagram->getLoginUrl();
           <li><img src="assets/instagram-big.png" alt="Instagram logo"></li>
           <li>
             <a class="login" href="<?php echo $loginUrl ?>">» Login with Instagram</a>
-            <h>Use your Instagram account to login.</h4>
+            <h4>Use your Instagram account to login.</h4>
           </li>
         </ul>
         <!-- GitHub project -->
