@@ -4,6 +4,9 @@
 
 **Caution:** this is the development branch for the upcoming version 3
 
+[![Latest Stable Version](https://poser.pugx.org/cosenary/instagram/v/stable.svg)](https://packagist.org/packages/cosenary/instagram)
+[![Latest Unstable Version](https://poser.pugx.org/cosenary/instagram/v/unstable.svg)](https://packagist.org/packages/cosenary/instagram)
+
 ---
 
 ## About
@@ -464,5 +467,4 @@ Credit for the awesome Instagram icons goes to [mauroxanish](http://mauroxanish.
 Copyright (c) 2011-2014 - Programmed by Christian Metz
 
 Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![License](https://poser.pugx.org/cosenary/instagram/license.svg)](https://packagist.org/packages/cosenary/instagram)
