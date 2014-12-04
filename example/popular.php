@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Instagram.php';
+require '../src/Instagram.php';
 use MetzWeb\Instagram\Instagram;
 
 $instagram = new Instagram('YOUR_APP_KEY');
