@@ -361,7 +361,7 @@ class Instagram {
   }
 
   /**
-   * Get recent media from a given location
+   * Search for a location by geographic coordinate.
    *
    * @param float $lat                    Latitude of the center search coordinate
    * @param float $lng                    Longitude of the center search coordinate
@@ -370,6 +370,42 @@ class Instagram {
    */
   public function searchLocation($lat, $lng, $distance = 1000) {
     return $this->_makeCall('locations/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
+  }
+
+  /**
+   * Search for a location by Facebook Places ID.
+   *
+   * Returns a location mapped off of a Facebook places id. If used, a
+   * Foursquare id and lat, lng are not required.
+   *
+   * @param int $facebook_place_id  Facebook place id
+   *
+   * @return mixed
+   */
+  public function searchLocationByFacebookPlaceId($facebook_place_id) {
+    return $this->_makeCall(
+      'locations/search',
+      false,
+      ['FACEBOOK_PLACES_ID' => $facebook_place_id]
+    );
+  }
+
+  /**
+   * Search for a location by Foursquare V2 ID.
+   *
+   * Returns a location mapped off of a foursquare v2 api location id. If used,
+   * you are not required to use lat and lng.
+   *
+   * @param int $foursquare_v2_id  Foursquare V2 ID
+   *
+   * @return mixed
+   */
+  public function searchLocationByFoursquareId($foursquare_v2_id) {
+    return $this->_makeCall(
+      'locations/search',
+      false,
+      ['FOURSQUARE_V2_ID' => $foursquare_v2_id]
+    );
   }
 
   /**
@@ -558,7 +594,7 @@ class Instagram {
   /**
    * API Secret Setter
    *
-   * @param string $apiSecret 
+   * @param string $apiSecret
    * @return void
    */
   public function setApiSecret($apiSecret) {
@@ -573,7 +609,7 @@ class Instagram {
   public function getApiSecret() {
     return $this->_apisecret;
   }
-  
+
   /**
    * API Callback URL Setter
    *
