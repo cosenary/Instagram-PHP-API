@@ -386,7 +386,7 @@ class Instagram {
     return $this->_makeCall(
       'locations/search',
       false,
-      ['FACEBOOK_PLACES_ID' => $id]
+      ['facebook_places_id' => $id]
     );
   }
 
@@ -404,7 +404,7 @@ class Instagram {
     return $this->_makeCall(
       'locations/search',
       false,
-      ['FOURSQUARE_V2_ID' => $id]
+      ['foursquare_v2_id' => $id]
     );
   }
 
