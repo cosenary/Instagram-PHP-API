@@ -378,15 +378,15 @@ class Instagram {
    * Returns a location mapped off of a Facebook places id. If used, a
    * Foursquare id and lat, lng are not required.
    *
-   * @param int $facebook_place_id  Facebook place id
+   * @param int $id                       Facebook place id
    *
    * @return mixed
    */
-  public function searchLocationByFacebookPlaceId($facebook_place_id) {
+  public function searchLocationByFacebookPlaceId($id) {
     return $this->_makeCall(
       'locations/search',
       false,
-      ['FACEBOOK_PLACES_ID' => $facebook_place_id]
+      ['FACEBOOK_PLACES_ID' => $id]
     );
   }
 
@@ -396,15 +396,15 @@ class Instagram {
    * Returns a location mapped off of a foursquare v2 api location id. If used,
    * you are not required to use lat and lng.
    *
-   * @param int $foursquare_v2_id  Foursquare V2 ID
+   * @param int $id                       Foursquare V2 ID
    *
    * @return mixed
    */
-  public function searchLocationByFoursquareId($foursquare_v2_id) {
+  public function searchLocationByFoursquareId($id) {
     return $this->_makeCall(
       'locations/search',
       false,
-      ['FOURSQUARE_V2_ID' => $foursquare_v2_id]
+      ['FOURSQUARE_V2_ID' => $id]
     );
   }
 

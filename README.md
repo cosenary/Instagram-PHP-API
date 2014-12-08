@@ -5,7 +5,7 @@
 A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
 
-> [Composer](#installation) package available.  
+> [Composer](#installation) package available.
 > Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
 
 ## Requirements
@@ -36,13 +36,13 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
 <?php
     require_once 'Instagram.php';
     use MetzWeb\Instagram\Instagram;
-    
+
     $instagram = new Instagram(array(
       'apiKey'      => 'YOUR_APP_KEY',
       'apiSecret'   => 'YOUR_APP_SECRET',
       'apiCallback' => 'YOUR_APP_CALLBACK'
     ));
-    
+
     echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ?>
 ```
@@ -54,7 +54,7 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
     // grab OAuth callback code
     $code = $_GET['code'];
     $data = $instagram->getOAuthToken($code);
-    
+
     echo 'Your username is: ' . $data->user->username;
 ?>
 ```
@@ -65,10 +65,10 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
 <?php
     // set user access token
     $instagram->setAccessToken($data);
-    
+
     // get all user likes
     $likes = $instagram->getUserLikes();
-    
+
     // take a look at the API response
     echo '<pre>';
     print_r($likes);
@@ -145,7 +145,7 @@ getLoginUrl(array(
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token  
+`true` : Returns only the OAuth token
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token
@@ -252,6 +252,24 @@ Please note that the authenticated methods require the `comments` [scope](#get-l
 
 > How to like a Media: [Example usage](https://gist.github.com/3287237)
 > [Sample responses of the Likes Endpoints.](http://instagram.com/developer/endpoints/likes/)
+
+### Location methods
+
+**Public methods**
+
+- `getLocation($id)`
+    - `$id` : Instagram's location id.
+- `getLocationMedia($id)`
+    - `$id` : Instagram's location id.
+- `searchLocation($lat, $lng, <$distance>)`
+    - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
+    - `$distance` : Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
+- `searchLocationByFacebookPlaceId($id)`
+    - `$id` : Facebook Places ID.
+- `searchLocationByFoursquareId($id)`
+    - `$id` : Foursquare V2 ID.
+
+> [Sample responses of the Location Endpoints.](http://instagram.com/developer/endpoints/locations/)
 
 All `<...>` parameters are optional. If the limit is undefined, all available results will be returned.
 
