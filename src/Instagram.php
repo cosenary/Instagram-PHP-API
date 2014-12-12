@@ -228,6 +228,18 @@ class Instagram {
     return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance, 'min_timestamp' => $minTimestamp, 'max_timestamp' => $maxTimestamp));
   }
 
+    /**
+     * Search media by a username
+     *
+     * @param $username                   Instagram username
+     * @param int [optional] $limit       Limit of the returned result
+     * @return mixed
+     */
+  public function searchMediaByUsername($username, $limit = 0) {
+    $userId = $this->searchUser($username)->data[0]->id;
+    return $this->getUserMedia($userId, $limit);
+  }
+
   /**
    * Get media by its id
    *
