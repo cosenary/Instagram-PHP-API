@@ -36,49 +36,49 @@ class Instagram {
    *
    * @var string
    */
-  private $_apikey;
+  protected $_apikey;
 
   /**
    * The Instagram OAuth API secret
    *
    * @var string
    */
-  private $_apisecret;
+  protected $_apisecret;
 
   /**
    * The callback URL
    *
    * @var string
    */
-  private $_callbackurl;
+  protected $_callbackurl;
 
   /**
    * The user access token
    *
    * @var string
    */
-  private $_accesstoken;
+  protected $_accesstoken;
 
   /**
    * Whether a signed header should be used
    *
    * @var boolean
    */
-  private $_signedheader = false;
+  protected $_signedheader = false;
 
   /**
    * Available scopes
    *
    * @var array
    */
-  private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+  protected $_scopes = array('basic', 'likes', 'comments', 'relationships');
 
   /**
    * Available actions
    *
    * @var array
    */
-  private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
+  protected $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
   /**
    * Default constructor
