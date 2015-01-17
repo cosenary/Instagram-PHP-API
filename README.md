@@ -363,6 +363,7 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 - [User most recent media](https://gist.github.com/cosenary/1711218)
 - [Instagram login](https://gist.github.com/cosenary/8803601)
 - [Instagram signup (9lessons tutorial)](http://www.9lessons.info/2012/05/login-with-instagram-php.html)
+- [Laravel Wrapper](https://github.com/vinkla/instagram)
 
 > Let me know if you have to share a code example, too.
 
