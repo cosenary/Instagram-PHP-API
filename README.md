@@ -30,6 +30,12 @@ Please note that Instagram mainly refers to »Clients« instead of »Apps«. So 
 
 I strongly advice using [Composer](https://getcomposer.org) to keep updates as smooth as possible.
 
+{
+  "require-dev": {
+    "cosenary/instagram": "dev-master"
+  }
+}
+
 ### Initialize the class
 
 ```php
