@@ -79,7 +79,14 @@ class Instagram {
    * @var array
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
-
+  
+  /**
+   * Rate limit
+   * 
+   * @var int
+   */
+  private $_xRateLimitRemaining;
+  
   /**
    * Default constructor
    *
@@ -199,7 +206,16 @@ class Instagram {
   public function getUserRelationship($id) {
     return $this->_makeCall('users/' . $id . '/relationship', true);
   }
-
+  
+  /**
+   * Get the value of X-RateLimit-Remaining header field
+   * 
+   * @return integer X-RateLimit-Remaining        API calls left within 1 hour
+   */
+   public function getRateLimit(){
+     return $this->_xRateLimitRemaining;
+   }
+   
   /**
    * Modify the relationship between the current user and the target user
    *
@@ -472,6 +488,17 @@ class Instagram {
     }
 
     $jsonData = curl_exec($ch);
+    
+    // split header from JSON data
+    // and assign each to a variable
+    list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
+
+    // convert header content into an array
+    $headers = $this->processHeaders($headerContent);
+
+    // get the 'X-Ratelimit-Remaining' header value
+    $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+
     if (false === $jsonData) {
       throw new \Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
@@ -516,6 +543,25 @@ class Instagram {
     $ipAddress = $_SERVER['SERVER_ADDR'];
     $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
     return join('|', array($ipAddress, $signature));
+  }
+  
+  /**
+   * Read and process response header content 
+   * 
+   * @param array
+   * @return array
+   */
+  private function processHeaders($headerContent){
+    $headers = array();
+    foreach (explode("\r\n", $headerContent) as $i => $line) {
+      if($i===0){
+        $headers['http_code'] = $line;
+      }else{
+        list($key,$value) = explode(':', $line);
+        $headers[$key] = $value;
+      }
+    }
+    return $headers;
   }
 
   /**
