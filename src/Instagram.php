@@ -162,7 +162,7 @@ class Instagram {
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', ($id === 'self'), array('count' => $limit));
+    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), array('count' => $limit));
   }
 
   /**
@@ -540,7 +540,7 @@ class Instagram {
    * @return string                       The signed header
    */
   private function _signHeader() {
-    $ipAddress = $_SERVER['SERVER_ADDR'];
+    $ipAddress = (isset($_SERVER['SERVER_ADDR'])) ? $_SERVER['SERVER_ADDR'] : gethostbyname(gethostname());
     $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
     return join('|', array($ipAddress, $signature));
   }
