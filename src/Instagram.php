@@ -248,10 +248,11 @@ class Instagram {
    * Get media by its id
    *
    * @param integer $id                   Instagram media ID
+   * @param boolean $auth                 When queried with oauth token we have user_has_liked parameter (default:false)
    * @return mixed
    */
-  public function getMedia($id) {
-    return $this->_makeCall('media/' . $id);
+  public function getMedia($id,$auth = false) {
+    return $this->_makeCall('media/' . $id,$auth);
   }
 
   /**
