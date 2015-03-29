@@ -37,47 +37,40 @@ $ composer require cosenary/instagram
 ### Initialize the class
 
 ```php
-<?php
-	require_once 'Instagram.php';
-	use MetzWeb\Instagram\Instagram;
+use MetzWeb\Instagram\Instagram;
 
-	$instagram = new Instagram(array(
-		'apiKey'      => 'YOUR_APP_KEY',
-		'apiSecret'   => 'YOUR_APP_SECRET',
-		'apiCallback' => 'YOUR_APP_CALLBACK'
-	));
+$instagram = new Instagram(array(
+	'apiKey'      => 'YOUR_APP_KEY',
+	'apiSecret'   => 'YOUR_APP_SECRET',
+	'apiCallback' => 'YOUR_APP_CALLBACK'
+));
 
-	echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
-?>
+echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ```
 
 ### Authenticate user (OAuth2)
 
 ```php
-<?php
-	// grab OAuth callback code
-	$code = $_GET['code'];
-	$data = $instagram->getOAuthToken($code);
+// grab OAuth callback code
+$code = $_GET['code'];
+$data = $instagram->getOAuthToken($code);
 
-	echo 'Your username is: ' . $data->user->username;
-?>
+echo 'Your username is: ' . $data->user->username;
 ```
 
 ### Get user likes
 
 ```php
-<?php
-	// set user access token
-	$instagram->setAccessToken($data);
+// set user access token
+$instagram->setAccessToken($data);
 
-	// get all user likes
-	$likes = $instagram->getUserLikes();
+// get all user likes
+$likes = $instagram->getUserLikes();
 
-	// take a look at the API response
-	echo '<pre>';
-	print_r($likes);
-	echo '<pre>';
-?>
+// take a look at the API response
+echo '<pre>';
+print_r($likes);
+echo '<pre>';
 ```
 
 **All methods return the API data `json_decode()` - so you can directly access the data.**
@@ -187,10 +180,8 @@ getLoginUrl(array(
 	- `$user` : Target user id
 
 ```php
-<?php
-	// Follow the user with the ID 1574083
-	$instagram->modifyRelationship('follow', 1574083);
-?>
+// Follow the user with the ID 1574083
+$instagram->modifyRelationship('follow', 1574083);
 ```
 
 ---
@@ -279,9 +270,9 @@ In order to prevent that your access tokens gets stolen, Instagram recommends to
 1. Activate ["Enforce Signed Header"](http://instagram.com/developer/clients/manage/) in your Instagram client settings.
 2. Enable the signed-header in your Instagram class:
 
-	```php
-	$instagram->setSignedHeader(true);
-	```
+```php
+$instagram->setSignedHeader(true);
+```
 
 3. You are good to go! Now, all your `POST` and `DELETE` requests will be secured with a signed header.
 
@@ -295,11 +286,9 @@ That's the point where the "pagination" feature comes into play.
 Simply pass an object into the `pagination()` method and receive your next dataset:
 
 ```php
-<?php
-	$photos = $instagram->getTagMedia('kitten');
+$photos = $instagram->getTagMedia('kitten');
 
-	$result = $instagram->pagination($photos);
-?>
+$result = $instagram->pagination($photos);
 ```
 
 Iteration with `do-while` loop.
