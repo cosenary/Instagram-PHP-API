@@ -4,6 +4,16 @@ All notable changes to `cosenary/instagram` will be documented in this file.
 
 > Version 3.0 is in development and includes support for real-time subscriptions.
 
+- [x] Add `getMediaShortcode()` endpoint
+- [x] Update Instagram icon for V3
+- [ ] Real-time subscriptions
+- [ ] More flexible requests (method params)
+- [ ] Fix broken private-profile access
+- [ ] New fancy example app
+- [ ] Update pagination
+- [ ] Update documentation
+	- [ ] Remove response wiki in favor of Instagram docs
+
 **Instagram 2.2 - 04/10/2014**
 
 - `feature` Added "Enforce signed header"
