@@ -79,14 +79,14 @@ class Instagram {
    * @var array
    */
   private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
-  
+
   /**
    * Rate limit
-   * 
+   *
    * @var int
    */
   private $_xRateLimitRemaining;
-  
+
   /**
    * Default constructor
    *
@@ -94,12 +94,12 @@ class Instagram {
    * @return void
    */
   public function __construct($config) {
-    if (true === is_array($config)) {
+    if (is_array($config)) {
       // if you want to access user data
       $this->setApiKey($config['apiKey']);
       $this->setApiSecret($config['apiSecret']);
       $this->setApiCallback($config['apiCallback']);
-    } else if (true === is_string($config)) {
+    } else if (is_string($config)) {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
@@ -206,16 +206,16 @@ class Instagram {
   public function getUserRelationship($id) {
     return $this->_makeCall('users/' . $id . '/relationship', true);
   }
-  
+
   /**
    * Get the value of X-RateLimit-Remaining header field
-   * 
+   *
    * @return integer X-RateLimit-Remaining        API calls left within 1 hour
    */
    public function getRateLimit(){
      return $this->_xRateLimitRemaining;
    }
-   
+
   /**
    * Modify the relationship between the current user and the target user
    *
@@ -224,7 +224,7 @@ class Instagram {
    * @return mixed
    */
   public function modifyRelationship($action, $user) {
-    if (true === in_array($action, $this->_actions) && isset($user)) {
+    if (in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
     throw new \Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
@@ -396,7 +396,7 @@ class Instagram {
    * @return mixed
    */
   public function pagination($obj, $limit = 0) {
-    if (true === is_object($obj) && !is_null($obj->pagination)) {
+    if (is_object($obj) && !is_null($obj->pagination)) {
       if (!isset($obj->pagination->next_url)) {
         return;
       }
@@ -451,7 +451,7 @@ class Instagram {
       $authMethod = '?client_id=' . $this->getApiKey();
     } else {
       // if the call needs an authenticated user
-      if (true === isset($this->_accesstoken)) {
+      if (isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
         throw new \Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
@@ -468,7 +468,7 @@ class Instagram {
 
     // signed header of POST/DELETE requests
     $headerData = array('Accept: application/json');
-    if (true === $this->_signedheader && 'GET' !== $method) {
+    if ($this->_signedheader && 'GET' !== $method) {
       $headerData[] = 'X-Insta-Forwarded-For: ' . $this->_signHeader();
     }
 
@@ -488,7 +488,7 @@ class Instagram {
     }
 
     $jsonData = curl_exec($ch);
-    
+
     // split header from JSON data
     // and assign each to a variable
     list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
@@ -544,10 +544,10 @@ class Instagram {
     $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
     return join('|', array($ipAddress, $signature));
   }
-  
+
   /**
-   * Read and process response header content 
-   * 
+   * Read and process response header content
+   *
    * @param array
    * @return array
    */
@@ -571,7 +571,7 @@ class Instagram {
    * @return void
    */
   public function setAccessToken($data) {
-    (true === is_object($data)) ? $token = $data->access_token : $token = $data;
+    (is_object($data)) ? $token = $data->access_token : $token = $data;
     $this->_accesstoken = $token;
   }
 
@@ -621,7 +621,7 @@ class Instagram {
   public function getApiSecret() {
     return $this->_apisecret;
   }
-  
+
   /**
    * API Callback URL Setter
    *
