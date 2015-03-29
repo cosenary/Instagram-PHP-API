@@ -8,6 +8,7 @@ Feedback or bug reports are appreciated.
 > [Composer](#installation) package available.  
 > Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
 
+Forked by [Bora Yalcin](https://github.com/borantula)
 ## Requirements
 
 - PHP 5.3 or higher
