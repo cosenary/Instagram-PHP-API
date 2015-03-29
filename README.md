@@ -445,8 +445,8 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 
 ## Credits
 
-Copyright (c) 2011-2014 - Programmed by Christian Metz
+Copyright (c) 2011-2015 - Programmed by Christian Metz
 
-Released under the [BSD License](http://www.opensource.org/licenses/bsd-license.php).
+Released under the [BSD License](LICENSE).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
