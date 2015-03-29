@@ -10,7 +10,7 @@ Feedback or bug reports are appreciated.
 
 ## Requirements
 
-- PHP 5.2.x or higher
+- PHP 5.3 or higher
 - cURL
 - Registered Instagram App
 
@@ -30,22 +30,24 @@ Please note that Instagram mainly refers to »Clients« instead of »Apps«. So 
 
 I strongly advice using [Composer](https://getcomposer.org) to keep updates as smooth as possible.
 
-    $ composer require cosenary/instagram
+```
+$ composer require cosenary/instagram
+```
 
 ### Initialize the class
 
 ```php
 <?php
-    require_once 'Instagram.php';
-    use MetzWeb\Instagram\Instagram;
-    
-    $instagram = new Instagram(array(
-      'apiKey'      => 'YOUR_APP_KEY',
-      'apiSecret'   => 'YOUR_APP_SECRET',
-      'apiCallback' => 'YOUR_APP_CALLBACK'
-    ));
-    
-    echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
+	require_once 'Instagram.php';
+	use MetzWeb\Instagram\Instagram;
+
+	$instagram = new Instagram(array(
+		'apiKey'      => 'YOUR_APP_KEY',
+		'apiSecret'   => 'YOUR_APP_SECRET',
+		'apiCallback' => 'YOUR_APP_CALLBACK'
+	));
+
+	echo "<a href='{$instagram->getLoginUrl()}'>Login with Instagram</a>";
 ?>
 ```
 
@@ -53,11 +55,11 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
 
 ```php
 <?php
-    // grab OAuth callback code
-    $code = $_GET['code'];
-    $data = $instagram->getOAuthToken($code);
-    
-    echo 'Your username is: ' . $data->user->username;
+	// grab OAuth callback code
+	$code = $_GET['code'];
+	$data = $instagram->getOAuthToken($code);
+
+	echo 'Your username is: ' . $data->user->username;
 ?>
 ```
 
@@ -65,16 +67,16 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
 
 ```php
 <?php
-    // set user access token
-    $instagram->setAccessToken($data);
-    
-    // get all user likes
-    $likes = $instagram->getUserLikes();
-    
-    // take a look at the API response
-    echo '<pre>';
-    print_r($likes);
-    echo '<pre>';
+	// set user access token
+	$instagram->setAccessToken($data);
+
+	// get all user likes
+	$likes = $instagram->getUserLikes();
+
+	// take a look at the API response
+	echo '<pre>';
+	print_r($likes);
+	echo '<pre>';
 ?>
 ```
 
@@ -90,9 +92,9 @@ I strongly advice using [Composer](https://getcomposer.org) to keep updates as s
 
 ```php
 new Instagram(array(
-  'apiKey'      => 'YOUR_APP_KEY',
-  'apiSecret'   => 'YOUR_APP_SECRET',
-  'apiCallback' => 'YOUR_APP_CALLBACK'
+	'apiKey'      => 'YOUR_APP_KEY',
+	'apiSecret'   => 'YOUR_APP_SECRET',
+	'apiCallback' => 'YOUR_APP_CALLBACK'
 ));
 ```
 
@@ -108,39 +110,39 @@ new Instagram('YOUR_APP_KEY');
 
 ```php
 getLoginUrl(array(
-  'basic',
-  'likes'
+	'basic',
+	'likes'
 ));
 ```
 
 **Optional scope parameters:**
 
 <table>
-  <tr>
-    <th>Scope</th>
-    <th>Legend</th>
-    <th>Methods</th>
-  </tr>
-  <tr>
-    <td><code>basic</code></td>
-    <td>to use all user related methods [default]</td>
-    <td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
-  </tr>
-  <tr>
-    <td><code>relationships</code></td>
-    <td>to follow and unfollow users</td>
-    <td><code>modifyRelationship()</code></td>
-  </tr>
-  <tr>
-    <td><code>likes</code></td>
-    <td>to like and unlike items</td>
-    <td><code>getMediaLikes()</code>, <code>likeMedia()</code>, <code>deleteLikedMedia()</code></td>
-  </tr>
-  <tr>
-    <td><code>comments</code></td>
-    <td>to create or delete comments</td>
-    <td><code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code></td>
-  </tr>
+	<tr>
+		<th>Scope</th>
+		<th>Legend</th>
+		<th>Methods</th>
+	</tr>
+	<tr>
+		<td><code>basic</code></td>
+		<td>to use all user related methods [default]</td>
+		<td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
+	</tr>
+	<tr>
+		<td><code>relationships</code></td>
+		<td>to follow and unfollow users</td>
+		<td><code>modifyRelationship()</code></td>
+	</tr>
+	<tr>
+		<td><code>likes</code></td>
+		<td>to like and unlike items</td>
+		<td><code>getMediaLikes()</code>, <code>likeMedia()</code>, <code>deleteLikedMedia()</code></td>
+	</tr>
+	<tr>
+		<td><code>comments</code></td>
+		<td>to create or delete comments</td>
+		<td><code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code></td>
+	</tr>
 </table>
 
 ### Get OAuth token
@@ -169,7 +171,7 @@ getLoginUrl(array(
 - `getUserLikes(<$limit>)`
 - `getUserFeed(<$limit>)`
 - `getUserMedia(<$id>, <$limit>)`
-    - if an `$id` isn't defined or equals `'self'`, it returns the media of the logged in user
+	- if an `$id` isn't defined or equals `'self'`, it returns the media of the logged in user
 
 > [Sample responses of the User Endpoints.](http://instagram.com/developer/endpoints/users/)
 
@@ -181,13 +183,13 @@ getLoginUrl(array(
 - `getUserFollower($id, <$limit>)`
 - `getUserRelationship($id)`
 - `modifyRelationship($action, $user)`
-    - `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
-    - `$user` : Target user id
+	- `$action` : Action command (follow / unfollow / block / unblock / approve / deny)
+	- `$user` : Target user id
 
 ```php
 <?php
-    // Follow the user with the ID 1574083
-    $instagram->modifyRelationship('follow', 1574083);
+	// Follow the user with the ID 1574083
+	$instagram->modifyRelationship('follow', 1574083);
 ?>
 ```
 
@@ -204,12 +206,13 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 **Public methods**
 
 - `getMedia($id)`
+	- authenticated users receive the info, whether the queried media is liked
 - `getPopularMedia()`
 - `searchMedia($lat, $lng, <$distance>, <$minTimestamp>, <$maxTimestamp>)`
-    - `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
-    - `$distance` : Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
-    - `$minTimestamp` : All media returned will be taken *later* than this timestamp (default: 5 days ago)
-    - `$maxTimestamp` : All media returned will be taken *earlier* than this timestamp (default: now)
+	- `$lat` and `$lng` are coordinates and have to be floats like: `48.145441892290336`,`11.568603515625`
+	- `$distance` : Radial distance in meter (default is 1km = 1000, max. is 5km = 5000)
+	- `$minTimestamp` : All media returned will be taken *later* than this timestamp (default: 5 days ago)
+	- `$maxTimestamp` : All media returned will be taken *earlier* than this timestamp (default: now)
 
 > [Sample responses of the Media Endpoints.](http://instagram.com/developer/endpoints/media/)
 
@@ -222,9 +225,9 @@ Please note that the `modifyRelationship()` method requires the `relationships` 
 **Authenticated methods**
 
 - `addMediaComment($id, $text)`
-    - **restricted access:** please email `apidevelopers[at]instagram.com` for access
+	- **restricted access:** please email `apidevelopers[at]instagram.com` for access
 - `deleteMediaComment($id, $commentID)`
-    - the comment must be authored by the authenticated user
+	- the comment must be authored by the authenticated user
 
 ---
 
@@ -276,9 +279,9 @@ In order to prevent that your access tokens gets stolen, Instagram recommends to
 1. Activate ["Enforce Signed Header"](http://instagram.com/developer/clients/manage/) in your Instagram client settings.
 2. Enable the signed-header in your Instagram class:
 
-  ```php
-  $instagram->setSignedHeader(true);
-  ```
+	```php
+	$instagram->setSignedHeader(true);
+	```
 
 3. You are good to go! Now, all your `POST` and `DELETE` requests will be secured with a signed header.
 
@@ -293,9 +296,9 @@ Simply pass an object into the `pagination()` method and receive your next datas
 
 ```php
 <?php
-    $photos = $instagram->getTagMedia('kitten');
+	$photos = $instagram->getTagMedia('kitten');
 
-    $result = $instagram->pagination($photos);
+	$result = $instagram->pagination($photos);
 ?>
 ```
 
@@ -304,46 +307,46 @@ Iteration with `do-while` loop.
 ## Samples for redirect URLs
 
 <table>
-  <tr>
-    <th>Registered Redirect URI</th>
-    <th>Redirect URI sent to /authorize</th>
-    <th>Valid?</th>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/</td>
-    <td>http://yourcallback.com/</td>
-    <td>yes</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/</td>
-    <td>http://yourcallback.com/?this=that</td>
-    <td>yes</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/?this=that</td>
-    <td>http://yourcallback.com/</td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/?this=that</td>
-    <td>http://yourcallback.com/?this=that&another=true</td>
-    <td>yes</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/?this=that</td>
-    <td>http://yourcallback.com/?another=true&this=that</td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/callback</td>
-    <td>http://yourcallback.com/</td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td>http://yourcallback.com/callback</td>
-    <td>http://yourcallback.com/callback/?type=mobile</td>
-    <td>yes</td>
-  </tr>
+	<tr>
+		<th>Registered Redirect URI</th>
+		<th>Redirect URI sent to /authorize</th>
+		<th>Valid?</th>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/</td>
+		<td>http://yourcallback.com/</td>
+		<td>yes</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/</td>
+		<td>http://yourcallback.com/?this=that</td>
+		<td>yes</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/?this=that</td>
+		<td>http://yourcallback.com/</td>
+		<td>no</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/?this=that</td>
+		<td>http://yourcallback.com/?this=that&another=true</td>
+		<td>yes</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/?this=that</td>
+		<td>http://yourcallback.com/?another=true&this=that</td>
+		<td>no</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/callback</td>
+		<td>http://yourcallback.com/</td>
+		<td>no</td>
+	</tr>
+	<tr>
+		<td>http://yourcallback.com/callback</td>
+		<td>http://yourcallback.com/callback/?type=mobile</td>
+		<td>yes</td>
+	</tr>
 </table>
 
 > If you need further information about an endpoint, take a look at the [Instagram API docs](http://instagram.com/developer/authentication/).
@@ -404,10 +407,10 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 **Instagram 2.0 alpha 3 - 04/09/2013**
 
 - `merge` Merged master branch updates
-    - `update` Updated documentation
-    - `bug` / `change` cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)
-    - `feature` Added cURL error message
-    - `feature` Added `limit` to `getTagMedia()` method
+	- `update` Updated documentation
+	- `bug` / `change` cURL CURLOPT_SSL_VERIFYPEER disabled (fixes #6, #7, #8, #16)
+	- `feature` Added cURL error message
+	- `feature` Added `limit` to `getTagMedia()` method
 
 **Instagram 2.0 alpha 2 - 14/06/2013**
 
@@ -448,5 +451,3 @@ Credit for the awesome Instagram icons goes to [Ricardo de Zoete Pro](http://dri
 Copyright (c) 2011-2015 - Programmed by Christian Metz
 
 Released under the [BSD License](LICENSE).
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cosenary/instagram-php-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
