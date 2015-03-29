@@ -154,15 +154,20 @@ class Instagram {
     return $this->_makeCall('users/self/feed', true, array('count' => $limit));
   }
 
-  /**
-   * Get user recent media
-   *
-   * @param integer [optional] $id        Instagram user ID
-   * @param integer [optional] $limit     Limit of returned results
-   * @return mixed
-   */
-  public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), array('count' => $limit));
+    /**
+     * Get user recent media
+     *
+     * @param string $id
+     * @param int $limit [optional] $id        Instagram user ID
+     * @param array $params
+     * @return mixed
+     * @throws \Exception
+     */
+  public function getUserMedia($id = 'self', $limit = 0,$params = array()) {
+
+      $params['count'] = $limit;
+
+    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
   }
 
   /**
