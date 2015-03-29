@@ -165,9 +165,18 @@ class Instagram {
      */
   public function getUserMedia($id = 'self', $limit = 0,$params = array()) {
 
+        //for using with parameters and not breaking backwards compatibility
         $params['count'] = $limit;
 
-        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
+        $accessToken = strlen($this->getAccessToken());
+
+        if(!$accessToken) {
+            $params['client_id'] = $this->getApiKey();
+            $accessToken = false;
+        }
+
+
+        return $this->_makeCall('users/' . $id . '/media/recent', $accessToken, $params);
   }
 
   /**
