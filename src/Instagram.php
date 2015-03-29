@@ -92,6 +92,8 @@ class Instagram {
    *
    * @param array|string $config          Instagram configuration data
    * @return void
+   *
+   * @throws InstagramException
    */
   public function __construct($config) {
     if (is_array($config)) {
@@ -103,7 +105,7 @@ class Instagram {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
-      throw new \Exception("Error: __construct() - Configuration data is missing.");
+      throw new InstagramException("Error: __construct() - Configuration data is missing.");
     }
   }
 
@@ -112,12 +114,14 @@ class Instagram {
    *
    * @param array [optional] $scope       Requesting additional permissions
    * @return string                       Instagram OAuth login URL
+   *
+   * @throws InstagramException
    */
   public function getLoginUrl($scope = array('basic')) {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . urlencode($this->getApiCallback()) . '&scope=' . implode('+', $scope) . '&response_type=code';
     } else {
-      throw new \Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
+      throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
   }
 
@@ -222,12 +226,14 @@ class Instagram {
    * @param string $action                Action command (follow/unfollow/block/unblock/approve/deny)
    * @param integer $user                 Target user ID
    * @return mixed
+   *
+   * @throws InstagramException
    */
   public function modifyRelationship($action, $user) {
     if (in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
-    throw new \Exception("Error: modifyRelationship() | This method requires an action command and the target user id.");
+    throw new InstagramException("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
   /**
@@ -394,6 +400,8 @@ class Instagram {
    * @param object  $obj                  Instagram object returned by a method
    * @param integer $limit                Limit of returned results
    * @return mixed
+   *
+   * @throws InstagramException
    */
   public function pagination($obj, $limit = 0) {
     if (is_object($obj) && !is_null($obj->pagination)) {
@@ -412,7 +420,7 @@ class Instagram {
         return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
       }
     } else {
-      throw new \Exception("Error: pagination() | This method doesn't support pagination.");
+      throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
     }
   }
 
@@ -444,6 +452,8 @@ class Instagram {
    * @param boolean [optional] $auth      Whether the function requires an access token
    * @param string [optional] $method     Request type GET|POST
    * @return mixed
+   *
+   * @throws InstagramException
    */
   protected function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
     if (!$auth) {
@@ -454,7 +464,7 @@ class Instagram {
       if (isset($this->_accesstoken)) {
         $authMethod = '?access_token=' . $this->getAccessToken();
       } else {
-        throw new \Exception("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+        throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
     }
 
@@ -500,7 +510,7 @@ class Instagram {
     $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
 
     if (!$jsonData) {
-      throw new \Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
+      throw new InstagramException("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
 
@@ -512,6 +522,8 @@ class Instagram {
    *
    * @param array $apiData                The post API data
    * @return mixed
+   *
+   * @throws InstagramException
    */
   private function _makeOAuthCall($apiData) {
     $apiHost = self::API_OAUTH_TOKEN_URL;
@@ -527,7 +539,7 @@ class Instagram {
 
     $jsonData = curl_exec($ch);
     if (!$jsonData) {
-      throw new \Exception("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
+      throw new InstagramException("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
 
