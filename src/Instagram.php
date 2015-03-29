@@ -433,7 +433,7 @@ class Instagram {
     );
 
     $result = $this->_makeOAuthCall($apiData);
-    return (false === $token) ? $result : $result->access_token;
+    return !$token ? $result : $result->access_token;
   }
 
   /**
@@ -446,7 +446,7 @@ class Instagram {
    * @return mixed
    */
   protected function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
-    if (false === $auth) {
+    if (!$auth) {
       // if the call doesn't requires authentication
       $authMethod = '?client_id=' . $this->getApiKey();
     } else {
@@ -499,7 +499,7 @@ class Instagram {
     // get the 'X-Ratelimit-Remaining' header value
     $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
 
-    if (false === $jsonData) {
+    if (!$jsonData) {
       throw new \Exception("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
@@ -526,7 +526,7 @@ class Instagram {
     curl_setopt($ch, CURLOPT_TIMEOUT, 90);
 
     $jsonData = curl_exec($ch);
-    if (false === $jsonData) {
+    if (!$jsonData) {
       throw new \Exception("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
     }
     curl_close($ch);
