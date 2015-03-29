@@ -165,9 +165,9 @@ class Instagram {
      */
   public function getUserMedia($id = 'self', $limit = 0,$params = array()) {
 
-      $params['count'] = $limit;
+        $params['count'] = $limit;
 
-    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
+        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
   }
 
   /**
