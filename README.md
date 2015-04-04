@@ -1,9 +1,11 @@
 # ![Image](example/assets/instagram.png) Instagram PHP API V2
 
-## About
-
 A PHP wrapper for the Instagram API.
 Feedback or bug reports are appreciated.
+
+[![Total Downloads](http://img.shields.io/packagist/dm/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
+[![Latest Stable Version](http://img.shields.io/packagist/v/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
+[![License](https://img.shields.io/packagist/l/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
 
 > [Composer](#installation) package available.  
 > Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
