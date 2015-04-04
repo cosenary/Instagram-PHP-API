@@ -479,6 +479,7 @@ class Instagram {
     curl_setopt($ch, CURLOPT_TIMEOUT, 90);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_HEADER, true);
 
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
