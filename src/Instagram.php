@@ -101,7 +101,7 @@ class Instagram {
       $this->setApiKey($config['apiKey']);
       $this->setApiSecret($config['apiSecret']);
       $this->setApiCallback($config['apiCallback']);
-    } else if (is_string($config)) {
+    } elseif (is_string($config)) {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
@@ -120,9 +120,9 @@ class Instagram {
   public function getLoginUrl($scope = array('basic')) {
     if (is_array($scope) && count(array_intersect($scope, $this->_scopes)) === count($scope)) {
       return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . urlencode($this->getApiCallback()) . '&scope=' . implode('+', $scope) . '&response_type=code';
-    } else {
-      throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
     }
+
+    throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
   }
 
   /**
@@ -144,7 +144,11 @@ class Instagram {
    */
   public function getUser($id = 0) {
     $auth = false;
-    if ($id === 0 && isset($this->_accesstoken)) { $id = 'self'; $auth = true; }
+
+    if ($id === 0 && isset($this->_accesstoken)) {
+      $id = 'self'; $auth = true;
+    }
+
     return $this->_makeCall('users/' . $id, $auth);
   }
 
@@ -233,6 +237,7 @@ class Instagram {
     if (in_array($action, $this->_actions) && isset($user)) {
       return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
     }
+
     throw new InstagramException("Error: modifyRelationship() | This method requires an action command and the target user id.");
   }
 
@@ -408,20 +413,24 @@ class Instagram {
       if (!isset($obj->pagination->next_url)) {
         return;
       }
+
       $apiCall = explode('?', $obj->pagination->next_url);
+
       if (count($apiCall) < 2) {
         return;
       }
+
       $function = str_replace(self::API_URL, '', $apiCall[0]);
       $auth = (strpos($apiCall[1], 'access_token') !== false);
+
       if (isset($obj->pagination->next_max_id)) {
         return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
-      } else {
-        return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
       }
-    } else {
-      throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
+
+      return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
     }
+
+    throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
   }
 
   /**
@@ -441,6 +450,7 @@ class Instagram {
     );
 
     $result = $this->_makeOAuthCall($apiData);
+
     return !$token ? $result : $result->access_token;
   }
 
@@ -461,17 +471,17 @@ class Instagram {
       $authMethod = '?client_id=' . $this->getApiKey();
     } else {
       // if the call needs an authenticated user
-      if (isset($this->_accesstoken)) {
-        $authMethod = '?access_token=' . $this->getAccessToken();
-      } else {
+      if (!isset($this->_accesstoken)) {
         throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
       }
+
+      $authMethod = '?access_token=' . $this->getAccessToken();
     }
+
+    $paramString = null;
 
     if (isset($params) && is_array($params)) {
       $paramString = '&' . http_build_query($params);
-    } else {
-      $paramString = null;
     }
 
     $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
@@ -494,7 +504,7 @@ class Instagram {
     if ('POST' === $method) {
       curl_setopt($ch, CURLOPT_POST, count($params));
       curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
-    } else if ('DELETE' === $method) {
+    } elseif ('DELETE' === $method) {
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
 
@@ -513,6 +523,7 @@ class Instagram {
     if (!$jsonData) {
       throw new InstagramException("Error: _makeCall() - cURL error: " . curl_error($ch));
     }
+
     curl_close($ch);
 
     return json_decode($jsonData);
@@ -539,9 +550,11 @@ class Instagram {
     curl_setopt($ch, CURLOPT_TIMEOUT, 90);
 
     $jsonData = curl_exec($ch);
+
     if (!$jsonData) {
       throw new InstagramException("Error: _makeOAuthCall() - cURL error: " . curl_error($ch));
     }
+
     curl_close($ch);
 
     return json_decode($jsonData);
@@ -554,7 +567,9 @@ class Instagram {
    */
   private function _signHeader() {
     $ipAddress = (isset($_SERVER['SERVER_ADDR'])) ? $_SERVER['SERVER_ADDR'] : gethostbyname(gethostname());
+
     $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
+
     return join('|', array($ipAddress, $signature));
   }
 
@@ -567,13 +582,14 @@ class Instagram {
   private function processHeaders($headerContent){
     $headers = array();
     foreach (explode("\r\n", $headerContent) as $i => $line) {
-      if($i===0){
+      if ($i===0) {
         $headers['http_code'] = $line;
-      }else{
-        list($key,$value) = explode(':', $line);
+      } else {
+        list($key, $value) = explode(':', $line);
         $headers[$key] = $value;
       }
     }
+
     return $headers;
   }
 
@@ -584,7 +600,8 @@ class Instagram {
    * @return void
    */
   public function setAccessToken($data) {
-    (is_object($data)) ? $token = $data->access_token : $token = $data;
+    $token = is_object($data) ? $data->access_token : $data;
+
     $this->_accesstoken = $token;
   }
 
