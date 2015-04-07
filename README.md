@@ -7,7 +7,7 @@ Feedback or bug reports are appreciated.
 [![Latest Stable Version](http://img.shields.io/packagist/v/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
 [![License](https://img.shields.io/packagist/l/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
 
-> [Composer](#installation) package available.  
+> [Composer](#installation) package available.
 > Supports [Instagram Video](#instagram-videos) and [Signed Header](#signed-header).
 
 ## Requirements
@@ -144,7 +144,7 @@ getLoginUrl(array(
 
 `getOAuthToken($code, <true>/<false>)`
 
-`true` : Returns only the OAuth token  
+`true` : Returns only the OAuth token
 `false` *[default]* : Returns OAuth token and profile data of the authenticated user
 
 ### Set / Get access token
@@ -235,7 +235,7 @@ Please note that the authenticated methods require the `comments` [scope](#get-l
 **Public methods**
 
 - `getTag($name)`
-- `getTagMedia($name)`
+- `getTagMedia($name, $params)`
 - `searchTags($name)`
 
 > [Sample responses of the Tag Endpoints.](http://instagram.com/developer/endpoints/tags/)
