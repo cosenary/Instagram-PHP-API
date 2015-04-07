@@ -309,12 +309,12 @@ class Instagram {
    * Get a recently tagged media.
    *
    * @param string $name                  Valid tag name
-   * @param integer [optional] $limit     Limit of returned results
+   * @param array [optional] $params      Requesting additional parameters
    *
    * @return mixed
    */
-  public function getTagMedia($name, $limit = 0) {
-    return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
+  public function getTagMedia($name, $params = array()) {
+    return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
   }
 
   /**
