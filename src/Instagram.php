@@ -310,6 +310,8 @@ class Instagram {
    *
    * @param string $name                  Valid tag name
    * @param integer [optional] $limit     Limit of returned results
+   * @param string [optional] $maxTagId   Define the max tag ID (for next page results)
+   * @param string [optional] $minTagId   Define the min tag ID (for previous page results)
    *
    * @return mixed
    */
