@@ -134,9 +134,13 @@ class Instagram {
    * @return mixed
    */
   public function searchUser($name, $limit = 0) {
-    return $this->_makeCall('users/search', false, array('q' => $name, 'count' => $limit));
+    $params = array();
+    $params['q'] = $name;
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/search', false, $params);
   }
-
   /**
    * Get user info.
    *
@@ -160,7 +164,11 @@ class Instagram {
    * @return mixed
    */
   public function getUserFeed($limit = 0) {
-    return $this->_makeCall('users/self/feed', true, array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/self/feed', true, $params);
   }
 
   /**
@@ -172,7 +180,11 @@ class Instagram {
    * @return mixed
    */
   public function getUserMedia($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
   }
 
   /**
@@ -183,7 +195,11 @@ class Instagram {
    * @return mixed
    */
   public function getUserLikes($limit = 0) {
-    return $this->_makeCall('users/self/media/liked', true, array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/self/media/liked', true, $params);
   }
 
   /**
@@ -195,7 +211,11 @@ class Instagram {
    * @return mixed
    */
   public function getUserFollows($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/follows', true, array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/' . $id . '/follows', true, $params);
   }
 
   /**
@@ -207,7 +227,11 @@ class Instagram {
    * @return mixed
    */
   public function getUserFollower($id = 'self', $limit = 0) {
-    return $this->_makeCall('users/' . $id . '/followed-by', true, array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('users/' . $id . '/followed-by', true, $params);
   }
 
   /**
@@ -314,7 +338,11 @@ class Instagram {
    * @return mixed
    */
   public function getTagMedia($name, $limit = 0) {
-    return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
+    $params = array();
+    if ($limit > 0) {
+      $params['count'] = $limit;
+    }
+    return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
   }
 
   /**
