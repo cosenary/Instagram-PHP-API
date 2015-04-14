@@ -304,8 +304,9 @@ class Instagram {
      * @param integer [optional] $limit     Limit of returned results
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0) {
-        return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
+    public function getTagMedia($name, $limit = 0,$params = array()) {
+        $params['limit'] = $limit;
+        return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
     }
 
     /**
