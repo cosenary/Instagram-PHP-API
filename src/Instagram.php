@@ -256,11 +256,12 @@ class Instagram {
    * @param integer [optional] $distance  Distance in metres (default is 1km (distance=1000), max. is 5km)
    * @param long [optional] $minTimestamp Media taken later than this timestamp (default: 5 days ago)
    * @param long [optional] $maxTimestamp Media taken earlier than this timestamp (default: now)
+   * @param integer [optional] $count Count (default: 10, max 100)
    *
    * @return mixed
    */
-  public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = NULL, $maxTimestamp = NULL) {
-    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance, 'min_timestamp' => $minTimestamp, 'max_timestamp' => $maxTimestamp));
+  public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = NULL, $maxTimestamp = NULL, $count=10) {
+    return $this->_makeCall('media/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance, 'min_timestamp' => $minTimestamp, 'max_timestamp' => $maxTimestamp, 'count' => $count));
   }
 
   /**
