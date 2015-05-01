@@ -314,7 +314,7 @@ class Instagram {
    * @return mixed
    */
   public function getTagMedia($name, $limit = 0) {
-    return $this->_makeCall('tags/' . $name . '/media/recent', false, array('count' => $limit));
+    return $this->_makeCall('tags/' . $name . '/media/recent', true, array('count' => $limit));
   }
 
   /**
