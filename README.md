@@ -87,9 +87,10 @@ echo '<pre>';
 
 ```php
 new Instagram(array(
-	'apiKey'      => 'YOUR_APP_KEY',
-	'apiSecret'   => 'YOUR_APP_SECRET',
-	'apiCallback' => 'YOUR_APP_CALLBACK'
+  'apiKey'            => 'YOUR_APP_KEY',
+  'apiSecret'         => 'YOUR_APP_SECRET',
+  'apiCallback'       => 'YOUR_APP_CALLBACK',
+  'decodeJsonAsAssoc' => false
 ));
 ```
 

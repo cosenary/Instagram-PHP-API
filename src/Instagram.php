@@ -88,6 +88,13 @@ class Instagram {
   private $_xRateLimitRemaining;
 
   /**
+   * Whether json response from instagram should be decoded as an associative array.
+   *
+   * @var boolean Decode response as an associative. Default is to decode as an object.
+   */
+  private $_decodeJsonAsAssoc = false;
+
+  /**
    * Default constructor.
    *
    * @param array|string $config          Instagram configuration data
@@ -102,7 +109,10 @@ class Instagram {
       $this->setApiKey($config['apiKey']);
       $this->setApiSecret($config['apiSecret']);
       $this->setApiCallback($config['apiCallback']);
-    } elseif (is_string($config)) {
+      if (isset($config['decodeJsonAsAssoc'])) {
+        $this->_decodeJsonAsAssoc = (boolean) $config['decodeJsonAsAssoc'];
+      }
+    } else if (is_string($config)) {
       // if you only want to access public data
       $this->setApiKey($config);
     } else {
@@ -460,28 +470,32 @@ class Instagram {
    * @throws \MetzWeb\Instagram\InstagramException
    */
   public function pagination($obj, $limit = 0) {
-    if (is_object($obj) && !is_null($obj->pagination)) {
-      if (!isset($obj->pagination->next_url)) {
-        return;
-      }
-
-      $apiCall = explode('?', $obj->pagination->next_url);
-
-      if (count($apiCall) < 2) {
-        return;
-      }
-
-      $function = str_replace(self::API_URL, '', $apiCall[0]);
-      $auth = (strpos($apiCall[1], 'access_token') !== false);
-
-      if (isset($obj->pagination->next_max_id)) {
-        return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
-      }
-
-      return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
+    if (isset($obj->pagination)) {
+      $pagination = $obj->pagination;
+    } elseif (isset($obj['pagination'])) {
+      $pagination = (object) $obj['pagination'];
+    } else {
+      throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
     }
 
-    throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
+    if (!isset($pagination->next_url)) {
+      return;
+    }
+
+    $apiCall = explode('?', $pagination->next_url);
+
+    if (count($apiCall) < 2) {
+      return;
+    }
+
+    $function = str_replace(self::API_URL, '', $apiCall[0]);
+    $auth = (strpos($apiCall[1], 'access_token') !== false);
+
+    if (isset($pagination->next_max_id)) {
+      return $this->_makeCall($function, $auth, array('max_id' => $pagination->next_max_id, 'count' => $limit));
+    }
+
+    return $this->_makeCall($function, $auth, array('cursor' => $pagination->next_cursor, 'count' => $limit));
   }
 
   /**
@@ -579,7 +593,7 @@ class Instagram {
 
     curl_close($ch);
 
-    return json_decode($jsonData);
+    return json_decode($jsonData, $this->_decodeJsonAsAssoc);
   }
 
   /**
@@ -610,7 +624,7 @@ class Instagram {
 
     curl_close($ch);
 
-    return json_decode($jsonData);
+    return json_decode($jsonData, $this->_decodeJsonAsAssoc);
   }
 
   /**
