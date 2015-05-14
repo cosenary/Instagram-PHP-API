@@ -60,6 +60,13 @@ class Instagram {
   private $_accesstoken;
 
   /**
+   * Whether a signed request should be used.
+   *
+   * @var boolean
+   */
+  private $_signedrequest = false;
+
+  /**
    * Whether a signed header should be used.
    *
    * @var boolean
@@ -519,7 +526,7 @@ class Instagram {
    * @throws \MetzWeb\Instagram\InstagramException
    */
   protected function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
-    if (!$auth) {
+    if (!$auth && !$this->_signedrequest) {
       // if the call doesn't requires authentication
       $authMethod = '?client_id=' . $this->getApiKey();
     } else {
@@ -533,9 +540,11 @@ class Instagram {
 
     $paramString = null;
 
-	$sig = $this->_generateSig($function, $params);
+    if($this->_signedrequest) {
+      $sig = $this->_generateSig($function, $params);
 
-    $params = array_merge(array('sig' => $sig), (array)$params);
+      $params = array_merge(array('sig' => $sig), (array)$params);
+	}
 
     if (isset($params) && is_array($params)) {
       $paramString = '&' . http_build_query($params);
@@ -747,6 +756,17 @@ class Instagram {
    */
   public function getApiCallback() {
     return $this->_callbackurl;
+  }
+
+  /**
+   * Enforce Signed Request.
+   *
+   * @param boolean $signedRequest
+   *
+   * @return void
+   */
+  public function setSignedRequest($signedRequest) {
+	  $this->_signedrequest = $signedRequest;
   }
 
   /**
