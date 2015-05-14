@@ -533,6 +533,10 @@ class Instagram {
 
     $paramString = null;
 
+	$sig = $this->_generateSig($function, $params);
+
+    $params = array_merge(array('sig' => $sig), (array)$params);
+
     if (isset($params) && is_array($params)) {
       $paramString = '&' . http_build_query($params);
     }
@@ -612,6 +616,23 @@ class Instagram {
 
     return json_decode($jsonData);
   }
+
+   /**
+   * Enforce signed requests
+   * @param string $endpoint              The URL API endpoint
+   * @param array $parameters             The request parameters
+   * @return string                       The signature params
+   */
+   private function _generateSig($endpoint, $parameters) {
+     $sig = '/'.$endpoint;
+     $params = array_merge(array('access_token' => $this->getAccessToken()), (array)$parameters);
+     ksort($params);
+     foreach ($params as $key => $val) {
+       $sig .= "|$key=$val";
+     }
+     $sign = hash_hmac('sha256', $sig, $this->_apisecret, false);
+     return $sign;
+   }
 
   /**
    * Sign header by using the app's IP and its API secret.
