@@ -638,7 +638,11 @@ class Instagram
 
         curl_close($ch);
 
-        return json_decode($jsonData);
+        $stdObject = json_decode($jsonData);
+        if (isset($stdObject->code) && isset($stdObject->error_type)) {
+            throw new InstagramException($stdObject->error_type.': '.$stdObject->error_message, $stdObject->code);
+        }
+        return $stdObject;
     }
 
     /**
@@ -670,7 +674,11 @@ class Instagram
 
         curl_close($ch);
 
-        return json_decode($jsonData);
+        $stdObject = json_decode($jsonData);
+        if (isset($stdObject->code) && isset($stdObject->error_type)) {
+            throw new InstagramException($stdObject->error_type.': '.$stdObject->error_message, $stdObject->code);
+        }
+        return $stdObject;
     }
 
     /**
