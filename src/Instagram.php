@@ -260,6 +260,20 @@ class Instagram
 
         return $this->_makeCall('users/' . $id . '/followed-by', true, $params);
     }
+    
+    /**
+     * List the users who have requested this user's permission to follow.
+     *
+     * @param int|string $id Instagram user ID
+     * @param int $limit Limit of returned results
+     *
+     * @return mixed
+     */
+
+    public function getUserRequestedBy($id = 'self', $limit = 0)
+    {
+        return $this->_makeCall('users/' . $id . '/requested-by', true, array('count' => $limit));
+    }
 
     /**
      * Get information about a relationship to another user.
