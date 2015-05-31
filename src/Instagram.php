@@ -471,7 +471,7 @@ class Instagram
      */
     public function pagination($obj, $limit = 0)
     {
-        if (is_object($obj) && !is_null($obj->pagination)) {
+        if (is_object($obj) && isset($obj->pagination) && !is_null($obj->pagination)) {
             if (!isset($obj->pagination->next_url)) {
                 return null;
             }
