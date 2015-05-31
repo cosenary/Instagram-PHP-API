@@ -92,8 +92,6 @@ class Instagram
      *
      * @param array|string $config Instagram configuration data
      *
-     * @return void
-     *
      * @throws \MetzWeb\Instagram\InstagramException
      */
     public function __construct($config)
@@ -140,14 +138,7 @@ class Instagram
      */
     public function searchUser($name, $limit = 0)
     {
-        $params = array();
-
-        $params['q'] = $name;
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/search', false, $params);
+        return $this->_makeCall('users/search', false, self::_setLimit($limit, array('q' => $name)));
     }
 
     /**
@@ -178,12 +169,7 @@ class Instagram
      */
     public function getUserFeed($limit = 0)
     {
-        $params = array();
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/self/feed', true, $params);
+        return $this->_makeCall('users/self/feed', true, self::_setLimit($limit));
     }
 
     /**
@@ -191,36 +177,26 @@ class Instagram
      *
      * @param int|string $id Instagram user ID
      * @param int $limit Limit of returned results
+     * @param array $params Additional parameters.
      *
      * @return mixed
      */
-    public function getUserMedia($id = 'self', $limit = 0)
+    public function getUserMedia($id = 'self', $limit = 0, $params = array())
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
+        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), self::_setLimit($limit, $params));
     }
 
     /**
      * Get the liked photos of a user.
      *
      * @param int $limit Limit of returned results
+     * @param array $params Additional parameters.
      *
      * @return mixed
      */
-    public function getUserLikes($limit = 0)
+    public function getUserLikes($limit = 0, $params = array())
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/self/media/liked', true, $params);
+        return $this->_makeCall('users/self/media/liked', true, self::_setLimit($limit, $params));
     }
 
     /**
@@ -233,13 +209,7 @@ class Instagram
      */
     public function getUserFollows($id = 'self', $limit = 0)
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/' . $id . '/follows', true, $params);
+        return $this->_makeCall('users/' . $id . '/follows', true, self::_setLimit($limit));
     }
 
     /**
@@ -252,13 +222,7 @@ class Instagram
      */
     public function getUserFollower($id = 'self', $limit = 0)
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/' . $id . '/followed-by', true, $params);
+        return $this->_makeCall('users/' . $id . '/followed-by', true, self::_setLimit($limit));
     }
 
     /**
@@ -380,13 +344,7 @@ class Instagram
      */
     public function getTagMedia($name, $limit = 0)
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
+        return $this->_makeCall('tags/' . $name . '/media/recent', false, self::_setLimit($limit));
     }
 
     /**
@@ -515,24 +473,31 @@ class Instagram
     {
         if (is_object($obj) && !is_null($obj->pagination)) {
             if (!isset($obj->pagination->next_url)) {
-                return;
+                return null;
             }
 
             $apiCall = explode('?', $obj->pagination->next_url);
 
             if (count($apiCall) < 2) {
-                return;
+                return null;
             }
 
             $function = str_replace(self::API_URL, '', $apiCall[0]);
 
-            $auth = (strpos($apiCall[1], 'access_token') !== false);
+            $auth = false;
+            $arguments = array();
 
-            if (isset($obj->pagination->next_max_id)) {
-                return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
+            foreach (explode('&', $apiCall[1]) as $param) {
+                $param = explode('=', $param);
+
+                if ('access_token' == @$param[0]) {
+                    $auth = true;
+                    continue;
+                }
+                $arguments[$param[0]] = urldecode($param[1]);
             }
 
-            return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
+            return $this->_makeCall($function, $auth, self::_setLimit($limit, $arguments));
         }
 
         throw new InstagramException("Error: pagination() | This method doesn't support pagination.");
@@ -630,7 +595,7 @@ class Instagram
         $headers = $this->processHeaders($headerContent);
 
         // get the 'X-Ratelimit-Remaining' header value
-        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        $this->_xRateLimitRemaining = @$headers['X-Ratelimit-Remaining'];
 
         if (!$jsonData) {
             throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
@@ -639,6 +604,22 @@ class Instagram
         curl_close($ch);
 
         return json_decode($jsonData);
+    }
+
+    /**
+     * Adding optional limit to the list of params.
+     *
+     * @param int $limit The limit (Instagrams 'count' parameter)
+     * @param array $params The parameter array
+     *
+     * @return array
+     */
+    private static function _setLimit($limit = 0, $params = array())
+    {
+        if ($limit > 0) {
+            $params['count'] = $limit;
+        }
+        return $params;
     }
 
     /**
@@ -716,13 +697,15 @@ class Instagram
      *
      * @param object|string $data
      *
-     * @return void
+     * @return Instagram $this for chaining.
      */
     public function setAccessToken($data)
     {
         $token = is_object($data) ? $data->access_token : $data;
 
         $this->_accesstoken = $token;
+
+        return $this;
     }
 
     /**
