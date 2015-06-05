@@ -398,7 +398,7 @@ class Instagram
      */
     public function getMediaLikes($id)
     {
-        return $this->_makeCall('media/' . $id . '/likes', true);
+        return $this->_makeCall('media/' . $id . '/likes', false);
     }
 
     /**
