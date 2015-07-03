@@ -81,11 +81,11 @@ class Instagram
     private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
     /**
-     * Rate limit.
+     * Rate limit when known, null otherwise.
      *
-     * @var int
+     * @var int|null
      */
-    private $_xRateLimitRemaining;
+    private $_xRateLimitRemaining = null;
 
     /**
      * Default constructor.
@@ -276,7 +276,7 @@ class Instagram
     /**
      * Get the value of X-RateLimit-Remaining header field.
      *
-     * @return int X-RateLimit-Remaining API calls left within 1 hour
+     * @return int|null X-RateLimit-Remaining API calls left within 1 hour or null if unknown.
      */
     public function getRateLimit()
     {
@@ -630,7 +630,9 @@ class Instagram
         $headers = $this->processHeaders($headerContent);
 
         // get the 'X-Ratelimit-Remaining' header value
-        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        if ( array_key_exists('X-Ratelimit-Remaining', $headers) ) {
+            $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        }
 
         if (!$jsonData) {
             throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
