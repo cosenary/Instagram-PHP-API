@@ -69,15 +69,15 @@ class Instagram
     /**
      * Available scopes.
      *
-     * @var array
+     * @var string[]
      */
     private $_scopes = array('basic', 'likes', 'comments', 'relationships');
 
     /**
      * Available actions.
      *
-     * @var array
-     */
+     * @var string[]
+     */ 
     private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
     /**
