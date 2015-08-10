@@ -77,7 +77,7 @@ class Instagram
      * Available actions.
      *
      * @var string[]
-     */ 
+     */
     private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
     /**
