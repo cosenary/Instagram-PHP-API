@@ -176,12 +176,19 @@ class Instagram
      *
      * @return mixed
      */
-    public function getUserFeed($limit = 0)
+    public function getUserFeed($limit = 0, $next_max_ID = null, $next_min_ID = null)
     {
         $params = array();
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+        
+        if(!is_null($next_max_ID))
+        $params['min_id'] = $next_max_ID;
+        
+        
+        if(!is_null($next_min_ID))
+        $params['min_id'] = $next_min_ID;
 
         return $this->_makeCall('users/self/feed', true, $params);
     }
@@ -194,13 +201,21 @@ class Instagram
      *
      * @return mixed
      */
-    public function getUserMedia($id = 'self', $limit = 0)
+    public function getUserMedia($id = 'self', $limit = 0, $next_max_ID = null, $next_min_ID = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+        
+        if(!is_null($next_max_ID))
+        $params['min_id'] = $next_max_ID;
+        
+        
+        if(!is_null($next_min_ID))
+        $params['min_id'] = $next_min_ID;
+        
 
         return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
     }
@@ -212,13 +227,17 @@ class Instagram
      *
      * @return mixed
      */
-    public function getUserLikes($limit = 0)
+    public function getUserLikes($limit = 0, $next_max_ID = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+        
+        if(!is_null($next_max_ID))
+        $params['min_id'] = $next_max_ID;
+        
 
         return $this->_makeCall('users/self/media/liked', true, $params);
     }
@@ -378,13 +397,22 @@ class Instagram
      *
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0)
+    public function getTagMedia($name, $limit = 0, $next_max_ID = null, $next_min_ID = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+        
+         if(!is_null($next_max_ID))
+        $params['min_id'] = $next_max_ID;
+        
+        
+        if(!is_null($next_min_ID))
+        $params['min_id'] = $next_min_ID;
+        
+        
 
         return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
     }
