@@ -410,7 +410,7 @@ class Instagram
      */
     public function getMediaComments($id)
     {
-        return $this->_makeCall('media/' . $id . '/comments', false);
+        return $this->_makeCall('media/' . $id . '/comments', true);
     }
 
     /**
