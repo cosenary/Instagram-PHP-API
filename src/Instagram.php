@@ -183,11 +183,11 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!is_null($next_max_ID))
+        if(!empty($next_max_ID))
         $params['min_id'] = $next_max_ID;
         
         
-        if(!is_null($next_min_ID))
+        if(!empty($next_min_ID))
         $params['min_id'] = $next_min_ID;
 
         return $this->_makeCall('users/self/feed', true, $params);
@@ -209,11 +209,11 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!is_null($next_max_ID))
+        if(!empty($next_max_ID))
         $params['min_id'] = $next_max_ID;
         
         
-        if(!is_null($next_min_ID))
+        if(!empty($next_min_ID))
         $params['min_id'] = $next_min_ID;
         
 
@@ -235,7 +235,7 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!is_null($next_max_ID))
+        if(!empty($next_max_ID))
         $params['min_id'] = $next_max_ID;
         
 
@@ -405,11 +405,11 @@ class Instagram
             $params['count'] = $limit;
         }
         
-         if(!is_null($next_max_ID))
+         if(!empty($next_max_ID))
         $params['min_id'] = $next_max_ID;
         
         
-        if(!is_null($next_min_ID))
+        if(!empty($next_min_ID))
         $params['min_id'] = $next_min_ID;
         
         
