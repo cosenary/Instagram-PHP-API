@@ -183,13 +183,13 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!empty($next_max_ID)){
-        $params['min_id'] = $next_max_ID;
-        }
-        
-        if(!empty($next_min_ID)){
-        $params['min_id'] = $next_min_ID;
-        }
+        if (!empty($next_max_ID)) {
+            $params['min_id'] = $next_max_ID;
+         }
+
+        if (!empty($next_min_ID)) {
+            $params['min_id'] = $next_min_ID;
+         }
 
         return $this->_makeCall('users/self/feed', true, $params);
     }
@@ -210,13 +210,13 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!empty($next_max_ID)){
-        $params['min_id'] = $next_max_ID;
-        }
-        
-        if(!empty($next_min_ID)){
-        $params['min_id'] = $next_min_ID;
-        }
+        if (!empty($next_max_ID)) {
+            $params['min_id'] = $next_max_ID;
+         }
+
+        if (!empty($next_min_ID)) {
+            $params['min_id'] = $next_min_ID;
+         }
 
         return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
     }
@@ -236,9 +236,10 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if(!empty($next_max_ID)){
-        $params['min_id'] = $next_max_ID;
-        }
+        if (!empty($next_max_ID)) {
+            $params['min_id'] = $next_max_ID;
+         }
+
 
         return $this->_makeCall('users/self/media/liked', true, $params);
     }
@@ -406,14 +407,13 @@ class Instagram
             $params['count'] = $limit;
         }
         
-         if(!empty($next_max_ID)){
-        $params['min_id'] = $next_max_ID;
+        if (!empty($next_max_ID)) {
+            $params['min_id'] = $next_max_ID;
          }
-        
-        if(!empty($next_min_ID)){
-        $params['min_id'] = $next_min_ID;
-        }
-        
+
+        if (!empty($next_min_ID)) {
+            $params['min_id'] = $next_min_ID;
+         }
 
         return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
     }
