@@ -593,7 +593,7 @@ class Instagram
             $paramString = '&' . http_build_query($params);
         }
 
-        $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
+        $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method or 'DELETE' === $method ) ? $paramString : null);
 
         // signed header of POST/DELETE requests
         $headerData = array('Accept: application/json');
