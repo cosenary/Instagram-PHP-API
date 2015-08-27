@@ -595,11 +595,11 @@ class Instagram
 
         $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
 
-        // signed header of POST/DELETE requests
+        // we want JSON
         $headerData = array('Accept: application/json');
 
-        if ($this->_signedheader && 'GET' !== $method) {
-            $headerData[] = 'X-Insta-Forwarded-For: ' . $this->_signHeader();
+        if ($this->_signedheader) {
+            $apiCall .= (strstr($apiCall, '?') ? '&' : '?') . 'sig=' . $this->_signHeader($function, $authMethod, $params);
         }
 
         $ch = curl_init();
@@ -674,17 +674,31 @@ class Instagram
     }
 
     /**
-     * Sign header by using the app's IP and its API secret.
+     * Sign header by using endpoint, parameters and the API secret.
      *
-     * @return string The signed header
+     * @param string
+     * @param string
+     * @param array
+     *
+     * @return string The signature
      */
-    private function _signHeader()
+    private function _signHeader($endpoint, $authMethod, $params)
     {
-        $ipAddress = (isset($_SERVER['SERVER_ADDR'])) ? $_SERVER['SERVER_ADDR'] : gethostbyname(gethostname());
+        if (!is_array($params)) {
+            $params = array();
+        }
+        if ($authMethod) {
+            list($key, $value) = explode('=', substr($authMethod, 1), 2);
+            $params[$key] = $value;
+        }
+        $baseString = '/' . $endpoint;
+        ksort($params);
+        foreach ($params as $key => $value) {
+            $baseString .= '|' . $key . '=' . $value;
+        }
+        $signature = hash_hmac('sha256', $baseString, $this->_apisecret, false);
 
-        $signature = hash_hmac('sha256', $ipAddress, $this->_apisecret, false);
-
-        return join('|', array($ipAddress, $signature));
+        return $signature;
     }
 
     /**
