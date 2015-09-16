@@ -157,14 +157,9 @@ class Instagram
      *
      * @return mixed
      */
-    public function getUser($id = 0)
+    public function getUser($id = 'self')
     {
-        $auth = false;
-
-        if ($id === 0 && isset($this->_accesstoken)) {
-            $id = 'self';
-            $auth = true;
-        }
+        $auth = isset($this->_accesstoken);
 
         return $this->_makeCall('users/' . $id, $auth);
     }
