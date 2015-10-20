@@ -387,7 +387,7 @@ class Instagram
             $params['count'] = $limit;
         }
         
-        if($max_tag_id > 0) {
+        if ($max_tag_id > 0) {
             $params['max_tag_id'] = $max_tag_id;
         }
 
