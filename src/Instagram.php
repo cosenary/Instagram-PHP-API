@@ -375,15 +375,20 @@ class Instagram
      *
      * @param string $name Valid tag name
      * @param int $limit Limit of returned results
+     * @param integer $max_tag_id  Max ID to return (for pagination)
      *
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0)
+    public function getTagMedia($name, $limit = 0, $max_tag_id = 0)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
+        }
+        
+        if ($max_tag_id > 0) {
+            $params['max_tag_id'] = $max_tag_id;
         }
 
         return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
