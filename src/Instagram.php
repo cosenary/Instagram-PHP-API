@@ -81,6 +81,13 @@ class Instagram
     private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
 
     /**
+     * Additional parameters that should be send
+     *
+     * @var string[]
+     */
+    private $_paramaters = [];
+
+    /**
      * Rate limit.
      *
      * @var int
@@ -587,6 +594,9 @@ class Instagram
             $authMethod = '?access_token=' . $this->getAccessToken();
         }
 
+        // Merge additional parameters with given
+        $this->mergeParamaters($params);
+
         $paramString = null;
 
         if (isset($params) && is_array($params)) {
@@ -825,5 +835,52 @@ class Instagram
     public function setSignedHeader($signedHeader)
     {
         $this->_signedheader = $signedHeader;
+    }
+
+    /**
+     * Add additional parameters, send with the next request
+     *
+     * @param array $parameters
+     *
+     * @return \MetzWeb\Instagram\Instagram
+     *
+     * @throws \MetzWeb\Instagram\InstagramException
+     */
+    public function setAdditionalParameters($parameters)
+    {
+        if(!is_array($parameters)) {
+            throw new InstagramException('Error: setAdditionalParamaters() | $parameters must be of the type array');
+        }
+
+        $this->_paramaters = array_merge($this->_paramaters ,$parameters);
+
+        return $this;
+    }
+
+    /**
+     * Reset the additional parameters bag
+     *
+     * @return \MetzWeb\Instagram\Instagram
+     */
+    public function resetAdditionalParameters()
+    {
+        $this->_paramaters = array();
+
+        return $this;
+    }
+
+    /**
+     * If additional paramaters are set, merge them with $params
+     * @param  mixed
+     */
+    private function mergeParamaters(&$params)
+    {
+        if(is_array($this->_paramaters) && count($this->_paramaters)) {
+            if(is_array($params)) {
+                $params = array_merge($params, $this->_paramaters);
+            } else {
+                $params = $this->_paramaters;
+            }
+        }
     }
 }
