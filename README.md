@@ -294,6 +294,8 @@ $photos = $instagram->getTagMedia('kitten');
 $result = $instagram->pagination($photos);
 ```
 
+-Iteration with `do-while` loop.
+
 ## Additional Parameters
 
 Sometimes it's needed to add additional parameters to your request.
