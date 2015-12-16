@@ -294,7 +294,19 @@ $photos = $instagram->getTagMedia('kitten');
 $result = $instagram->pagination($photos);
 ```
 
-Iteration with `do-while` loop.
+-Iteration with `do-while` loop.
+
+## Additional Parameters
+
+Sometimes it's needed to add additional parameters to your request.
+
+```php
+$params = array('foo' => 'bar');
+
+$photos = $instagram->setAdditionalParameters($params)->getTagMedia('kitten');
+```
+
+This will extend the GET request with `...&foo=bar`
 
 ## Samples for redirect URLs
 
