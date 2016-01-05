@@ -71,7 +71,7 @@ class Instagram
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array('basic', 'likes', 'comments', 'relationships', 'public_content', 'follower_list');
 
     /**
      * Available actions.
@@ -86,6 +86,12 @@ class Instagram
      * @var int
      */
     private $_xRateLimitRemaining;
+    
+    /**
+     * Last API Call HTTP Status Code.
+     * @var int
+     */
+    protected $_httpCode;
 
     /**
      * Default constructor.
@@ -627,12 +633,12 @@ class Instagram
         $headers = $this->processHeaders($headerContent);
 
         // get the 'X-Ratelimit-Remaining' header value
-        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        $this->_xRateLimitRemaining = (isset($headers['X-Ratelimit-Remaining'])) ? $headers['X-Ratelimit-Remaining'] : '';
 
         if (!$jsonData) {
             throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
         }
-
+        $this->_httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         return json_decode($jsonData);
@@ -822,5 +828,14 @@ class Instagram
     public function setSignedHeader($signedHeader)
     {
         $this->_signedheader = $signedHeader;
+    }
+
+    /**
+     * Last API Call HTTP Status Code Getter.
+     * @return int
+     */
+    public function getHttpCode()
+    {
+        return $this->_httpCode;
     }
 }
