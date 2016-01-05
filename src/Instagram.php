@@ -157,14 +157,9 @@ class Instagram
      *
      * @return mixed
      */
-    public function getUser($id = 0)
+    public function getUser($id = 'self')
     {
-        $auth = false;
-
-        if ($id === 0 && isset($this->_accesstoken)) {
-            $id = 'self';
-            $auth = true;
-        }
+        $auth = isset($this->_accesstoken);
 
         return $this->_makeCall('users/' . $id, $auth);
     }
@@ -530,6 +525,8 @@ class Instagram
 
             if (isset($obj->pagination->next_max_id)) {
                 return $this->_makeCall($function, $auth, array('max_id' => $obj->pagination->next_max_id, 'count' => $limit));
+            } elseif (isset($obj->pagination->next_max_like_id)) {
+                return $this->_makeCall($function, $auth, array('max_like_id' => $obj->pagination->next_max_like_id, 'count' => $limit));
             }
 
             return $this->_makeCall($function, $auth, array('cursor' => $obj->pagination->next_cursor, 'count' => $limit));
