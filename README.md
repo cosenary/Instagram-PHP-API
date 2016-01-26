@@ -122,12 +122,12 @@ getLoginUrl(array(
 	<tr>
 		<td><code>basic</code></td>
 		<td>to use all user related methods [default]</td>
-		<td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getUserFollower()</code> etc.</td>
+		<td><code>getUser()</code>, <code>getUserFeed()</code>, <code>getMedia()</code></td>
 	</tr>
 	<tr>
 		<td><code>relationships</code></td>
 		<td>to follow and unfollow users</td>
-		<td><code>modifyRelationship()</code></td>
+		<td><code>getUserRelationship()</code>, <code>modifyRelationship()</code></td>
 	</tr>
 	<tr>
 		<td><code>likes</code></td>
@@ -138,6 +138,20 @@ getLoginUrl(array(
 		<td><code>comments</code></td>
 		<td>to create or delete comments</td>
 		<td><code>getMediaComments()</code>, <code>addMediaComment()</code>, <code>deleteMediaComment()</code></td>
+	</tr>
+	<tr>
+		<td><code>public_content</code></td>
+		<td>to read any public profile info and media on a user’s behalf</td>
+		<td><code>getUser()</code>, <code>getUserMedia()</code>, <code>getUserLikes()</code>, <code>searchUser()</code>,
+		    <code>getMedia()</code>, <code>searchMedia()</code>, <code>getMediaLikes()</code>, <code>getTag()</code>,
+		    <code>getTagMedia()</code>, <code>searchTags()</code>, <code>getLocation()</code>, <code>getLocationMedia()</code>,
+		    <code>searchLocation()</code>
+		</td>
+	</tr>
+	<tr>
+		<td><code>follower_list</code></td>
+		<td>to read the list of followers and followed-by users</td>
+		<td><code>getUserRelationship()</code>, <code>getUserFollows()</code>, <code>getUserFollower()</code></td>
 	</tr>
 </table>
 
