@@ -111,7 +111,7 @@ class Instagram
             $this->setApiSecret($config['apiSecret']);
             $this->setApiCallback($config['apiCallback']);
             if (!empty($config['curlRetries']) && is_int($config['curlRetries'])) {
-              $this->_curlRetries = $config['curlRetries'];
+                $this->_curlRetries = $config['curlRetries'];
             }
         } elseif (is_string($config)) {
             // if you only want to access public data
