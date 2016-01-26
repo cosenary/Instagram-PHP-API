@@ -110,7 +110,7 @@ class Instagram
             $this->setApiKey($config['apiKey']);
             $this->setApiSecret($config['apiSecret']);
             $this->setApiCallback($config['apiCallback']);
-            if(!empty($config['curlRetries']) && is_int($config['curlRetries'])) {
+            if (!empty($config['curlRetries']) && is_int($config['curlRetries'])) {
               $this->_curlRetries = $config['curlRetries'];
             }
         } elseif (is_string($config)) {
@@ -636,9 +636,9 @@ class Instagram
             }
 
             $jsonData = curl_exec($ch);
-        } while(curl_errno($ch) && $connCount <= $this->_curlRetries);
+        } while (curl_errno($ch) && $connCount <= $this->_curlRetries);
 
-        if(curl_errno($ch) === CURLE_OK) {
+        if (curl_errno($ch) === CURLE_OK) {
             curl_close($ch);
 
             if (!$jsonData) {
@@ -688,9 +688,9 @@ class Instagram
             curl_setopt($ch, CURLOPT_TIMEOUT, 90);
 
             $jsonData = curl_exec($ch);
-        } while(curl_errno($ch) && $connCount <= $this->_curlRetries);
+        } while (curl_errno($ch) && $connCount <= $this->_curlRetries);
 
-        if(curl_errno($ch) === CURLE_OK) {
+        if (curl_errno($ch) === CURLE_OK) {
             curl_close($ch);
 
             if (!$jsonData) {
