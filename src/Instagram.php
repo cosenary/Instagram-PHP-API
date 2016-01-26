@@ -88,6 +88,13 @@ class Instagram
     private $_xRateLimitRemaining;
 
     /**
+     * How many connection attempts are made before giving up?
+     *
+     * @var int
+     */
+    private $_curlRetries = 5;
+
+    /**
      * Default constructor.
      *
      * @param array|string $config Instagram configuration data
@@ -103,6 +110,9 @@ class Instagram
             $this->setApiKey($config['apiKey']);
             $this->setApiSecret($config['apiSecret']);
             $this->setApiCallback($config['apiCallback']);
+            if(!empty($config['curlRetries']) && is_int($config['curlRetries'])) {
+              $this->_curlRetries = $config['curlRetries'];
+            }
         } elseif (is_string($config)) {
             // if you only want to access public data
             $this->setApiKey($config);
@@ -602,43 +612,53 @@ class Instagram
             $apiCall .= (strstr($apiCall, '?') ? '&' : '?') . 'sig=' . $this->_signHeader($function, $authMethod, $params);
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $apiCall);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, true);
+        $connCount = 0;
+        do {
+            $connCount++;
 
-        switch ($method) {
-            case 'POST':
-                curl_setopt($ch, CURLOPT_POST, count($params));
-                curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
-                break;
-            case 'DELETE':
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                break;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $apiCall);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 90);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+
+            switch ($method) {
+                case 'POST':
+                    curl_setopt($ch, CURLOPT_POST, count($params));
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
+                    break;
+                case 'DELETE':
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                    break;
+            }
+
+            $jsonData = curl_exec($ch);
+        } while(curl_errno($ch) && $connCount <= $this->_curlRetries);
+
+        if(curl_errno($ch) === CURLE_OK) {
+            curl_close($ch);
+
+            if (!$jsonData) {
+                throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
+            }
+
+            // split header from JSON data
+            // and assign each to a variable
+            list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
+
+            // convert header content into an array
+            $headers = $this->processHeaders($headerContent);
+
+            // get the 'X-Ratelimit-Remaining' header value
+            $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+
+            return json_decode($jsonData);
         }
 
-        $jsonData = curl_exec($ch);
-        // split header from JSON data
-        // and assign each to a variable
-        list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
-
-        // convert header content into an array
-        $headers = $this->processHeaders($headerContent);
-
-        // get the 'X-Ratelimit-Remaining' header value
-        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
-
-        if (!$jsonData) {
-            throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
-        }
-
-        curl_close($ch);
-
-        return json_decode($jsonData);
+        throw new InstagramException('Error: _makeCall() - cURL error #2: ' . curl_error($ch));
     }
 
     /**
@@ -653,24 +673,34 @@ class Instagram
     private function _makeOAuthCall($apiData)
     {
         $apiHost = self::API_OAUTH_TOKEN_URL;
+        $connCount = 0;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $apiHost);
-        curl_setopt($ch, CURLOPT_POST, count($apiData));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
-        $jsonData = curl_exec($ch);
+        do {
+            $connCount++;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $apiHost);
+            curl_setopt($ch, CURLOPT_POST, count($apiData));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 90);
 
-        if (!$jsonData) {
-            throw new InstagramException('Error: _makeOAuthCall() - cURL error: ' . curl_error($ch));
+            $jsonData = curl_exec($ch);
+        } while(curl_errno($ch) && $connCount <= $this->_curlRetries);
+
+        if(curl_errno($ch) === CURLE_OK) {
+            curl_close($ch);
+
+            if (!$jsonData) {
+                throw new InstagramException('Error: _makeOAuthCall() - cURL error: ' . curl_error($ch));
+            }
+
+            return json_decode($jsonData);
         }
 
-        curl_close($ch);
-
-        return json_decode($jsonData);
+        throw new InstagramException('Error: _makeOAuthCall() - cURL error #2: ' . curl_error($ch));
     }
 
     /**
