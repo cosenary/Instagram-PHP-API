@@ -378,13 +378,21 @@ class Instagram
      *
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0)
+    public function getTagMedia($name, $limit = 0, $minTag = null, $maxTag = null )
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+        
+	if( $minTag )	{
+	    $params['min_tag_id'] = $minTag;
+	}
+	
+	if( $maxTag ) {
+	    $params['max_tag_id'] = $maxTag;
+	}
 
         return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
     }
