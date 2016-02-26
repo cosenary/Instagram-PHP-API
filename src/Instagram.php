@@ -887,5 +887,4 @@ class Instagram
     {
         return $this->_updated;
     }
-
 }
