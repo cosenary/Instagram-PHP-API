@@ -67,18 +67,39 @@ class Instagram
     private $_signedheader = false;
 
     /**
+     * Check client created after 17 Nov 2015
+     *
+     * @var bool
+     */
+    private $_updated = false;
+
+    /**
      * Available scopes.
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array(
+        'basic',
+        'public_content',
+        'follower_list',
+        'comments',
+        'relationships',
+        'likes'
+    );
 
     /**
      * Available actions.
      *
      * @var string[]
      */
-    private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
+    private $_actions = array(
+        'follow',
+        'unfollow',
+        'block',
+        'unblock',
+        'approve',
+        'ignore'
+    );
 
     /**
      * Rate limit.
@@ -99,10 +120,15 @@ class Instagram
     public function __construct($config)
     {
         if (is_array($config)) {
+            //updated flag is "false" in default
+            $config += array(
+                'updated' => false
+            );
             // if you want to access user data
             $this->setApiKey($config['apiKey']);
             $this->setApiSecret($config['apiSecret']);
             $this->setApiCallback($config['apiCallback']);
+            $this->setUpdated($config['updated']);
         } elseif (is_string($config)) {
             // if you only want to access public data
             $this->setApiKey($config);
@@ -575,7 +601,7 @@ class Instagram
      */
     protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
     {
-        if (!$auth) {
+        if (!$this->isUpdated() && !$auth) {
             // if the call doesn't requires authentication
             $authMethod = '?client_id=' . $this->getApiKey();
         } else {
@@ -725,6 +751,17 @@ class Instagram
         return $headers;
     }
 
+
+    /**
+     * Check API Updated
+     *
+     * @return bool
+     */
+    public function isUpdated()
+    {
+        return $this->getUpdated();
+    }
+
     /**
      * Access Token Setter.
      *
@@ -783,6 +820,7 @@ class Instagram
         $this->_apisecret = $apiSecret;
     }
 
+
     /**
      * API Secret Getter.
      *
@@ -825,5 +863,28 @@ class Instagram
     public function setSignedHeader($signedHeader)
     {
         $this->_signedheader = $signedHeader;
+    }
+
+    /**
+     * API Updated Flag Setter 
+     *
+     * @param bool $updated
+     *
+     * @return void
+     */
+    public function setUpdated($updated)
+    {
+        $this->_updated = $updated;
+    }
+
+
+    /**
+     * API Updated Flag Getter.
+     *
+     * @return bool
+     */
+    public function getUpdated()
+    {
+        return $this->_updated;
     }
 }
