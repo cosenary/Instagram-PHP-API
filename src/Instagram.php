@@ -94,7 +94,7 @@ class Instagram
      */
     private $_actions = array(
         'follow',
-        'unfollow', 
+        'unfollow',
         'block',
         'unblock',
         'approve',
@@ -757,7 +757,8 @@ class Instagram
      *
      * @return bool
      */
-    public function isUpdated(){
+    public function isUpdated()
+    {
         return $this->getUpdated();
     }
 
@@ -871,7 +872,8 @@ class Instagram
      *
      * @return void
      */
-    public function setUpdated($updated){
+    public function setUpdated($updated)
+    {
         $this->_updated = $updated;
     }
 
@@ -881,7 +883,8 @@ class Instagram
      *
      * @return bool
      */
-    public function getUpdated(){
+    public function getUpdated()
+    {
         return $this->_updated;
     }
 
