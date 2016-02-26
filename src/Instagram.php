@@ -78,14 +78,28 @@ class Instagram
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array(
+        'basic',
+        'public_content',
+        'follower_list',
+        'comments',
+        'relationships',
+        'likes'
+    );
 
     /**
      * Available actions.
      *
      * @var string[]
      */
-    private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
+    private $_actions = array(
+        'follow',
+        'unfollow', 
+        'block',
+        'unblock',
+        'approve',
+        'ignore'
+    );
 
     /**
      * Rate limit.
