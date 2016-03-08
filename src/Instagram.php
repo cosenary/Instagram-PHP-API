@@ -167,23 +167,6 @@ class Instagram
     }
 
     /**
-     * Get user activity feed.
-     *
-     * @param int $limit Limit of returned results
-     *
-     * @return mixed
-     */
-    public function getUserFeed($limit = 0)
-    {
-        $params = array();
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/self/feed', $params);
-    }
-
-    /**
      * Get user recent media.
      *
      * @param int|string $id Instagram user ID
@@ -221,14 +204,27 @@ class Instagram
     }
 
     /**
+     * DEPRECATED
      * Get the list of users this user follows
      *
      * @param int|string $id Instagram user ID.
      * @param int $limit Limit of returned results
      *
-     * @return mixed
+     * @return void
      */
     public function getUserFollows($id = 'self', $limit = 0)
+    {
+        $this->getFollows($limit);
+    }
+
+    /**
+     * Get the list of users the authenticated user follows.
+     *
+     * @param int $limit Limit of returned results
+     *
+     * @return mixed
+     */
+    public function getFollows($limit = 0)
     {
         $params = array();
 
@@ -236,18 +232,31 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/follows', $params);
+        return $this->_makeCall('users/self/follows', $params);
     }
 
     /**
+     * DEPRECATED
      * Get the list of users this user is followed by.
      *
      * @param int|string $id Instagram user ID
      * @param int $limit Limit of returned results
      *
-     * @return mixed
+     * @return void
      */
     public function getUserFollower($id = 'self', $limit = 0)
+    {
+        $this->getFollower($limit);
+    }
+
+    /**
+     * Get the list of users this user is followed by.
+     *
+     * @param int $limit Limit of returned results
+     *
+     * @return mixed
+     */
+    public function getFollower($limit = 0)
     {
         $params = array();
 
@@ -255,7 +264,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/followed-by', $params);
+        return $this->_makeCall('users/self/followed-by', $params);
     }
 
     /**
@@ -331,16 +340,6 @@ class Instagram
     public function getMedia($id)
     {
         return $this->_makeCall('media/' . $id);
-    }
-
-    /**
-     * Get the most popular media.
-     *
-     * @return mixed
-     */
-    public function getPopularMedia()
-    {
-        return $this->_makeCall('media/popular');
     }
 
     /**
