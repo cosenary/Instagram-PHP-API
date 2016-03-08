@@ -147,7 +147,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/search', false, $params);
+        return $this->_makeCall('users/search', $params);
     }
 
     /**
@@ -159,14 +159,11 @@ class Instagram
      */
     public function getUser($id = 0)
     {
-        $auth = false;
-
-        if ($id === 0 && isset($this->_accesstoken)) {
+        if ($id === 0) {
             $id = 'self';
-            $auth = true;
         }
 
-        return $this->_makeCall('users/' . $id, $auth);
+        return $this->_makeCall('users/' . $id);
     }
 
     /**
@@ -183,7 +180,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/self/feed', true, $params);
+        return $this->_makeCall('users/self/feed', $params);
     }
 
     /**
@@ -202,7 +199,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
+        return $this->_makeCall('users/' . $id . '/media/recent', $params);
     }
 
     /**
@@ -220,7 +217,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/self/media/liked', true, $params);
+        return $this->_makeCall('users/self/media/liked', $params);
     }
 
     /**
@@ -239,7 +236,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/follows', true, $params);
+        return $this->_makeCall('users/' . $id . '/follows', $params);
     }
 
     /**
@@ -258,7 +255,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/followed-by', true, $params);
+        return $this->_makeCall('users/' . $id . '/followed-by', $params);
     }
 
     /**
@@ -270,7 +267,7 @@ class Instagram
      */
     public function getUserRelationship($id)
     {
-        return $this->_makeCall('users/' . $id . '/relationship', true);
+        return $this->_makeCall('users/' . $id . '/relationship');
     }
 
     /**
@@ -296,7 +293,7 @@ class Instagram
     public function modifyRelationship($action, $user)
     {
         if (in_array($action, $this->_actions) && isset($user)) {
-            return $this->_makeCall('users/' . $user . '/relationship', true, array('action' => $action), 'POST');
+            return $this->_makeCall('users/' . $user . '/relationship', array('action' => $action), 'POST');
         }
 
         throw new InstagramException('Error: modifyRelationship() | This method requires an action command and the target user id.');
@@ -315,7 +312,7 @@ class Instagram
      */
     public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = null, $maxTimestamp = null)
     {
-        return $this->_makeCall('media/search', false, array(
+        return $this->_makeCall('media/search', array(
             'lat' => $lat,
             'lng' => $lng,
             'distance' => $distance,
@@ -333,7 +330,7 @@ class Instagram
      */
     public function getMedia($id)
     {
-        return $this->_makeCall('media/' . $id, isset($this->_accesstoken));
+        return $this->_makeCall('media/' . $id);
     }
 
     /**
@@ -355,7 +352,7 @@ class Instagram
      */
     public function searchTags($name)
     {
-        return $this->_makeCall('tags/search', false, array('q' => $name));
+        return $this->_makeCall('tags/search', array('q' => $name));
     }
 
     /**
@@ -386,7 +383,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
+        return $this->_makeCall('tags/' . $name . '/media/recent', $params);
     }
 
     /**
@@ -398,7 +395,7 @@ class Instagram
      */
     public function getMediaLikes($id)
     {
-        return $this->_makeCall('media/' . $id . '/likes', true);
+        return $this->_makeCall('media/' . $id . '/likes');
     }
 
     /**
@@ -410,7 +407,7 @@ class Instagram
      */
     public function getMediaComments($id)
     {
-        return $this->_makeCall('media/' . $id . '/comments', false);
+        return $this->_makeCall('media/' . $id . '/comments');
     }
 
     /**
@@ -423,7 +420,7 @@ class Instagram
      */
     public function addMediaComment($id, $text)
     {
-        return $this->_makeCall('media/' . $id . '/comments', true, array('text' => $text), 'POST');
+        return $this->_makeCall('media/' . $id . '/comments', array('text' => $text), 'POST');
     }
 
     /**
@@ -436,7 +433,7 @@ class Instagram
      */
     public function deleteMediaComment($id, $commentID)
     {
-        return $this->_makeCall('media/' . $id . '/comments/' . $commentID, true, null, 'DELETE');
+        return $this->_makeCall('media/' . $id . '/comments/' . $commentID, null, 'DELETE');
     }
 
     /**
@@ -448,7 +445,7 @@ class Instagram
      */
     public function likeMedia($id)
     {
-        return $this->_makeCall('media/' . $id . '/likes', true, null, 'POST');
+        return $this->_makeCall('media/' . $id . '/likes', null, 'POST');
     }
 
     /**
@@ -460,7 +457,7 @@ class Instagram
      */
     public function deleteLikedMedia($id)
     {
-        return $this->_makeCall('media/' . $id . '/likes', true, null, 'DELETE');
+        return $this->_makeCall('media/' . $id . '/likes', null, 'DELETE');
     }
 
     /**
@@ -472,7 +469,7 @@ class Instagram
      */
     public function getLocation($id)
     {
-        return $this->_makeCall('locations/' . $id, false);
+        return $this->_makeCall('locations/' . $id);
     }
 
     /**
@@ -484,7 +481,7 @@ class Instagram
      */
     public function getLocationMedia($id)
     {
-        return $this->_makeCall('locations/' . $id . '/media/recent', false);
+        return $this->_makeCall('locations/' . $id . '/media/recent');
     }
 
     /**
@@ -498,7 +495,7 @@ class Instagram
      */
     public function searchLocation($lat, $lng, $distance = 1000)
     {
-        return $this->_makeCall('locations/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
+        return $this->_makeCall('locations/search', array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
     }
 
     /**
@@ -565,7 +562,6 @@ class Instagram
      * The call operator.
      *
      * @param string $function API resource path
-     * @param bool $auth Whether the function requires an access token
      * @param array $params Additional request parameters
      * @param string $method Request type GET|POST
      *
@@ -573,19 +569,13 @@ class Instagram
      *
      * @throws \MetzWeb\Instagram\InstagramException
      */
-    protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
+    protected function _makeCall($function, $params = null, $method = 'GET')
     {
-        if (!$auth) {
-            // if the call doesn't requires authentication
-            $authMethod = '?client_id=' . $this->getApiKey();
-        } else {
-            // if the call needs an authenticated user
-            if (!isset($this->_accesstoken)) {
-                throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
-            }
-
-            $authMethod = '?access_token=' . $this->getAccessToken();
+        if (!isset($this->_accesstoken)) {
+            throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
         }
+
+        $authMethod = '?access_token=' . $this->getAccessToken();
 
         $paramString = null;
 
