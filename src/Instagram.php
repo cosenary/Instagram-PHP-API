@@ -78,7 +78,7 @@ class Instagram
      *
      * @var string[]
      */
-    private $_actions = array('follow', 'unfollow', 'block', 'unblock', 'approve', 'deny');
+    private $_actions = array('follow', 'unfollow', 'approve', 'ignore');
 
     /**
      * Rate limit.
@@ -171,15 +171,23 @@ class Instagram
      *
      * @param int|string $id Instagram user ID
      * @param int $limit Limit of returned results
+     * @param int $min_id Return media later than this min_id
+     * @param int $max_id Return media earlier than this max_id
      *
      * @return mixed
      */
-    public function getUserMedia($id = 'self', $limit = 0)
+    public function getUserMedia($id = 'self', $limit = 0, $min_id = null, $max_id = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
+        }
+        if (isset($min_id)) {
+            $params['min_id'] = $min_id;
+        }
+        if (isset($max_id)) {
+            $params['max_id'] = $max_id;
         }
 
         return $this->_makeCall('users/' . $id . '/media/recent', $params);
@@ -189,15 +197,19 @@ class Instagram
      * Get the liked photos of a user.
      *
      * @param int $limit Limit of returned results
+     * @param int $max_like_id Return media liked before this id
      *
      * @return mixed
      */
-    public function getUserLikes($limit = 0)
+    public function getUserLikes($limit = 0, $max_like_id = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
+        }
+        if (isset($max_id)) {
+            $params['max_like_id'] = $max_like_id;
         }
 
         return $this->_makeCall('users/self/media/liked', $params);
@@ -214,25 +226,17 @@ class Instagram
      */
     public function getUserFollows($id = 'self', $limit = 0)
     {
-        $this->getFollows($limit);
+        $this->getFollows();
     }
 
     /**
      * Get the list of users the authenticated user follows.
      *
-     * @param int $limit Limit of returned results
-     *
      * @return mixed
      */
-    public function getFollows($limit = 0)
+    public function getFollows()
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/self/follows', $params);
+        return $this->_makeCall('users/self/follows');
     }
 
     /**
@@ -246,25 +250,17 @@ class Instagram
      */
     public function getUserFollower($id = 'self', $limit = 0)
     {
-        $this->getFollower($limit);
+        $this->getFollower();
     }
 
     /**
      * Get the list of users this user is followed by.
      *
-     * @param int $limit Limit of returned results
-     *
      * @return mixed
      */
-    public function getFollower($limit = 0)
+    public function getFollower()
     {
-        $params = array();
-
-        if ($limit > 0) {
-            $params['count'] = $limit;
-        }
-
-        return $this->_makeCall('users/self/followed-by', $params);
+        return $this->_makeCall('users/self/followed-by');
     }
 
     /**
@@ -292,7 +288,7 @@ class Instagram
     /**
      * Modify the relationship between the current user and the target user.
      *
-     * @param string $action Action command (follow/unfollow/block/unblock/approve/deny)
+     * @param string $action Action command (follow/unfollow/approve/ignore)
      * @param int $user Target user ID
      *
      * @return mixed
@@ -314,19 +310,15 @@ class Instagram
      * @param float $lat Latitude of the center search coordinate
      * @param float $lng Longitude of the center search coordinate
      * @param int $distance Distance in metres (default is 1km (distance=1000), max. is 5km)
-     * @param long $minTimestamp Media taken later than this timestamp (default: 5 days ago)
-     * @param long $maxTimestamp Media taken earlier than this timestamp (default: now)
      *
      * @return mixed
      */
-    public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = null, $maxTimestamp = null)
+    public function searchMedia($lat, $lng, $distance = 1000)
     {
         return $this->_makeCall('media/search', array(
             'lat' => $lat,
             'lng' => $lng,
-            'distance' => $distance,
-            'min_timestamp' => $minTimestamp,
-            'max_timestamp' => $maxTimestamp
+            'distance' => $distance
         ));
     }
 
@@ -371,15 +363,23 @@ class Instagram
      *
      * @param string $name Valid tag name
      * @param int $limit Limit of returned results
+     * @param int $min_tag_id Return media before this min_tag_id
+     * @param int $max_tag_id Return media after this max_tag_id
      *
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0)
+    public function getTagMedia($name, $limit = 0, $min_tag_id = null, $max_tag_id = null)
     {
         $params = array();
 
         if ($limit > 0) {
             $params['count'] = $limit;
+        }
+        if (isset($min_tag_id)) {
+            $params['min_tag_id'] = $min_tag_id;
+        }
+        if (isset($max_tag_id)) {
+            $params['max_tag_id'] = $max_tag_id;
         }
 
         return $this->_makeCall('tags/' . $name . '/media/recent', $params);
@@ -475,12 +475,23 @@ class Instagram
      * Get recent media from a given location.
      *
      * @param int $id Instagram location ID
+     * @param int $min_id Return media before this min_id
+     * @param int $max_id Return media after this max_id
      *
      * @return mixed
      */
-    public function getLocationMedia($id)
+    public function getLocationMedia($id, $min_id = null, $max_id = null)
     {
-        return $this->_makeCall('locations/' . $id . '/media/recent');
+        $params = array();
+
+        if (isset($min_id)) {
+            $params['min_id'] = $min_id;
+        }
+        if (isset($max_id)) {
+            $params['max_id'] = $max_id;
+        }
+
+        return $this->_makeCall('locations/' . $id . '/media/recent', $params);
     }
 
     /**
@@ -489,12 +500,28 @@ class Instagram
      * @param float $lat Latitude of the center search coordinate
      * @param float $lng Longitude of the center search coordinate
      * @param int $distance Distance in meter (max. distance: 5km = 5000)
+     * @param int $facebook_places_id Returns a location mapped off of a
+     *                                Facebook places id. If used, a Foursquare
+     *                                id and lat, lng are not required.
+     * @param int $foursquare_id Returns a location mapped off of a foursquare v2
+     *                                api location id. If used, you are not
+     *                                required to use lat and lng.
      *
      * @return mixed
      */
-    public function searchLocation($lat, $lng, $distance = 1000)
+    public function searchLocation($lat, $lng, $distance = 1000, $facebook_places_id = null, $foursquare_id = null)
     {
-        return $this->_makeCall('locations/search', array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
+        $params['lat'] = $lat;
+        $params['lng'] = $lng;
+        $params['distance'] = $distance;
+        if (isset($facebook_places_id)) {
+            $params['facebook_places_id'] = $facebook_places_id;
+        }
+        if (isset($foursquare_id)) {
+            $params['foursquare_id'] = $foursquare_id;
+        }
+
+        return $this->_makeCall('locations/search', $params);
     }
 
     /**
