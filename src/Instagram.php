@@ -32,6 +32,11 @@ class Instagram
     const API_OAUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token';
 
     /**
+     * @var \Closure[]
+     */
+    public $onResponse = [];
+    
+    /**
      * The Instagram API Key.
      *
      * @var string
@@ -622,6 +627,8 @@ class Instagram
         }
 
         $jsonData = curl_exec($ch);
+        $this->fireOnResponse($apiCall, $params, $method, $jsonData);
+        
         // split header from JSON data
         // and assign each to a variable
         list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
@@ -639,6 +646,19 @@ class Instagram
         curl_close($ch);
 
         return json_decode($jsonData);
+    }
+
+    /**
+     * @param string $apiCall
+     * @param array|null $params
+     * @param string $method
+     * @param string $jsonData
+     */
+    protected function fireOnResponse($apiCall, array $params = null, $method, $jsonData)
+    {
+        foreach ($this->onResponse as $callback) {
+            $callback($apiCall, $params, $method, $jsonData);
+        }
     }
 
     /**

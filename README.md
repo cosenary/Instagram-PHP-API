@@ -343,6 +343,20 @@ Iteration with `do-while` loop.
 
 > If you need further information about an endpoint, take a look at the [Instagram API docs](http://instagram.com/developer/authentication/).
 
+## Events
+
+If you need to log your communication over API, you can use `onResponse` event that is fired right after
+`curl_exec` is done.
+
+```php
+$instagram = new Instagram($apiKey);
+$instagram->setAccessToken($token);
+$instagram->onResponse[] = function ($apiCall, array $params = null, $method, $jsonData) {
+	$message = sprintf('%s %s [%s] -> %s', $method, $apiCall, $params !== null ? implode(', ', $params) : 'null', $jsonData);
+	$this->yourLogger->log($message);
+};
+```
+
 ## Example App
 
 ![Image](http://cl.ly/image/221T1g3w3u2J/preview.png)
