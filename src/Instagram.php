@@ -93,6 +93,11 @@ class Instagram
     private $_xRateLimitRemaining;
 
     /**
+     * @var array
+     */
+    private $curlOptions = [];
+
+    /**
      * Default constructor.
      *
      * @param array|string $config Instagram configuration data
@@ -116,6 +121,11 @@ class Instagram
         }
     }
 
+    public function disableIPv6()
+    {
+        $this->curlOptions[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
+    }
+    
     /**
      * Generates the OAuth login URL.
      *
@@ -616,6 +626,10 @@ class Instagram
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, true);
 
+        foreach ($this->curlOptions as $optionName => $optionValue) {
+            curl_setopt($ch, $optionName, $optionValue);
+        }
+        
         switch ($method) {
             case 'POST':
                 curl_setopt($ch, CURLOPT_POST, count($params));
