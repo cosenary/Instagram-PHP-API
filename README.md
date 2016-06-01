@@ -34,7 +34,7 @@ Please note that Instagram mainly refers to »Clients« instead of »Apps«. So 
 I strongly advice using [Composer](https://getcomposer.org) to keep updates as smooth as possible.
 
 ```
-$ composer require cosenary/instagram
+$ composer require brandembassy/instagram
 ```
 
 ### Initialize the class
