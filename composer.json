@@ -1,15 +1,19 @@
 {
-	"name": "cosenary/instagram",
+	"name": "brandembassy/instagram",
 	"type": "library",
 	"description": "An easy-to-use PHP Class for accessing Instagram's API.",
 	"keywords": ["instagram", "api"],
-	"homepage": "https://github.com/cosenary/Instagram-PHP-API",
+	"homepage": "https://github.com/BrandEmbassy/Instagram-PHP-API",
 	"license": "BSD",
 	"authors": [
 		{
 			"name": "Christian Metz",
 			"email": "christian-metz1@gmx.net",
 			"homepage": "http://metzweb.net"
+		},
+		{
+			"name": "Brand Embassy Ltd.",
+			"homepage": "http://www.brandembassy.com/"
 		}
 	],
 	"require": {

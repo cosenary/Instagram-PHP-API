@@ -34,7 +34,7 @@ Please note that Instagram mainly refers to »Clients« instead of »Apps«. So 
 I strongly advice using [Composer](https://getcomposer.org) to keep updates as smooth as possible.
 
 ```
-$ composer require cosenary/instagram
+$ composer require brandembassy/instagram
 ```
 
 ### Initialize the class
@@ -342,6 +342,20 @@ Iteration with `do-while` loop.
 </table>
 
 > If you need further information about an endpoint, take a look at the [Instagram API docs](http://instagram.com/developer/authentication/).
+
+## Events
+
+If you need to log your communication over API, you can use `onResponse` event that is fired right after
+`curl_exec` is done.
+
+```php
+$instagram = new Instagram($apiKey);
+$instagram->setAccessToken($token);
+$instagram->onResponse[] = function ($apiCall, array $params = null, $method, $jsonData) {
+	$message = sprintf('%s %s [%s] -> %s', $method, $apiCall, $params !== null ? implode(', ', $params) : 'null', $jsonData);
+	$this->yourLogger->log($message);
+};
+```
 
 ## Example App
 
