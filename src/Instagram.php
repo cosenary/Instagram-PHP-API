@@ -161,7 +161,7 @@ class Instagram
      */
       public function getImageid($url)
       {
-           $json_file = file_get_contents("http://api.instagram.com/oembed?url=".$url);
+           $json_file = file_get_contents('http://api.instagram.com/oembed?url='.$url);
            $json_str  = json_decode($json_file, true);
     
            return $json_str['media_id'];
