@@ -115,16 +115,17 @@ class Instagram
      * Generates the OAuth login URL.
      *
      * @param string[] $scopes Requesting additional permissions
+     * @param string $response_type Response type (code|token)
      *
      * @return string Instagram OAuth login URL
      *
      * @throws \MetzWeb\Instagram\InstagramException
      */
-    public function getLoginUrl($scopes = array('basic'))
+    public function getLoginUrl($scopes = array('basic'), $response_type = 'code')
     {
         if (is_array($scopes) && count(array_intersect($scopes, $this->_scopes)) === count($scopes)) {
             return self::API_OAUTH_URL . '?client_id=' . $this->getApiKey() . '&redirect_uri=' . urlencode($this->getApiCallback()) . '&scope=' . implode('+',
-                $scopes) . '&response_type=code';
+                $scopes) . '&response_type=' . $response_type;
         }
 
         throw new InstagramException("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
