@@ -226,7 +226,7 @@ class Instagram
      */
     public function getUserFollows($id = 'self', $limit = 0)
     {
-        $this->getFollows();
+        $this->getFollows($id, $limit);
     }
 
     /**
@@ -234,9 +234,12 @@ class Instagram
      *
      * @return mixed
      */
-    public function getFollows()
+    public function getFollows($id, $limit)
     {
-        return $this->_makeCall('users/self/follows');
+        if ($limit > 0) {
+            $params['count'] = $limit;
+        }
+        return $this->_makeCall('users/' . $id . '/follows', $params);
     }
 
     /**
@@ -250,7 +253,7 @@ class Instagram
      */
     public function getUserFollower($id = 'self', $limit = 0)
     {
-        $this->getFollower();
+        return $this->getFollower($id, $limit);
     }
 
     /**
@@ -258,9 +261,12 @@ class Instagram
      *
      * @return mixed
      */
-    public function getFollower()
+    public function getFollower($id, $limit)
     {
-        return $this->_makeCall('users/self/followed-by');
+        if ($limit > 0) {
+            $params['count'] = $limit;
+        }
+        return $this->_makeCall('users/' . $id . '/followed-by', $params);
     }
 
     /**
