@@ -234,11 +234,14 @@ class Instagram
      *
      * @return mixed
      */
-    public function getFollows($id, $limit)
+    public function getFollows($id = 'self', $limit = 0)
     {
+        $params = array();
+
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+
         return $this->_makeCall('users/' . $id . '/follows', $params);
     }
 
@@ -261,11 +264,14 @@ class Instagram
      *
      * @return mixed
      */
-    public function getFollower($id, $limit)
+    public function getFollower($id = 'self', $limit = 0)
     {
+        $params = array();
+
         if ($limit > 0) {
             $params['count'] = $limit;
         }
+
         return $this->_makeCall('users/' . $id . '/followed-by', $params);
     }
 
