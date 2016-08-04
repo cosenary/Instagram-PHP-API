@@ -226,7 +226,7 @@ class Instagram
      */
     public function getUserFollows($id = 'self', $limit = 0)
     {
-        $this->getFollows($id, $limit);
+        return $this->getFollows($id, $limit);
     }
 
     /**
