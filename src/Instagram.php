@@ -71,7 +71,7 @@ class Instagram
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array('basic', 'likes', 'comments', 'relationships', 'public_content', 'follower_list');
 
     /**
      * Available actions.
@@ -630,7 +630,11 @@ class Instagram
         $headers = $this->processHeaders($headerContent);
 
         // get the 'X-Ratelimit-Remaining' header value
-        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        // $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+
+        if (isset($headers['X-Ratelimit-Remaining'])) {
+            $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+        }
 
         if (!$jsonData) {
             throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
