@@ -88,6 +88,34 @@ class Instagram
     private $_xRateLimitRemaining;
 
     /**
+     * Proxy server.
+     *
+     * @var string
+     */
+    private $_proxyServer;
+
+    /**
+     * Proxy username.
+     *
+     * @var string
+     */
+    private $_proxyUser;
+
+    /**
+     * Proxy password.
+     *
+     * @var string
+     */
+    private $_proxyPwd;
+
+    /**
+     * Proxy port.
+     *
+     * @var int
+     */
+    private $_proxyPort;
+
+    /**
      * Default constructor.
      *
      * @param array|string $config Instagram configuration data
@@ -629,6 +657,16 @@ class Instagram
         }
 
         $ch = curl_init();
+
+        if ($this->_proxyServer) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->_proxyServer);
+            curl_setopt($ch, CURLOPT_PROXYPORT,  $this->_proxyPort);
+            if ($this->_proxyUser) {
+                $proxyauth = $this->_proxyUser . ':' . $this->_proxyPwd;
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+            }
+        }
+
         curl_setopt($ch, CURLOPT_URL, $apiCall);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
@@ -648,6 +686,11 @@ class Instagram
         }
 
         $jsonData = curl_exec($ch);
+
+        if (!$jsonData) {
+            throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
+        }
+
         // split header from JSON data
         // and assign each to a variable
         list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
@@ -658,10 +701,6 @@ class Instagram
         // get the 'X-Ratelimit-Remaining' header value
         if (isset($headers['X-Ratelimit-Remaining'])) {
             $this->_xRateLimitRemaining = trim($headers['X-Ratelimit-Remaining']);
-        }
-
-        if (!$jsonData) {
-            throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
         }
 
         curl_close($ch);
@@ -684,6 +723,16 @@ class Instagram
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $apiHost);
+
+        if ($this->_proxyServer) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->_proxyServer);
+            curl_setopt($ch, CURLOPT_PROXYPORT,  $this->_proxyPort);
+            if ($this->_proxyUser) {
+                $proxyAuth = $this->_proxyUser . ':' . $this->_proxyPwd;
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
+            }
+        }
+
         curl_setopt($ch, CURLOPT_POST, count($apiData));
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -854,4 +903,85 @@ class Instagram
     {
         $this->_signedheader = $signedHeader;
     }
+
+    /**
+     * Get the proxy server.
+     *
+     * @return string
+     */
+    public function getProxyServer() {
+        return $this->_proxyServer;
+    }
+
+    /**
+     * Set the proxy server.
+     *
+     * @param string $server
+     *
+     * @return void
+     */
+    public function setProxyServer($server) {
+        $this->_proxyServer = $server;
+    }
+
+    /**
+     * Get the proxy server username.
+     *
+     * @return string
+     */
+    public function getProxyUser(){
+        return $this->_proxyUser;
+    }
+
+    /**
+     * Get the proxy server password.
+     *
+     * @return string
+     */
+    public function getProxyPwd(){
+        return $this->_proxyPwd;
+    }
+
+    /**
+     * Set the proxy username.
+     *
+     * @param string $user
+     *
+     * @return void
+     */
+    public function setProxyUser($user){
+        $this->_proxyUser = $user;
+    }
+
+    /**
+     * Set the proxy password.
+     * 
+     * @param string $pwd
+     *
+     * @return void
+     */
+    public function setProxyPwd($pwd){
+        $this->_proxyPwd = $pwd;
+    }
+
+    /**
+     * Get proxy port.
+     *
+     * @return int
+     */
+    public function getProxyPort() {
+        return $this->_proxyPort;
+    }
+
+    /**
+     * Set the proxy port.
+     *
+     * @param int $port
+     *
+     * @return void
+     */
+    public function setProxyPort($port){
+        $this->_proxyPort = $port;
+    }
 }
+
