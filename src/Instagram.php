@@ -149,7 +149,22 @@ class Instagram
 
         return $this->_makeCall('users/search', false, $params);
     }
-
+    
+    /**
+     * Generates the OAuth login URL.
+     *
+     * @param string url image
+     *
+     * @return string id image
+     *
+     */
+      public function getImageId($url)
+      {          
+           $json_file = file_get_contents('http://api.instagram.com/oembed?url='.$url);
+           $json_str  = json_decode($json_file, true);           
+    
+           return $json_str['media_id'];
+      }
     /**
      * Get user info.
      *
