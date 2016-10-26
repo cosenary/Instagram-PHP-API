@@ -157,14 +157,11 @@ class Instagram
      *
      * @return string id image
      *
-     * @throws \MetzWeb\Instagram\InstagramException
      */
-      public function getImageid($url)
-      {
-          
+      public function getImageId($url)
+      {          
            $json_file = file_get_contents('http://api.instagram.com/oembed?url='.$url);
-           $json_str  = json_decode($json_file, true);
-           
+           $json_str  = json_decode($json_file, true);           
     
            return $json_str['media_id'];
       }
