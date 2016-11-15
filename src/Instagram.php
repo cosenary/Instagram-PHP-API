@@ -71,7 +71,7 @@ class Instagram
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array('basic', 'likes', 'comments', 'relationships', 'public_content');
 
     /**
      * Available actions.
@@ -575,7 +575,7 @@ class Instagram
      */
     protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
     {
-        if (!$auth) {
+        if (!$auth && !isset($this->_accesstoken)) {
             // if the call doesn't requires authentication
             $authMethod = '?client_id=' . $this->getApiKey();
         } else {
