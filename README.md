@@ -2,6 +2,27 @@
 
 > **Note:** On the 17 Nov 2015 [Instagram](http://developers.instagram.com/post/133424514006/instagram-platform-update) made [changes to their API ](https://instagram.com/developer/changelog/). Apps created before Nov 17, 2015 wont be affected until Jun 2016. Apps created on or after Nov 17 2015 will require to use their updated API. Please note that this library doesn't yet support their new updates. For more information, please see [#182](https://github.com/cosenary/Instagram-PHP-API/issues/182).
 
+<div style="margin: 25px;">
+<a href="https://rapidapi.com/package/Instagram/functions?utm_source=InstagramGitHub-PHP&utm_medium=button&utm_content=Vendor_GitHub" style="
+    all: initial;
+    background-color: #498FE1;
+    border-width: 0;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    font-family: 'Helvetica';
+    font-size: 12pt;
+    background-image: url(https://scdn.rapidapi.com/logo-small.png);
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: 10px;
+    padding-left: 44px;
+    cursor: pointer;">
+  Run now on <b>RapidAPI</b>
+</a>
+</div>
+
 A PHP wrapper for the Instagram API. Feedback or bug reports are appreciated.
 
 [![Total Downloads](http://img.shields.io/packagist/dm/cosenary/instagram.svg?style=flat)](https://packagist.org/packages/cosenary/instagram)
