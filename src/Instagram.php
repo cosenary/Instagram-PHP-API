@@ -621,10 +621,13 @@ class Instagram
                 break;
         }
 
-        $jsonData = curl_exec($ch);
-        // split header from JSON data
-        // and assign each to a variable
-        list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
+        // separate header from JSON data in response
+        // and assign each to a variable.
+        // use the last two parts of the exploded response
+        // as there might be headers of proxies first
+        $explodedResponse = explode("\r\n\r\n", curl_exec($ch));
+        $jsonData = array_pop($explodedResponse);
+        $headerContent = array_pop($explodedResponse);
 
         // convert header content into an array
         $headers = $this->processHeaders($headerContent);
