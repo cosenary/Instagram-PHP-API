@@ -626,7 +626,7 @@ class Instagram
         // use the last two parts of the exploded response
         // as there might be headers of proxies first
         $explodedResponse = explode("\r\n\r\n", curl_exec($ch));
-        $jsonData = array_pop($explodedResponse);
+        $jsonData = json_decode(array_pop($explodedResponse));
         $headerContent = array_pop($explodedResponse);
 
         // convert header content into an array
@@ -641,7 +641,7 @@ class Instagram
 
         curl_close($ch);
 
-        return json_decode($jsonData);
+        return $jsonData;
     }
 
     /**
