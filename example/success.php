@@ -33,7 +33,7 @@ if (isset($code)) {
 } else {
     // check whether an error occurred
     if (isset($_GET['error'])) {
-        echo 'An error occurred: ' . $_GET['error_description'];
+        echo 'An error occurred: ' . htmlentities($_GET['error_description'], ENT_QUOTES, 'UTF-8');
     }
 }
 
